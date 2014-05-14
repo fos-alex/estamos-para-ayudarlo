@@ -3,14 +3,30 @@ angular.module('EPA.controllers', [])
 .controller('AppCtrl', function($scope) {
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-      {title: 'Products', id: 1 },
-      {title: 'Map', id: 2 }
+.controller('MainMenuCtrl', function($scope) {
+  $scope.menuItems = [
+      {title: 'Scanner', id: 1, href: "barcodescanner"  },
+      {title: 'Map', id: 2, href: "map" }
   ];
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('BarcodeScannerCtrl', function($scope) {
+        alert('pido scanner');
+        debugger;
+
+        var scanner = cordova.plugins.barcodeScanner;
+        scanner.scan(
+            function (result) {
+                alert("Barcode dice:\n" +
+                    "Result: " + result.text + "\n" +
+                    "Format: " + result.format + "\n" +
+                    "Cancelled: " + result.cancelled);
+            }, function (error) {
+                alert("Fallo el scanner: " + error);
+            });
+})
+
+.controller('MapCtrl', function($scope, $stateParams) {
     $scope.squares = [
         {x : 0, y: 0, height: 20, length: 50},
         {x : 0, y: 0, height: 20, length: 50},

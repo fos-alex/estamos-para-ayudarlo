@@ -38,26 +38,35 @@ angular.module('EPA', ['ionic', 'EPA.controllers'])
         }
       }
     })
-    .state('app.playlists', {
-      url: "/playlists",
+    .state('app.menu', {
+      url: "/menu",
       views: {
         'menuContent' :{
-          templateUrl: "templates/playlists.html",
-          controller: 'PlaylistsCtrl'
+          templateUrl: "templates/mainMenu.html",
+          controller: 'MainMenuCtrl'
         }
       }
     })
+  .state('app.barcodeScanner', {
+      url: "/barcodescanner",
+      views: {
+          'menuContent' :{
+              templateUrl: "templates/barcodeScanner.html",
+              controller: 'BarcodeScannerCtrl'
+          }
+      }
+  })
 
-    .state('app.single', {
-      url: "/playlists/:playlistId",
+    .state('app.map', {
+      url: "/map",
       views: {
         'menuContent' :{
-          templateUrl: "templates/playlist.html",
-          controller: 'PlaylistCtrl'
+          templateUrl: "templates/map.html",
+          controller: 'MapCtrl'
         }
       }
     });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/menu');
 });
 
