@@ -3,6 +3,13 @@ angular.module('EPA.controllers', [])
 .controller('AppCtrl', function($scope) {
 })
 
+.controller('LoginCtrl', function($scope, $state) {
+        $scope.login = function() {
+            console.log("Se loguea el usuario "+this.user+" con pass "+this.password);
+            $state.go('app.menu');
+        };
+})
+
 .controller('MainMenuCtrl', function($scope) {
   $scope.menuItems = [
       {title: 'Scanner', id: 1, href: "barcodescanner"  },
@@ -16,14 +23,14 @@ angular.module('EPA.controllers', [])
     alert('pido reader');
 
     nfc.addTagDiscoveredListener(function (result) {
-        alert('resultado '.result);
+        alert('resultado '+result);
 
     }, function (success) {
-        alert('success '.success);
+        alert('success '+success);
 
 
     }, function (error) {
-        alert('error '.error);
+        alert('error '+error);
 
 
     });
