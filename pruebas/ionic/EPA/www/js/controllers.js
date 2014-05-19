@@ -40,9 +40,9 @@ angular.module('EPA.controllers', ['EPA.services'])
     alert('pido geo');
     $scope.localization = 'algo';
     navigator.geolocation.getCurrentPosition(function (success) {
-        debugger;
         var position = success.coords;
         $scope.localization = 'Latitud: '+position.latitude+'. Longitud: '+position.longitude;
+        $scope.$apply();
         alert('success '+success);
 
     }, function (error) {
