@@ -21,6 +21,16 @@ angular.module('EPA', ['ionic', 'EPA.controllers'])
       controller: 'AppCtrl'
     })
 
+    .state('app.login', {
+      url: "/login",
+      views: {
+          'menuContent' :{
+              controller: 'LoginCtrl',
+              templateUrl: "templates/Login/index.html"
+          }
+      }
+    })
+
     .state('app.search', {
       url: "/search",
       views: {
@@ -47,7 +57,7 @@ angular.module('EPA', ['ionic', 'EPA.controllers'])
         }
       }
     })
-  .state('app.barcodeScanner', {
+    .state('app.barcodeScanner', {
       url: "/barcodescanner",
       views: {
           'menuContent' :{
@@ -55,8 +65,16 @@ angular.module('EPA', ['ionic', 'EPA.controllers'])
               controller: 'BarcodeScannerCtrl'
           }
       }
-  })
-
+    })
+    .state('app.nfcReader', {
+      url: "/nfcreader",
+      views: {
+          'menuContent' :{
+              templateUrl: "templates/nfc.html",
+              controller: 'BarcodeScannerCtrl'
+          }
+      }
+    })
     .state('app.map', {
       url: "/map",
       views: {
@@ -67,6 +85,6 @@ angular.module('EPA', ['ionic', 'EPA.controllers'])
       }
     });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/menu');
+  $urlRouterProvider.otherwise('/app/login');
 });
 

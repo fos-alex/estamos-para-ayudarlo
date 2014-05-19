@@ -3,26 +3,53 @@ angular.module('EPA.controllers', [])
 .controller('AppCtrl', function($scope) {
 })
 
+.controller('LoginCtrl', function($scope, $state) {
+        $scope.login = function() {
+            console.log("Se loguea el usuario "+this.user+" con pass "+this.password);
+            $state.go('app.menu');
+        };
+})
+
 .controller('MainMenuCtrl', function($scope) {
   $scope.menuItems = [
       {title: 'Scanner', id: 1, href: "barcodescanner"  },
-      {title: 'Map', id: 2, href: "map" }
+      {title: 'Map', id: 2, href: "map" },
+      {title: 'NFC Reader', id: 3, href: "nfcreader" }
+
   ];
 })
 
-.controller('BarcodeScannerCtrl', function($scope) {
-        alert('pido scanner');
+.controller('NFCReaderCtrl', function($scope) {
+    alert('pido reader');
 
-        var scanner = cordova.plugins.barcodeScanner;
-        scanner.scan(
-            function (result) {
-                alert("Barcode dice:\n" +
-                    "Result: " + result.text + "\n" +
-                    "Format: " + result.format + "\n" +
-                    "Cancelled: " + result.cancelled);
-            }, function (error) {
-                alert("Fallo el scanner: " + error);
-            });
+    nfc.addTagDiscoveredListener(function (result) {
+        alert('resultado '+result);
+
+    }, function (success) {
+        alert('success '+success);
+
+
+    }, function (error) {
+        alert('error '+error);
+
+
+    });
+})
+
+
+.controller('BarcodeScannerCtrl', function($scope) {
+    alert('pido scanner');
+
+    var scanner = cordova.plugins.barcodeScanner;
+    scanner.scan(
+        function (result) {
+            alert("Barcode dice:\n" +
+                "Result: " + result.text + "\n" +
+                "Format: " + result.format + "\n" +
+                "Cancelled: " + result.cancelled);
+        }, function (error) {
+            alert("Fallo el scanner: " + error);
+        });
 })
 
 .controller('MapCtrl', function($scope, $stateParams) {
