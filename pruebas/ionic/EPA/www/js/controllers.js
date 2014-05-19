@@ -1,25 +1,25 @@
-angular.module('EPA.controllers', [])
+angular.module('EPA.controllers', ['EPA.services'])
 
-.controller('AppCtrl', function($scope) {
-})
+.controller('AppCtrl', ['$scope', function($scope) {
+}])
 
-.controller('LoginCtrl', function($scope, $state) {
+.controller('LoginCtrl', ['$scope', '$state', 'User', function($scope, $state, User) {
         $scope.login = function() {
             console.log("Se loguea el usuario "+this.user+" con pass "+this.password);
-            $state.go('app.menu');
+            User.login(this.user, this.password);
         };
-})
+}])
 
-.controller('MainMenuCtrl', function($scope) {
+.controller('MainMenuCtrl', ['$scope', function($scope) {
   $scope.menuItems = [
-      {title: 'Scanner', id: 1, href: "barcodescanner"  },
-      {title: 'Map', id: 2, href: "map" },
-      {title: 'NFC Reader', id: 3, href: "nfcreader" }
-
+      {title: 'Scanner',         id: 1, href: "barcodescanner"  },
+      {title: 'Map',             id: 2, href: "map" },
+      {title: 'NFC Reader',      id: 3, href: "nfcreader" },
+      {title: 'Geolocalization', id: 4, href: "geo" }
   ];
-})
+}])
 
-.controller('NFCReaderCtrl', function($scope) {
+.controller('NFCReaderCtrl', ['$scope', function($scope) {
     alert('pido reader');
 
     nfc.addTagDiscoveredListener(function (result) {
@@ -34,10 +34,24 @@ angular.module('EPA.controllers', [])
 
 
     });
-})
+}])
 
+.controller('GeolocalizationCtrl', ['$scope', function($scope) {
+    alert('pido geo');
+    $scope.localization = 'algo';
+    navigator.geolocation.getCurrentPosition(function (success) {
+        debugger;
+        var position = success.coords;
+        $scope.localization = 'Latitud: '+position.latitude+'. Longitud: '+position.longitude;
+        alert('success '+success);
 
-.controller('BarcodeScannerCtrl', function($scope) {
+    }, function (error) {
+        alert('error '+error);
+
+    });
+}])
+
+.controller('BarcodeScannerCtrl', ['$scope', function($scope) {
     alert('pido scanner');
 
     var scanner = cordova.plugins.barcodeScanner;
@@ -50,15 +64,15 @@ angular.module('EPA.controllers', [])
         }, function (error) {
             alert("Fallo el scanner: " + error);
         });
-})
+}])
 
-.controller('MapCtrl', function($scope, $stateParams) {
+.controller('MapCtrl', ['$scope', function($scope) {
     $scope.squares = [
         {x : 0, y: 0, height: 20, length: 50},
         {x : 0, y: 0, height: 20, length: 50},
         {x : 0, y: 0, height: 50, length: 50}
     ];
-})
+}])
 
 
 .directive('ngRaphaelSquare', function(){

@@ -75,6 +75,15 @@ angular.module('EPA', ['ionic', 'EPA.controllers'])
           }
       }
     })
+    .state('app.geo', {
+      url: "/geo",
+      views: {
+          'menuContent' :{
+              templateUrl: "templates/geolocalization.html",
+              controller: 'GeolocalizationCtrl'
+          }
+      }
+    })
     .state('app.map', {
       url: "/map",
       views: {
