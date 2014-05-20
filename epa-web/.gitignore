@@ -46,7 +46,8 @@ application/modules/**/.hg/*
 
 
 # Ignore all custom modules.
-application/modules/*
+# NO!!! NECESITAMOS VERSIONAR NUESTROS MODULOS
+#application/modules/*
 # Except the following modules:
 
 # Remove PHPStorm Project folders
