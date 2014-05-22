@@ -55,6 +55,7 @@ define('SITE_AREA', 'admin');
 define('LOGIN_URL', 'login');
 define('REGISTER_URL', 'register');
 
+define('ASSETS_IMAGES', '/assets/images/');
 
 /*
 	The 'IS_AJAX' constant allows for a quick simple test as to whether the

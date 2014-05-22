@@ -52,7 +52,7 @@ $config['site.backup_folder']	= 'archives/';
 	The icon displayed is chosen automatically from the
 	theme/images/context_context_name.png files.
 */
-$config['contexts'] = array( 'content', 'reports', 'settings', 'developer' );
+$config['contexts'] = array('content','reports','settings','developer');
 
 //--------------------------------------------------------------------
 // ACTIVITIES
@@ -148,7 +148,7 @@ $config['template.default_theme']	= 'epa/';
 | This is the folder name that contains the default admin theme to use
 |
 */
-$config['template.admin_theme'] = 'admin';
+$config['template.admin_theme'] = 'epa-admin';
 
 /*
 |--------------------------------------------------------------------
