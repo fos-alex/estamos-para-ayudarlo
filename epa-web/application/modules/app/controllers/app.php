@@ -9,7 +9,9 @@ class App extends Front_Controller
 	}
 
 	public function login(){
-		if ($this->auth->login($this->input->post('username'), $this->input->post('password'), FALSE) === TRUE){
+		$post = @file_get_contents('php://input');
+		$json = json_decode($post,true);
+		if ($this->auth->login( $json['username'] , $json['password'] , FALSE) === TRUE){
 			header('HTTP/1.1 200 Login Successful');
 		}else{
 			header('HTTP/1.1 403 Login Invalid');
