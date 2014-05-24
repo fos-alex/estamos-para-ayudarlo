@@ -62,16 +62,6 @@
                             "xml": "<uses-feature android:name=\"android.hardware.nfc\" android:required=\"false\" />",
                             "count": 1
                         }
-                    ],
-                    "/*": [
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
-                            "count": 1
-                        }
                     ]
                 }
             },
@@ -570,9 +560,6 @@
             "PACKAGE_NAME": "com.ionicframework.starter"
         },
         "com.chariotsolutions.nfc.plugin": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "org.apache.cordova.geolocation": {
             "PACKAGE_NAME": "com.ionicframework.starter"
         }
     },
