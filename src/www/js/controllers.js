@@ -4,9 +4,17 @@ angular.module('EPA.controllers', ['EPA.services'])
 }])
 
 .controller('LoginCtrl', ['$scope', '$state', 'User', function($scope, $state, User) {
+        $scope.loginResponse = {
+            message: "El usuario y password son requeridos",
+            notifyShow: false
+        };
+
         $scope.login = function() {
-            console.log("Se intenta loguear el usuario "+this.user+" con pass "+this.password);
-            User.login(this.user, this.password);
+            User.login(this.user, this.password).then(function(response){
+                    $scope.loginResponse.notifyShow = true;
+                    $scope.loginResponse = response;
+                }
+            );
         };
 }])
 

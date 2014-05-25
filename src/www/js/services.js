@@ -1,19 +1,15 @@
 angular.module('EPA.services', [])
 
-.config(['$sceDelegateProvider', function($sceDelegateProvider) {
-    $sceDelegateProvider.resourceUrlWhitelist([
-        'self',
-        'http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/**']);
-}])
-
 .config(['$httpProvider', function($httpProvider) {
-        $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+        // Allow cross site requests
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        $httpProvider.defaults.headers.post['Content-Type'] = 'text/plain';
 }])
-
 
 .factory('User',
-        ['$http' ,'$state',
-function userFactory ($http, $state)
+        ['$http' ,'$state', '$rootScope', '$q', '$timeout',
+function userFactory ($http, $state, $rootScope, $q, $timeout)
 {
     var currentUser,
         isLoggedIn = false,
@@ -23,26 +19,32 @@ function userFactory ($http, $state)
         login: function (user, password) {
             isLoggedIn = true;
             var params = {
-                password: password,
-                username: user
+                username: user,
+                password: password
             };
+            var deferred = $q.defer();
             // @TODO: Aislar la constante en un servicio de constantes o algo así
-            $http.post("http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app/login", params, {"Content-Length":31})
+            $http.post("http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app/login", params)
                  .success(function (result, status, headers){
-                    // @TODO: Mostrar mensaje de login satisfactorio
+                    var response = {code: status};
+                    response.message = "Login satisfactorio";
                     $state.go('app.menu');
+                    $timeout(function(){
+                        deferred.resolve(response);
+                    });
                  })
                 .error(function (result, status, headers) {
-                    if (status == 404) {
-                        // Login Failed
-                        // @TODO: Mostrar mensaje de login erroneo
-//                        alert('login incorrecto');
-                    } else {
-                        // Server Error
-                        // @TODO: Mostrar mensaje de error inesperado
-  //                      alert('error de server');
+                    var response = {code: status};
+                    if (status == 403) {  // Login Failed
+                        response.message = "Usuario o password incorrectos";
+                    } else {   // Server Error
+                        response.message = "Ocurrió un error inesperado";
                     }
+                    $timeout(function(){
+                        deferred.resolve(response);
+                    });
                 });
+            return deferred.promise;
         },
         logout: function () {
             isLoggedIn = false;
