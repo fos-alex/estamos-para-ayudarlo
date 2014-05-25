@@ -26,7 +26,10 @@ function userFactory ($http, $state, $rootScope, $q, $timeout)
             // @TODO: Aislar la constante en un servicio de constantes o algo así
             $http.post("http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app/login", params)
                  .success(function (result, status, headers){
-                    var response = {code: status};
+                    var response = {
+                        code: status,
+                        type: "success"
+                    };
                     response.message = "Login satisfactorio";
                     $state.go('app.menu');
                     $timeout(function(){
@@ -34,7 +37,10 @@ function userFactory ($http, $state, $rootScope, $q, $timeout)
                     });
                  })
                 .error(function (result, status, headers) {
-                    var response = {code: status};
+                    var response = {
+                        code: status,
+                        type: "error"
+                    };
                     if (status == 403) {  // Login Failed
                         response.message = "Usuario o password incorrectos";
                     } else {   // Server Error

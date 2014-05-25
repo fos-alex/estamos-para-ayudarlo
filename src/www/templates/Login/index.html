@@ -21,7 +21,7 @@
               </div>
               <div class="row" ng-show="loginResponse.notifyShow">
                   <div class="col">
-                      <div class="errorNotify notify">
+                      <div class="notify" ng-class="loginResponse.type">
                           <i class="icon ion-close-circled"></i>
                           <span id="notifyTextLogin" class="notifyText">
                               {{loginResponse.message}}
