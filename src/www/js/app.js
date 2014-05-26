@@ -31,6 +31,46 @@ angular.module('EPA', ['ionic', 'EPA.controllers'])
       }
     })
 
+    .state('app.listas', {
+      url: "/listas",
+      views: {
+          'menuContent' :{
+              templateUrl: "templates/Listas/index.html",
+              controller: 'ListasCtrl'
+          }
+      }
+    })
+
+    .state('app.lista', {
+      url: "/listas/{idLista:[0-9]{1,20}}",
+      views: {
+          'menuContent' :{
+              templateUrl: "templates/Listas/listaDetalle.html",
+              controller: 'ListaDetalleCtrl'
+          }
+      }
+    })
+
+    .state('app.nuevaLista', {
+      url: "/listas/nuevalista",
+      views: {
+          'menuContent' :{
+              templateUrl: "templates/Listas/nuevaLista.html",
+              controller: 'NuevaListaCtrl'
+          }
+      }
+    })
+
+    .state('app.nuevoItemLista', {
+      url: "/listas/nuevalista/nuevoitem",
+      views: {
+          'menuContent' :{
+              templateUrl: "templates/Listas/nuevoItemLista.html",
+              controller: 'NuevoItemListaCtrl'
+          }
+      }
+    })
+
     .state('app.search', {
       url: "/search",
       views: {

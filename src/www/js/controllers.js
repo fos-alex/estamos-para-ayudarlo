@@ -24,7 +24,8 @@ angular.module('EPA.controllers', ['EPA.services'])
       {title: 'Scanner',         id: 1, href: "barcodescanner"  },
       {title: 'Map',             id: 2, href: "map" },
       {title: 'NFC Reader',      id: 3, href: "nfcreader" },
-      {title: 'Geolocalization', id: 4, href: "geo" }
+      {title: 'Geolocalization', id: 4, href: "geo" },
+      {title: 'ABM Listas',      id: 5, href: "listas" }
   ];
 }])
 
@@ -45,9 +46,57 @@ angular.module('EPA.controllers', ['EPA.services'])
     });
 }])
 
+.controller('ListasCtrl', ['$scope',
+    function($scope) {
+        $scope.listas = [
+            {title: 'Supermercado COTO', id: 1},
+            {title: 'Supermercado Dia', id: 2}
+        ];
+}])
+
+.controller('ListaDetalleCtrl', ['$scope', '$stateParams',
+    function($scope, $stateParams) {
+        var listas = {
+            1: {
+                id: 1,
+                title: 'Supermercado COTO',
+                items:[
+                    {title: "Agua",  id: 1, descripcion: "Agua Evian" },
+                    {title: "Leche", id: 2, descripcion: "Leche la Serenísima" }
+                ]
+            },
+            2: {
+                id: 2,
+                title: 'Supermercado Dia',
+                items:[
+                    {title: "Agua",  id: 1, descripcion: "Agua Evian" },
+                    {title: "Dulce de Leche", id: 4, descripcion: "Claramente la Serenísima Colonial"}
+                ]
+            }
+        };
+        $scope.lista = listas[$stateParams.idLista];
+}])
+
+.controller('NuevaListaCtrl', ['$scope', function($scope) {
+}])
+
+.controller('NuevoItemListaCtrl', ['$scope',
+    function($scope) {
+        $scope.itemsDisponibles = [
+            {title: "Agua",         id: 1, descripcion: "Agua Evian" },
+            {title: "Leche",        id: 2, descripcion: "Leche la Serenísima" },
+            {title: "Manteca",      id: 3, descripcion: "Danica Dorada era para untar"},
+            {title: "Dulce de Leche", id: 4, descripcion: "Claramente la Serenísima Colonial"}
+        ];
+
+        $scope.acceptList = function () {
+
+        }
+}])
+
+
 .controller('GeolocalizationCtrl', ['$scope', function($scope) {
     alert('pido geo');
-    $scope.localization = 'algo';
     navigator.geolocation.getCurrentPosition(function (success) {
         var position = success.coords;
         $scope.localization = 'Latitud: '+position.latitude+'. Longitud: '+position.longitude;
