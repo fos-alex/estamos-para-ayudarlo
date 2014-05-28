@@ -5,6 +5,8 @@
 # Proper MIME type for all files
 # ----------------------------------------------------------------------
 
+Header set Access-Control-Allow-Origin: http://localhost
+
 <IfModule mod_mime.c>
 
   # JavaScript
