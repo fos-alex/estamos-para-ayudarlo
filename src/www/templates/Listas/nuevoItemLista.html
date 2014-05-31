@@ -6,11 +6,12 @@
         </label>
         <div class="list">
             <a class="item item-avatar item-icon-right"
-               ng-repeat="item in itemsDisponibles | filter:nombreProducto">
+               ng-repeat="item in itemsDisponibles | filter:nombreProducto"
+               ng-click="item.added = item.added? false: true">
                 <img src="img/ionic.png">
                 <h2>{{item.title}}</h2>
                 <p>{{item.descripcion}}</p>
-                <i class="icon ion-plus-round"></i>
+                <i class="icon" ng-class="item.added? 'ion-close-round': 'ion-checkmark-round'"></i>
             </a>
         </div>
     </ion-content>

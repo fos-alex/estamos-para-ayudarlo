@@ -46,53 +46,37 @@ angular.module('EPA.controllers', ['EPA.services'])
     });
 }])
 
-.controller('ListasCtrl', ['$scope',
-    function($scope) {
-        $scope.listas = [
-            {title: 'Supermercado COTO', id: 1},
-            {title: 'Supermercado Dia', id: 2}
-        ];
+.controller('ListasCtrl', ['$scope', '$stateParams', 'Lista',
+    function($scope, $stateParams, Lista) {
+        Lista.get("", {refreshCache: true}).then(function(response) {
+            debugger;
+            $scope.listas = response;
+        });
 }])
 
-.controller('ListaDetalleCtrl', ['$scope', '$stateParams',
-    function($scope, $stateParams) {
-        var listas = {
-            1: {
-                id: 1,
-                title: 'Supermercado COTO',
-                items:[
-                    {title: "Agua",  id: 1, descripcion: "Agua Evian" },
-                    {title: "Leche", id: 2, descripcion: "Leche la Serenísima" }
-                ]
-            },
-            2: {
-                id: 2,
-                title: 'Supermercado Dia',
-                items:[
-                    {title: "Agua",  id: 1, descripcion: "Agua Evian" },
-                    {title: "Dulce de Leche", id: 4, descripcion: "Claramente la Serenísima Colonial"}
-                ]
-            }
-        };
-        $scope.lista = listas[$stateParams.idLista];
-}])
+.controller('ListaDetalleCtrl', ['$scope', '$stateParams', 'Lista',
+    function($scope, $stateParams, Lista) {
+        Lista.get($stateParams.idLista, {}).then(function(response) {
+            $scope.lista = response;
+        });
+    }
+])
 
-.controller('NuevaListaCtrl', ['$scope', function($scope) {
-}])
+.controller('NuevaListaCtrl', ['$scope', '$state',
+    function($scope, $state) {
+        $state.go('app.nuevoItemLista');
+    }
+])
 
-.controller('NuevoItemListaCtrl', ['$scope',
-    function($scope) {
-        $scope.itemsDisponibles = [
-            {title: "Agua",         id: 1, descripcion: "Agua Evian" },
-            {title: "Leche",        id: 2, descripcion: "Leche la Serenísima" },
-            {title: "Manteca",      id: 3, descripcion: "Danica Dorada era para untar"},
-            {title: "Dulce de Leche", id: 4, descripcion: "Claramente la Serenísima Colonial"}
-        ];
+.controller('NuevoItemListaCtrl', ['$scope', 'Producto',
+    function($scope, Producto) {
+        $scope.itemsDisponibles = Producto.get();
 
         $scope.acceptList = function () {
 
         }
-}])
+    }
+])
 
 
 .controller('GeolocalizationCtrl', ['$scope', function($scope) {
