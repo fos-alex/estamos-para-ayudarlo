@@ -68,5 +68,10 @@ $route['activate']		        = 'users/activate';
 $route['activate/(:any)']		= 'users/activate/$1';
 $route['resend_activation']		= 'users/resend_activation';
 
+
+//APP Mobile
+$route['app/login'] 		= "usuario/index";
+$route['app/([a-z_]+)/(:any)'] 		= "$1/index/$2";
+$route['app/([a-z_]+)'] 		= "$1/index";
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
