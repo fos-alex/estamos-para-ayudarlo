@@ -133,8 +133,8 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                                     listas = JSON.parse(window.localStorage.getItem('listas'));
                                 }
                                 listas[response.data[id].id] = response.data[id];
-                                window.localStorage.setItem('listas', JSON.stringify(listas));
                             }
+                            window.localStorage.setItem('listas', JSON.stringify(listas));
                         });
                     }
 
@@ -153,10 +153,11 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
         }])
 
 .factory('Producto',
-    ['$http' ,'$state', '$rootScope', '$q', '$timeout', 'CONFIG',
-        function productoFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
+['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG',
+    function productoFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG)
         {
-            var urlBase = CONFIG.WS_URL+'/app/producto';
+            //var urlBase = CONFIG.WS_URL+'/app/producto';
+            var urlBase = 'http://localhost/EPA/src/www/mocks/producto';
 
             var productos = [
                 {title: "Agua",         id: 1, descripcion: "Agua Evian" },
@@ -164,22 +165,60 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                 {title: "Manteca",      id: 3, descripcion: "Danica Dorada era para untar"},
                 {title: "Dulce de Leche", id: 4, descripcion: "Claramente la Serenísima Colonial"}
             ];
-            return {
-                get : function (idProducto) {
-                    if (idProducto == undefined) {
-                        //idProducto = '';
-                        return productos;
-                    }
-                    return productos[idProducto];
+            var init = function() {
+                window.localStorage.setItem('productos', JSON.stringify({}));
+            }
 
-                    //@TODO: quitar return anterior con info hardcoded
-                    return $http.get(urlBase+"/"+idProducto);
+            init();
+
+            return {
+                get : function (idProducto, options) {
+                    var defaultOptions = {
+                        refreshCache : false
+                    }
+                    options = angular.extend(defaultOptions, options);
+
+                    var deferred = $q.defer();
+                    var result = false,
+                        productos = false;
+
+                    if (idProducto != 'undefined' && !options.refreshCache) {
+                        productos = JSON.parse(window.localStorage.getItem('productos'));
+                        if (typeof productos[idProducto] != 'undefined') {
+                            deferred.resolve(productos[idProducto]);
+                            result = true;
+                        }
+                    }
+
+                    if (!result) {
+                        var res = this.resource('/?id='+idProducto);
+
+                        res.get(function (response) {
+                            if (response.code != 0) {
+                                //@TODO: throw exception
+                            }
+                            debugger;
+                            deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
+                            for(var id in response.data) {
+                                if (!productos) {
+                                    productos = JSON.parse(window.localStorage.getItem('productos'));
+                                }
+                                productos[response.data[id].id] = response.data[id];
+                            }
+                            window.localStorage.setItem('productos', JSON.stringify(productos));
+                        });
+                    }
+
+                    return deferred.promise;
                 },
-                insert: function (producto) {
-                    return $http.post(urlBase, producto);
+                insert: function (lista) {
+                    return $http.post(urlBase, lista);
                 },
-                update: function (producto) {
-                    return $http.put(urlBase+"/"+producto.id, producto);
+                update: function (lista) {
+                    return $http.put(urlBase+"/"+lista.id, lista);
+                },
+                resource: function (urlVar) {
+                    return $resource(urlBase + urlVar, {});
                 }
             };
         }]);
