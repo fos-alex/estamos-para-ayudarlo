@@ -70,11 +70,10 @@ angular.module('EPA.controllers', ['EPA.services'])
 
 .controller('NuevoItemListaCtrl', ['$scope', 'Producto',
     function($scope, Producto) {
-        $scope.itemsDisponibles = Producto.get();
-
-        $scope.acceptList = function () {
-
-        }
+        Producto.get("", {refreshCache: true}).then(function(response) {
+            debugger;
+            $scope.itemsDisponibles = response;
+        });
     }
 ])
 
