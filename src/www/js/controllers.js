@@ -10,6 +10,11 @@ angular.module('EPA.controllers', ['EPA.services'])
             type: "info"
         };
 
+        // @TODO: REMOVE HARDCODED BACKDOOR FOR DEVELOP
+        if ($scope.user == '' && $scope.password == '') {
+            $state.go('app.menu');
+        }
+
         $scope.login = function() {
             User.login(this.user, this.password).then(function(response){
                     $scope.loginResponse = response;
@@ -49,7 +54,6 @@ angular.module('EPA.controllers', ['EPA.services'])
 .controller('ListasCtrl', ['$scope', '$stateParams', 'Lista',
     function($scope, $stateParams, Lista) {
         Lista.get("", {refreshCache: true}).then(function(response) {
-            debugger;
             $scope.listas = response;
         });
 }])
@@ -62,16 +66,50 @@ angular.module('EPA.controllers', ['EPA.services'])
     }
 ])
 
-.controller('NuevaListaCtrl', ['$scope', '$state',
-    function($scope, $state) {
-        $state.go('app.nuevoItemLista');
+.controller('NuevaListaCtrl', ['$scope', '$state', 'Session', 'Lista',
+    function($scope, $state, Session, Lista) {
+        $scope.createdList = Session.get('createdList');
+
+        $scope.deleteItem = function (index) {
+            $scope.createdList.splice(index, 1);
+            Session.set('createdList', this.createdList);
+        }
+
+        $scope.deleteAllItems = function () {
+            $scope.createdList = [];
+            Session.set('createdList', this.createdList);
+        }
+
+        $scope.saveList = function () {
+            Lista.insert(this.createdList);
+        }
+
+        if (typeof $scope.createdList != "object" || $scope.createdList.length == 0) {
+            // Lista nueva no creada. Redirecciono para que cargue items
+            $state.go('app.nuevoItemLista');
+        }
     }
 ])
 
-.controller('NuevoItemListaCtrl', ['$scope', 'Producto',
-    function($scope, Producto) {
+.controller('NuevoItemListaCtrl', ['$scope', '$state', 'Producto', 'Session',
+    function($scope, $state, Producto, Session) {
+        $scope.createdList = Session.get('createdList') || [];
+
+        $scope.acceptList = function () {
+            this.createdList = [];
+            angular.forEach(this.itemsDisponibles, function (value, key) {
+                if (value.added) {
+                    this.createdList.push(value);
+                }
+            }, this);
+
+            Session.set('createdList', this.createdList);
+            $state.go('app.nuevaLista');
+        }
+
         Producto.get("", {refreshCache: true}).then(function(response) {
             debugger;
+            response = angular.extend(response, $scope.createdList);
             $scope.itemsDisponibles = response;
         });
     }

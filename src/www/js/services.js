@@ -69,33 +69,14 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
 }])
 
 .factory('Lista',
-    ['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG',
-        function listaFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG)
+    ['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG', 'Cache',
+        function listaFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG, Cache)
         {
-  //          var urlBase = CONFIG.WS_URL+'/app/lista';
-            var urlBase = 'http://localhost/EPA/src/www/mocks/lista';
-/*
-            var listas = {
-                1: {
-                id: 1,
-                    title: 'Supermercado COTO',
-                    items:[
-                    {title: "Agua",  id: 1, descripcion: "Agua Evian" },
-                    {title: "Leche", id: 2, descripcion: "Leche la Serenísima" }
-                ]
-            },
-                2: {
-                id: 2,
-                    title: 'Supermercado Dia',
-                    items:[
-                    {title: "Agua",  id: 1, descripcion: "Agua Evian" },
-                    {title: "Dulce de Leche", id: 4, descripcion: "Claramente la Serenísima Colonial"}
-                ]
-            }
-            };*/
+            var urlBase = CONFIG.WS_URL+'/app/lista';
+//            var urlBase = 'http://localhost/EPA/src/www/mocks/lista';
 
             var init = function() {
-                window.localStorage.setItem('listas', JSON.stringify({}));
+                Cache.set('listas', {});
             }
 
             init();
@@ -112,7 +93,7 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                         listas = false;
 
                     if (idLista != 'undefined' && !options.refreshCache) {
-                        listas = JSON.parse(window.localStorage.getItem('listas'));
+                        listas = Cache.get('listas');
                         if (typeof listas[idLista] != 'undefined') {
                             deferred.resolve(listas[idLista]);
                             result = true;
@@ -120,41 +101,64 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                     }
 
                     if (!result) {
-                        var res = this.resource('/?id='+idLista);
+                        var res = this.resource('/'+idLista+'/');
 
                         res.get(function (response) {
                             if (response.code != 0) {
                                 //@TODO: throw exception
                             }
-                            debugger;
                             deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
                             for(var id in response.data) {
                                 if (!listas) {
-                                    listas = JSON.parse(window.localStorage.getItem('listas'));
+                                    listas = Cache.get('listas');
                                 }
                                 listas[response.data[id].id] = response.data[id];
                             }
-                            window.localStorage.setItem('listas', JSON.stringify(listas));
+                            Cache.set('listas', listas);
                         });
                     }
 
                     return deferred.promise;
                 },
-                insert: function (lista) {
-                    return $http.post(urlBase, lista);
+                insert: function (lista, options) {
+                    debugger;
+                    var defaultOptions = {
+                        refreshCache : false
+                    }
+                    options = angular.extend(defaultOptions, options);
+
+                    var deferred = $q.defer();
+                    var res = this.resource('/', lista);
+
+                    res.post(function (response) {
+                        if (response.code != 0) {
+                            //@TODO: throw exception
+                        }
+                        var listas = Cache.get('listas');
+                        lista.id = response.data.id;
+                        listas[lista.id] = lista;
+                        Cache.set('listas', listas);
+                        deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
+                    });
+
+                    return deferred.promise;
                 },
                 update: function (lista) {
                     return $http.put(urlBase+"/"+lista.id, lista);
                 },
-                resource: function (urlVar) {
-                    return $resource(urlBase + urlVar, {});
+                resource: function (urlVar, params) {
+                    params = params || {};
+                    if (typeof params != "String") {
+                        params = JSON.stringify(params);
+                    }
+                    return $resource(urlBase + urlVar, params);
                 }
             };
         }])
 
 .factory('Producto',
-['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG',
-    function productoFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG)
+['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG', 'Cache',
+    function productoFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG, Cache)
         {
             //var urlBase = CONFIG.WS_URL+'/app/producto';
             var urlBase = 'http://localhost/EPA/src/www/mocks/producto';
@@ -166,7 +170,7 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                 {title: "Dulce de Leche", id: 4, descripcion: "Claramente la Serenísima Colonial"}
             ];
             var init = function() {
-                window.localStorage.setItem('productos', JSON.stringify({}));
+                Cache.set('productos', {});
             }
 
             init();
@@ -183,7 +187,7 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                         productos = false;
 
                     if (idProducto != 'undefined' && !options.refreshCache) {
-                        productos = JSON.parse(window.localStorage.getItem('productos'));
+                        productos = Cache.get('productos');
                         if (typeof productos[idProducto] != 'undefined') {
                             deferred.resolve(productos[idProducto]);
                             result = true;
@@ -197,15 +201,14 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                             if (response.code != 0) {
                                 //@TODO: throw exception
                             }
-                            debugger;
                             deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
                             for(var id in response.data) {
                                 if (!productos) {
-                                    productos = JSON.parse(window.localStorage.getItem('productos'));
+                                    productos = Cache.get('productos');
                                 }
                                 productos[response.data[id].id] = response.data[id];
                             }
-                            window.localStorage.setItem('productos', JSON.stringify(productos));
+                            Cache.set('productos', productos);
                         });
                     }
 
@@ -220,5 +223,52 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                 resource: function (urlVar) {
                     return $resource(urlBase + urlVar, {});
                 }
-            };
-        }]);
+            }
+        }])
+
+    .factory('Cache',
+        ['CONFIG',
+            function cacheFactory (CONFIG)
+            {
+                var init = function() {
+                }
+
+                init();
+
+                return {
+                    set: function (key, element) {
+                        if (typeof element != "string") {
+                            element = JSON.stringify(element);
+                        }
+                        window.localStorage.setItem(key, element);
+                        return element;
+                    },
+                    get: function (key) {
+                        var element = window.localStorage.getItem(key);
+                        if (typeof element == "string") {
+                            element = JSON.parse(element);
+                        }
+                        return element;
+                    }
+                }
+            }])
+
+    .factory('Session',
+        ['CONFIG', 'Cache',
+            function sessionFactory (CONFIG, Cache)
+            {
+                var init = function() {
+                }
+
+                init();
+
+                return {
+                    set: function (key, element) {
+                        return Cache.set('SESSION_'+key, element);
+                    },
+                    get: function (key) {
+                        return Cache.get('SESSION_'+key);
+                    }
+                }
+            }])
+;
