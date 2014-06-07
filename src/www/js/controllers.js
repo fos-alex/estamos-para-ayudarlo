@@ -69,10 +69,25 @@ angular.module('EPA.controllers', ['EPA.services'])
 .controller('NuevaListaCtrl', ['$scope', '$state', 'Session', 'Lista',
     function($scope, $state, Session, Lista) {
         $scope.createdList = Session.get('createdList');
+        $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Lista";
 
         $scope.deleteItem = function (index) {
             $scope.createdList.splice(index, 1);
             Session.set('createdList', this.createdList);
+        }
+
+        $scope.editTitle = function () {
+            debugger;
+            var text = jQuery(".title").text();
+            var input = jQuery('<input class="titleInput" type="text" value="' + text + '" />');
+            jQuery('.title').text('').append(input);
+            input.select();
+
+            input.blur(function() {
+                var text = jQuery('.titleInput').val();
+                jQuery('.titleInput').parent().text(text);
+                jQuery('.titleInput').remove();
+            });
         }
 
         $scope.deleteAllItems = function () {
@@ -81,7 +96,14 @@ angular.module('EPA.controllers', ['EPA.services'])
         }
 
         $scope.saveList = function () {
-            Lista.insert(this.createdList);
+            Lista.insert(this.createdList).then(function (response) {
+                if (response.code != 0) {
+                    // @TODO Throw error
+                }
+                $scope.createdList = [];
+                $state.go('app.listas');
+            });
+
         }
 
         if (typeof $scope.createdList != "object" || $scope.createdList.length == 0) {
@@ -145,12 +167,15 @@ angular.module('EPA.controllers', ['EPA.services'])
         });
 }])
 
-.controller('MapCtrl', ['$scope', function($scope) {
-    $scope.squares = [
-        {x : 0, y: 0, height: 20, length: 50},
-        {x : 0, y: 0, height: 20, length: 50},
-        {x : 0, y: 0, height: 50, length: 50}
-    ];
+.controller('MapCtrl', ['$scope', 'QRReader',
+    function($scope, QRReader) {
+        $scope.squares = [];
+
+        $scope.activateCamera = function () {
+            var read = QRReader.read();
+            alert(read.text);
+
+        }
 }])
 
 

@@ -1,5 +1,14 @@
-<ion-view title="Nueva Lista">
+<ion-view>
+    <!-- HEADER -->
+    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+        <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
+        <h1 class="title" ng-click="editTitle();">{{createdList.nombre}}&nbsp;&nbsp;
+            <i class="icon ion-chevron-right ion-edit"></i>
+        </h1>
+    </ion-nav-bar>
+    <!-- BODY -->
     <ion-content class="has-header">
+
         <div class="list">
             <a class="item item-avatar item-icon-right"
                ng-repeat="item in createdList | filter:nombreProducto"
@@ -12,17 +21,17 @@
         </div>
     </ion-content>
     <div class="tabs tabs-icon-only">
-            <a class="tab-item">
-                <i class="icon ion-home"></i>
-            </a>
-            <a class="tab-item" href="#/app/listas/nuevalista/nuevoitem">
-                <i class="icon ion-plus-round"></i>
-            </a>
-            <a class="tab-item" ng-click="deleteAllItems();">
-                <i class="icon ion-trash-a"></i>
-            </a>
-            <a class="tab-item">
-                <i class="icon ion-checkmark-round"></i>
-            </a>
-        </div>
+        <a class="tab-item">
+            <i class="icon ion-home"></i>
+        </a>
+        <a class="tab-item" href="#/app/listas/nuevalista/nuevoitem">
+            <i class="icon ion-plus-round"></i>
+        </a>
+        <a class="tab-item" ng-click="deleteAllItems();">
+            <i class="icon ion-trash-a"></i>
+        </a>
+        <a class="tab-item">
+            <i class="icon ion-checkmark-round" ng-click="saveList();"></i>
+        </a>
+    </div>
 </ion-view>
