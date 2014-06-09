@@ -3,7 +3,7 @@
 /**
  * productos controller
  */
-class productos extends Front_Controller
+class productos extends Api_Controller
 {
 
 	//--------------------------------------------------------------------
@@ -17,34 +17,13 @@ class productos extends Front_Controller
 	public function __construct()
 	{
 		parent::__construct();
+	}
 
-		$this->load->library('form_validation');
+	public function GET(){
 		$this->load->model('productos_model', null, true);
-		$this->lang->load('productos');
-		
-
-		Assets::add_module_js('productos', 'productos.js');
+		$productos = $this->productos_model->find_all();
+		$this->JSON_OUT->data = $productos;
 	}
 
-	//--------------------------------------------------------------------
-
-
-	/**
-	 * Displays a list of form data.
-	 *
-	 * @return void
-	 */
-	public function index()
-	{
-
-		$records = $this->productos_model->find_all();
-
-		Template::set('records', $records);
-		Template::render();
-	}
-
-	//--------------------------------------------------------------------
-
-
-
+	
 }
