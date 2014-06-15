@@ -11,7 +11,8 @@ class Lista extends Api_Controller
 		
 		if(array_key_exists(0, $this->PARAMETROS)){
 			//UNA LISTA
-			$this->JSON_OUT->data = $this->obtenerLista($this->PARAMETROS[0]); 
+			$id_lista = $this->PARAMETROS[0];
+			$this->JSON_OUT->data = $this->obtenerLista($id_lista); 
 		}else{
 			//TODAS
 			$this->JSON_OUT->data = $this->obtenerListas(); 
@@ -49,6 +50,8 @@ class Lista extends Api_Controller
 			if(!$lista){
 				$this->error(404,"La lista $id no existe");
 			}
+
+			$lista->productos = Modules::run('productos/de_lista',$id);
 			return $lista;
 	}	
 
@@ -62,16 +65,25 @@ class Lista extends Api_Controller
 
 	private function crearLista($lista){
 			$this->load->model('lista_model', null, true);
-
+			$productos = array();
+			if(array_key_exists('productos', $lista)){
+				$productos = $lista['productos'];
+				unset($lista['productos']);
+			}
 			$id = $this->lista_model->insert($lista);
-
+			Modules::run('productos/para_lista',$id,$productos);
 			return array("id"=>$id);
 	}	
 
 	private function modificarLista($id,$lista){
 			$this->load->model('lista_model', null, true);
-
+			$productos = array();
+			if(array_key_exists('productos', $lista)){
+				$productos = $lista['productos'];
+				unset($lista['productos']);
+			}
 			if($this->lista_model->update($id,$lista)){
+				Modules::run('productos/para_lista',$id,$productos);
 				return array("id"=>$id);
 			}else{
 				$this->error(406,"Error modificando la lista $id");	
