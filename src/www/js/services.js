@@ -160,15 +160,9 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
 ['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG', 'Cache',
     function productoFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG, Cache)
         {
-            //var urlBase = CONFIG.WS_URL+'/app/producto';
-            var urlBase = 'http://localhost/EPA/src/www/mocks/producto';
+            var urlBase = CONFIG.WS_URL+'/app/productos';
+            //var urlBase = 'http://localhost/EPA/src/www/mocks/producto';
 
-            var productos = [
-                {title: "Agua",         id: 1, descripcion: "Agua Evian" },
-                {title: "Leche",        id: 2, descripcion: "Leche la Serenísima" },
-                {title: "Manteca",      id: 3, descripcion: "Danica Dorada era para untar"},
-                {title: "Dulce de Leche", id: 4, descripcion: "Claramente la Serenísima Colonial"}
-            ];
             var init = function() {
                 Cache.set('productos', {});
             }
@@ -185,7 +179,7 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                     var deferred = $q.defer();
                     var result = false,
                         productos = false;
-
+                    debugger;
                     if (idProducto != 'undefined' && !options.refreshCache) {
                         productos = Cache.get('productos');
                         if (typeof productos[idProducto] != 'undefined') {

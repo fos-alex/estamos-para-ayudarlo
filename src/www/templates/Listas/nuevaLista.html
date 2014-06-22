@@ -14,7 +14,7 @@
                ng-repeat="item in createdList | filter:nombreProducto"
                ng-click="item.added = item.added? false: true">
                 <img src="img/ionic.png">
-                <h2>{{item.title}}</h2>
+                <h2>{{item.nombre}}</h2>
                 <p>{{item.descripcion}}</p>
                 <i class="icon ion-close-round" ng-click="deleteItem($index);"></i>
             </a>
