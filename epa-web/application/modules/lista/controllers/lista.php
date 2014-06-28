@@ -60,6 +60,10 @@ class Lista extends Api_Controller
 
 			$listas = $this->lista_model->find_all();
 
+			foreach ($listas as $key => $lista) {
+				$lista->productos = Modules::run('productos/de_lista',$lista->id);
+			}
+						
 			return $listas;
 	}	
 
