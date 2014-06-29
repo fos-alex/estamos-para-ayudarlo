@@ -51,33 +51,44 @@ angular.module('EPA.controllers', ['EPA.services'])
     });
 }])
 
-.controller('ListasCtrl', ['$scope', '$stateParams', 'Lista',
-    function($scope, $stateParams, Lista) {
+.controller('ListasCtrl', ['$scope', '$stateParams', 'Lista', 'Session',
+    function($scope, $stateParams, Lista, Session) {
+        Session.set('createdList', {});
         Lista.get("", {refreshCache: true}).then(function(response) {
             $scope.listas = response;
         });
 }])
 
-.controller('ListaDetalleCtrl', ['$scope', '$stateParams', 'Lista',
-    function($scope, $stateParams, Lista) {
+.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams', 'Lista', 'Session',
+    function($scope, $state, $stateParams, Lista, Session) {
         Lista.get($stateParams.idLista, {}).then(function(response) {
             $scope.lista = response;
         });
+
+        $scope.editList = function () {
+            Session.set('createdList', $scope.lista);
+            $state.go('app.nuevoItemLista');
+        }
+
+        $scope.deleteList = function () {
+            Lista.delete($scope.lista).then(function() {
+                $state.go('app.listas');
+            });
+        }
     }
 ])
 
 .controller('NuevaListaCtrl', ['$scope', '$state', 'Session', 'Lista',
     function($scope, $state, Session, Lista) {
-        $scope.createdList = Session.get('createdList');
+        $scope.createdList = Session.get('createdList') || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Lista";
 
         $scope.deleteItem = function (index) {
-            $scope.createdList.splice(index, 1);
+            $scope.createdList.productos.splice(index, 1);
             Session.set('createdList', this.createdList);
         }
 
         $scope.editTitle = function () {
-            debugger;
             var text = jQuery(".title").text();
             var input = jQuery('<input class="titleInput" type="text" value="' + text + '" />');
             jQuery('.title').text('').append(input);
@@ -91,16 +102,13 @@ angular.module('EPA.controllers', ['EPA.services'])
         }
 
         $scope.deleteAllItems = function () {
-            $scope.createdList = [];
+            $scope.createdList = {};
             Session.set('createdList', this.createdList);
         }
 
         $scope.saveList = function () {
-            Lista.insert(this.createdList).then(function (response) {
-                if (response.code != 0) {
-                    // @TODO Throw error
-                }
-                $scope.createdList = [];
+            Lista.save(this.createdList).then(function () {
+                $scope.createdList = {};
                 $state.go('app.listas');
             });
 
@@ -115,13 +123,16 @@ angular.module('EPA.controllers', ['EPA.services'])
 
 .controller('NuevoItemListaCtrl', ['$scope', '$state', 'Producto', 'Session',
     function($scope, $state, Producto, Session) {
-        $scope.createdList = Session.get('createdList') || [];
+        $scope.createdList = Session.get('createdList') || {};
 
         $scope.acceptList = function () {
-            this.createdList = [];
+            this.createdList = angular.extend(this.createdList, {
+                productos: []
+            });
+
             angular.forEach(this.itemsDisponibles, function (value, key) {
                 if (value.added) {
-                    this.createdList.push(value);
+                    this.createdList.productos.push(value);
                 }
             }, this);
 
@@ -130,8 +141,7 @@ angular.module('EPA.controllers', ['EPA.services'])
         }
 
         Producto.get("", {refreshCache: true}).then(function(response) {
-            debugger;
-            response = angular.extend(response, $scope.createdList);
+            response = angular.extend(response, $scope.createdList.productos);
             $scope.itemsDisponibles = response;
         });
     }

@@ -20,11 +20,14 @@
     </ion-content>
     <!-- FOOTER -->
     <div class="tabs tabs-icon-only">
-        <a class="tab-item" href="#/app/listas/nuevalista/nuevoitem">
+        <a class="tab-item" ng-click="deleteList();">
+            <i class="icon ion-trash-a"></i>
+        </a>
+        <a class="tab-item" ng-click="editList();">
             <i class="icon ion-plus-round"></i>
         </a>
-        <a class="tab-item">
-            <i class="icon ion-checkmark-round" ng-click="acceptList();"></i>
+        <a class="tab-item" ng-click="acceptList();">
+            <i class="icon ion-checkmark-round"></i>
         </a>
     </div>
 </ion-view>

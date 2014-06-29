@@ -104,7 +104,7 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                         var res = this.resource('/'+idLista+'/');
 
                         res.get(function (response) {
-                            if (response.code != 0) {
+                            if (response.codigo != 0) {
                                 //@TODO: throw exception
                             }
                             deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
@@ -121,37 +121,84 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                     return deferred.promise;
                 },
                 insert: function (lista, options) {
-                    debugger;
                     var defaultOptions = {
                         refreshCache : false
                     }
                     options = angular.extend(defaultOptions, options);
 
                     var deferred = $q.defer();
-                    var res = this.resource('/', lista);
+                    var res = this.resource('/');
 
-                    res.post(function (response) {
-                        if (response.code != 0) {
+                    res.save(lista, function (response) {
+                        if (response.codigo != 0) {
                             //@TODO: throw exception
                         }
                         var listas = Cache.get('listas');
                         lista.id = response.data.id;
                         listas[lista.id] = lista;
                         Cache.set('listas', listas);
-                        deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
+                        deferred.resolve(response.data);
                     });
 
                     return deferred.promise;
                 },
-                update: function (lista) {
-                    return $http.put(urlBase+"/"+lista.id, lista);
+                update: function (lista, options) {
+                    var defaultOptions = {
+                        refreshCache : false
+                    }
+                    options = angular.extend(defaultOptions, options);
+
+                    var deferred = $q.defer();
+                    var res = this.resource('/:id');
+
+                    res.update({id: lista.id}, lista, function (response) {
+                        if (response.codigo != 0) {
+                            //@TODO: throw exception
+                        }
+                        var listas = Cache.get('listas');
+                        listas[lista.id] = lista;
+                        Cache.set('listas', listas);
+                        deferred.resolve(response.data);
+                    });
+
+                    return deferred.promise;
+                },
+                delete: function (lista, options) {
+                    var defaultOptions = {
+                        refreshCache : false
+                    }
+                    options = angular.extend(defaultOptions, options);
+
+                    var deferred = $q.defer();
+                    var res = this.resource('/:id');
+
+                    res.delete({id: lista.id}, lista, function (response) {
+                        if (response.codigo != 0) {
+                            //@TODO: throw exception
+                        }
+                        var listas = Cache.get('listas');
+                        delete listas[lista.id];
+                        Cache.set('listas', listas);
+                        deferred.resolve(response.data);
+                    });
+
+                    return deferred.promise;
+                },
+                save: function (lista) {
+                    if (lista.id != 'undefined') {
+                        return this.update(lista);
+                    } else {
+                        return this.insert(lista);
+                    }
                 },
                 resource: function (urlVar, params) {
                     params = params || {};
-                    if (typeof params != "String") {
+/*                    if (typeof params != "String") {
                         params = JSON.stringify(params);
-                    }
-                    return $resource(urlBase + urlVar, params);
+                    }*/
+                    return $resource(urlBase + urlVar, params, {
+                        update: {method: 'PUT'}
+                    });
                 }
             };
         }])
@@ -192,7 +239,7 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                         var res = this.resource('/?id='+idProducto);
 
                         res.get(function (response) {
-                            if (response.code != 0) {
+                            if (response.codigo != 0) {
                                 //@TODO: throw exception
                             }
                             deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);

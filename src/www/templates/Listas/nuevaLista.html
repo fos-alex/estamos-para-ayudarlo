@@ -11,7 +11,7 @@
 
         <div class="list">
             <a class="item item-avatar item-icon-right"
-               ng-repeat="item in createdList | filter:nombreProducto"
+               ng-repeat="item in createdList.productos | filter:nombreProducto"
                ng-click="item.added = item.added? false: true">
                 <img src="img/ionic.png">
                 <h2>{{item.nombre}}</h2>
