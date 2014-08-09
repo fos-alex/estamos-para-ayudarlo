@@ -62,6 +62,7 @@ angular.module('EPA.controllers', ['EPA.services'])
 .controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams', 'Lista', 'Session',
     function($scope, $state, $stateParams, Lista, Session) {
         Lista.get($stateParams.idLista, {}).then(function(response) {
+            debugger;
             $scope.lista = response;
         });
 
