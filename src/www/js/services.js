@@ -69,55 +69,92 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
 }])
 
 .factory('Lista',
-    ['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG', 'Cache',
-        function listaFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG, Cache)
+    ['CONFIG', 'Resource',
+        function listaFactory (CONFIG, Resource)
         {
             var urlBase = CONFIG.WS_URL+'/app/lista';
-//            var urlBase = 'http://localhost/EPA/src/www/mocks/lista';
+            var cacheKey = 'listas'
 
-            var init = function() {
-                Cache.set('listas', {});
-            }
-
-            init();
+            Resource.init(cacheKey);
 
             return {
                 get : function (idLista, options) {
-                    var defaultOptions = {
-                        refreshCache : false
+                    return Resource.get(idLista, cacheKey, options);
+                },
+                insert: function (lista, options) {
+                    return Resource.insert(lista, cacheKey, options);
+                },
+                update: function (lista, options) {
+                    return Resource.update(lista, cacheKey, options);
+                },
+                delete: function (lista, options) {
+                    return Resource.delete(lista, cacheKey, options);
+                }
+            };
+        }])
+
+    .factory('Producto',
+        ['CONFIG', 'Resource',
+            function productoFactory (CONFIG, Resource)
+            {
+                var urlBase = CONFIG.WS_URL+'/app/productos';
+                var cacheKey = 'productos'
+
+                Resource.init(cacheKey);
+
+                return {
+                    get : function (idProducto, options) {
+                        return Resource.get(idProducto, cacheKey, options);
+                    },
+                    insert: function (producto, options) {
+                        return Resource.insert(producto, cacheKey, options);
+                    },
+                    update: function (producto, options) {
+                        return Resource.update(producto, cacheKey, options);
+                    },
+                    delete: function (producto, options) {
+                        return Resource.delete(producto, cacheKey, options);
                     }
-                    options = angular.extend(defaultOptions, options);
+                }
+            }])
 
-                    var deferred = $q.defer();
-                    var result = false,
-                        listas = false;
 
-                    if (idLista != 'undefined' && !options.refreshCache) {
-                        listas = Cache.get('listas');
-                        if (typeof listas[idLista] != 'undefined') {
-                            deferred.resolve(listas[idLista]);
-                            result = true;
+    .factory('Resource',
+        ['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG', 'Cache',
+            function listaFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG, Cache)
+            {
+                var urlDefault = CONFIG.WS_URL;
+
+                return {
+                    init: function(cacheKey) {
+                        Cache.set(cacheKey, {});
+                    },
+                    get : function (id, cacheKey, options) {
+                        var defaultOptions = {
+                            refreshCache : false,
+                            url :          urlDefault+"/app/"+cacheKey
                         }
-                    }
+                        options = angular.extend(defaultOptions, options);
 
-                    if (!result) {
-                        var res = this.resource('/'+idLista+'/');
+                        var deferred = $q.defer();
+                        var result = false,
+                            resource = false;
 
+<<<<<<< Updated upstream
                         res.get(function (response) {
                             if (response.codigo != 0) {
                                 //@TODO: throw exception
+=======
+                        if (id != 'undefined' && !options.refreshCache) {
+                            resource = Cache.get(cacheKey);
+                            if (typeof resource[id] != 'undefined') {
+                                deferred.resolve(resource[id]);
+                                result = true;
+>>>>>>> Stashed changes
                             }
-                            deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
-                            for(var id in response.data) {
-                                if (!listas) {
-                                    listas = Cache.get('listas');
-                                }
-                                listas[response.data[id].id] = response.data[id];
-                            }
-                            Cache.set('listas', listas);
-                        });
-                    }
+                        }
 
+<<<<<<< Updated upstream
                     return deferred.promise;
                 },
                 insert: function (lista, options) {
@@ -202,70 +239,106 @@ function userFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
                 }
             };
         }])
+=======
+                        if (!result) {
+                            var res = this.resource('/'+id+'/', null, options);
 
-.factory('Producto',
-['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG', 'Cache',
-    function productoFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG, Cache)
-        {
-            var urlBase = CONFIG.WS_URL+'/app/productos';
-            //var urlBase = 'http://localhost/EPA/src/www/mocks/producto';
-
-            var init = function() {
-                Cache.set('productos', {});
-            }
-
-            init();
-
-            return {
-                get : function (idProducto, options) {
-                    var defaultOptions = {
-                        refreshCache : false
-                    }
-                    options = angular.extend(defaultOptions, options);
-
-                    var deferred = $q.defer();
-                    var result = false,
-                        productos = false;
-                    debugger;
-                    if (idProducto != 'undefined' && !options.refreshCache) {
-                        productos = Cache.get('productos');
-                        if (typeof productos[idProducto] != 'undefined') {
-                            deferred.resolve(productos[idProducto]);
-                            result = true;
+                            res.get(function (response) {
+                                if (response.code != 0) {
+                                    //@TODO: throw exception
+                                }
+                                deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
+                                for(var id in response.data) {
+                                    if (!resource) {
+                                        resource = Cache.get(cacheKey);
+                                    }
+                                    resource[response.data[id].id] = response.data[id];
+                                }
+                                Cache.set(cacheKey, resource);
+                            });
                         }
-                    }
 
-                    if (!result) {
-                        var res = this.resource('/?id='+idProducto);
+                        return deferred.promise;
+                    },
+                    insert: function (object, cacheKey, options) {
+                        var defaultOptions = {
+                            url :          urlDefault+"/app/"+cacheKey
+                        }
+                        options = angular.extend(defaultOptions, options);
 
-                        res.get(function (response) {
-                            if (response.codigo != 0) {
+                        var deferred = $q.defer();
+                        var res = this.resource('/', object.id, options);
+>>>>>>> Stashed changes
+
+                        res.post(function (response) {
+                            if (response.code != 0) {
                                 //@TODO: throw exception
                             }
+                            var objectList = Cache.get(cacheKey);
+                            object.id = response.data.id;
+                            objectList[object.id] = object;
+                            Cache.set(cacheKey, objectList);
                             deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
-                            for(var id in response.data) {
-                                if (!productos) {
-                                    productos = Cache.get('productos');
-                                }
-                                productos[response.data[id].id] = response.data[id];
-                            }
-                            Cache.set('productos', productos);
                         });
-                    }
 
-                    return deferred.promise;
-                },
-                insert: function (lista) {
-                    return $http.post(urlBase, lista);
-                },
-                update: function (lista) {
-                    return $http.put(urlBase+"/"+lista.id, lista);
-                },
-                resource: function (urlVar) {
-                    return $resource(urlBase + urlVar, {});
-                }
-            }
-        }])
+                        return deferred.promise;
+                    },
+                    update: function (object, cacheKey, options) {
+                        var defaultOptions = {
+                            url :          urlDefault+"/app/"+cacheKey
+                        }
+                        options = angular.extend(defaultOptions, options);
+
+                        var deferred = $q.defer();
+                        var res = this.resource('/'+object.id, object, options);
+
+                        res.put(function (response) {
+                            if (response.code != 0) {
+                                //@TODO: throw exception
+                            }
+                            var objectList = Cache.get(cacheKey);
+                            objectList[object.id] = object;
+                            Cache.set(cacheKey, objectList);
+                            deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
+                        });
+
+                        return deferred.promise;
+                    },
+                    delete: function (object, cacheKey, options) {
+                        var defaultOptions = {
+                            url :          urlDefault+"/app/"+cacheKey
+                        }
+                        options = angular.extend(defaultOptions, options);
+
+                        var deferred = $q.defer();
+                        var res = this.resource('/'+object.id, null, options);
+
+<<<<<<< Updated upstream
+                        res.get(function (response) {
+                            if (response.codigo != 0) {
+=======
+                        res.delete(function (response) {
+                            if (response.code != 0) {
+>>>>>>> Stashed changes
+                                //@TODO: throw exception
+                            }
+                            var objectList = Cache.get(cacheKey);
+                            delete objectList[object.id];
+                            Cache.set(cacheKey, objectList);
+                            deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
+                        });
+
+                        return deferred.promise;
+                    },
+                    resource: function (urlVar, params, options) {
+                        params = params || {};
+                        if (typeof params != "String") {
+                            params = JSON.stringify(params);
+                        }
+                        return $resource(options['url'] + urlVar, params);
+                    }
+                };
+            }])
 
     .factory('Cache',
         ['CONFIG',
