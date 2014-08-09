@@ -1,11 +1,13 @@
 <ion-view title="EPA">
     <!-- HEADER -->
-    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+<!--    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
         <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
-    </ion-nav-bar>
-    <!-- BODY -->
-  <ion-content >
-      <div id="loginContainer" style="margin-top:30%;">
+    </ion-nav-bar> 
+    <!-- BODY --> 
+    
+  <ion-content class="loginBackground">
+      <div id='logo' align=center ><img width=95% height=95%  src= "./img/epa_logo.svg"></div>
+      <div id="loginContainer" style="margin-top:5%;">
           <form name="loginForm">
               <div class="row">
                   <div class="col">
@@ -37,9 +39,37 @@
           <div class="row">
               <div class="col"></div>
               <div class="col">
-                  <button class="button button-positive button-large" ng-click="login()">
+                  <button class="button button-positive button-small" data-ng-click="login()">
                       Login
                   </button>
+              </div>
+              <div class="col"></div>
+          </div>
+          <div class="row"></div>
+          <div class="row"></div>
+            <div class="row">
+              <div class="col"></div>
+              <div class="col">
+                  <a href="#/loginFb" class="ion-social-facebook loginIconos" >
+                  </a>
+              </div>
+              <div class="col">
+                  <a href="#/loginTw" class="ion-social-twitter loginIconos" >
+                  </a>
+              </div>
+              
+              <div class="col">
+                  <a href="#/loginGplus" class="ion-social-googleplus loginIconos" >
+                  </a>
+              </div>
+              <div class="col"></div>
+          </div>          
+            <div class="row">
+              <div class="col"></div>
+              <div class="col">
+                  <a href="#/registrar" class="loginRegistrarse">
+                      Registrarse
+                  </a>
               </div>
               <div class="col"></div>
           </div>

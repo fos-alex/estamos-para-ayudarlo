@@ -39,3 +39,22 @@
 .notifyText {
     padding: 5px;
 }
+
+.loginBackground{
+    background: url("../img/fondo_epa_color.png") no-repeat center fixed;
+    background-size: cover;
+}
+
+.loginRegistrarse{
+    font-family: verdana;
+    font-size: 12px;
+    font-weight: bold;
+    color:  #0F2E4C;
+    a:visited{color: #0F2E4C;}
+}
+
+.loginIconos{
+    font-size: 30px;
+    color:  #527ACC;
+    a:visited{color: #527ACC;}
+}
