@@ -48,10 +48,11 @@
 }
 
 .loginRegistrarse{
+    background-size: cover;
     font-family: verdana;
     font-size: 12px;
     font-weight: bold;
-    color:  #0F2E4C;
+    color: #0F2E4C;
     a:visited{color: #0F2E4C;}
 }
 
@@ -60,6 +61,12 @@
     color:  #527ACC;
     a:visited{color: #527ACC;}
 }
+
+.loginTitulos{
+    font-size: 32px;
+    color:  #527ACC;
+}
+
 
 .loginButton{
     font-size: 16px;

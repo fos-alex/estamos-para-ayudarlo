@@ -19,6 +19,16 @@ angular.module('EPA')
             }
         })
 
+        .state('app.registrar', {
+            url: "/registrar",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Registrar.html",
+                    controller: 'RegistrarCtrl'
+                }
+            }
+        })
+
         .state('app.listas', {
             url: "/listas",
             views: {
