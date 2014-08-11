@@ -1,9 +1,9 @@
 angular.module('EPA.controllers', ['EPA.services'])
 
-.controller('AppCtrl', ['$scope', function($scope) {
-}])
+    .controller('AppCtrl', ['$scope', function ($scope) {
+    }])
 
-.controller('LoginCtrl', ['$scope', '$state', 'User', function($scope, $state, User) {
+    .controller('LoginCtrl', ['$scope', '$state', 'User', function ($scope, $state, User) {
         $scope.loginResponse = {
             message: "El usuario y password son requeridos",
             notifyShow: false,
@@ -15,16 +15,17 @@ angular.module('EPA.controllers', ['EPA.services'])
             $state.go('app.menu');
         }
 
-        $scope.login = function() {
-            User.login(this.user, this.password).then(function(response){
+        $scope.login = function () {
+            User.login(this.user, this.password).then(function (response) {
                     $scope.loginResponse = response;
                     $scope.loginResponse.notifyShow = true;
                 }
             );
         };
-}])
+    }])
 
-.controller('MainMenuCtrl', ['$scope', function($scope) {
+
+    .controller('MainMenuCtrl', ['$scope', function($scope) {
   $scope.menuItems = [
       {title: 'Scanner',         id: 1, href: "barcodescanner"  },
       {title: 'Map',             id: 2, href: "map" },
