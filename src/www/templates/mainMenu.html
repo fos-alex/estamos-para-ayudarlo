@@ -1,11 +1,41 @@
 <ion-view title="Menu">
-    <!-- HEADER -->
+    <!-- HEADER 
     <ion-nav-bar class="bar-stable nav-title-slide-ios7">
         <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
-    </ion-nav-bar>
+    </ion-nav-bar> -->
     <!-- BODY -->
-  <ion-content class="has-header">
-    <ion-list>
+  <ion-content>
+      <div id='logo' align=center ><img width=95% height=95%  src= "./img/epa_logo.svg"></div>
+      <div class="row">
+        <div class="col">          
+          <div id="listas" class="cuadrado celeste">
+               <i class="ion-clipboard mainMenuIcon"></i>
+              <!--ion-clipboard-->
+          </div>
+        </div>
+        <div class="col">
+          <div id="navegar" class="cuadrado rojo">
+              <i class="ion-location mainMenuIcon"></i>
+              <!--ion-location-->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="col">                    
+      <div id="estadisticas" class="cuadrado naranja">
+          <i class="ion-pie-graph mainMenuIcon"></i>
+          <!--ion-pie-graph-->
+      </div>
+      </div>
+      <div class="col">          
+      <div id="ajustes" class="cuadrado verde">
+          <i class="ion-ios7-gear mainMenuIcon"></i>
+          <!--ion-ios7-gear-->
+      </div>
+      </div>
+      </div>
+      
+   <ion-list>
       <ion-item ng-repeat="menuItem in menuItems" href="#/app/{{menuItem.href}}">
         {{menuItem.title}}
       </ion-item>

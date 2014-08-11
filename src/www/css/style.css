@@ -78,3 +78,38 @@
     font-size: 30px;
     color:  #D0DFFA;
 }
+
+/*Main Menu*/
+.menuBackground{
+ 
+}
+
+.cuadrado
+{
+  text-align: center;
+}
+
+.celeste{
+      background-color:#7EB4FC;
+}
+
+.rojo{
+    background-color: #FF6666;
+}
+
+.verde{
+    background-color: #70E270;
+}
+
+.naranja{
+    background-color: #FF8533;
+}
+
+.mainMenuIcon{
+    font-size: 10em;
+}
+
+.linkIcon{
+    vertical-align: middle;
+    display: table-cell;
+}
