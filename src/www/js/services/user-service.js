@@ -49,6 +49,37 @@ angular.module('EPA.services')
                     isLoggedIn = false;
                     $state.go('app.login');
                 },
+                registrar: function (userData) {
+                    var deferred = $q.defer();
+
+                    $http.post(CONFIG.WS_URL+"/app/registrar", userData)
+                        .success(function (result, status, headers){
+                            var response = {
+                                code: status,
+                                type: "success"
+                            };
+                            response.message = "Usuario creado correctamente";
+                            $state.go('app.menu');
+                            $timeout(function(){
+                                deferred.resolve(response);
+                            });
+                        })
+                        .error(function (result, status, headers) {
+                            var response = {
+                                code: status,
+                                type: "error"
+                            };
+                            if (status == 403) {  // Login Failed
+                                response.message = "Usuario o password incorrectos";
+                            } else {   // Server Error
+                                response.message = "Ocurrió un error inesperado";
+                            }
+                            $timeout(function(){
+                                deferred.resolve(response);
+                            });
+                        });
+                    return deferred.promise;
+                },
                 isLoggedIn: function () {
                     return isLoggedIn;
                 },
