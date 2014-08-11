@@ -68,6 +68,13 @@
 }
 
 /* ABM Listas */
-.header{
-    background-color: #527ACC;
+.listaItem{ /* Revisar */
+    font-family: verdana;
+    font-size: 12px;
+}
+
+/*FOOTER*/
+.footerIconos{
+    font-size: 30px;
+    color:  #D0DFFA;
 }
