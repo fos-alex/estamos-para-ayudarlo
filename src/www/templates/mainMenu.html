@@ -5,40 +5,46 @@
     </ion-nav-bar> -->
     <!-- BODY -->
   <ion-content>
-      <div id='logo' align=center ><img width=95% height=95%  src= "./img/epa_logo.svg"></div>
+      <div id='logo' align=center ><img class="logoEPA backgroundLogoMenu"  src= "./img/epa_logo.svg"></div>
       <div class="row">
         <div class="col">          
           <div id="listas" class="cuadrado celeste">
-               <i class="ion-clipboard mainMenuIcon"></i>
-              <!--ion-clipboard-->
+              <a href="#/app/listas">
+                    <i class="ion-clipboard mainMenuIcon celesteLogo"></i>
+              </a>
           </div>
         </div>
-        <div class="col">
+        <div class="col">            
           <div id="navegar" class="cuadrado rojo">
-              <i class="ion-location mainMenuIcon"></i>
-              <!--ion-location-->
+              <!--<a href="#/app/navegar">--> 
+                <i class="ion-location mainMenuIcon rojoLogo"></i>
+              <!--</a>-->  
           </div>
         </div>
       </div>
       <div class="row">
       <div class="col">                    
       <div id="estadisticas" class="cuadrado naranja">
-          <i class="ion-pie-graph mainMenuIcon"></i>
-          <!--ion-pie-graph-->
+          <!--<a href="#/app/estadisticas">-->
+            <i class="ion-pie-graph mainMenuIcon naranjaLogo"></i>
+          <!--</a>--> 
       </div>
       </div>
       <div class="col">          
       <div id="ajustes" class="cuadrado verde">
-          <i class="ion-ios7-gear mainMenuIcon"></i>
-          <!--ion-ios7-gear-->
+          <!--<a href="#/app/ajustes>--> 
+            <i class="ion-ios7-gear mainMenuIcon verdeLogo"></i>
+          <!--/a-->
       </div>
       </div>
       </div>
-      
+ 
+<!--      
    <ion-list>
       <ion-item ng-repeat="menuItem in menuItems" href="#/app/{{menuItem.href}}">
         {{menuItem.title}}
       </ion-item>
     </ion-list>
+-->
   </ion-content>
 </ion-view>
