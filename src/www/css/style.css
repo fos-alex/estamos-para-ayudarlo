@@ -100,16 +100,32 @@
       background-color:#7EB4FC;
 }
 
+.celesteLogo{
+    color: #427080;
+}
+
 .rojo{
     background-color: #FF6666;
+}
+
+.rojoLogo{
+    color: #B20000;
 }
 
 .verde{
     background-color: #70E270;
 }
 
+.verdeLogo{
+    color: #007A00;
+}
+
 .naranja{
     background-color: #FF8533;
+}
+
+.naranjaLogo{
+    color: #B24700;
 }
 
 .mainMenuIcon{
