@@ -65,7 +65,6 @@ angular.module('EPA.services')
                         Cache.set(cacheKey, objectList);
                         deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
                     });
-
                     return deferred.promise;
                 },
                 save:  function (object, key, options) {
@@ -124,7 +123,8 @@ angular.module('EPA.services')
                     }*/
                     return $resource(options['url'] + urlVar, params, {
                         put: {method: 'PUT'},
-                        delete: {method: 'DELETE'}
+                        delete: {method: 'DELETE'},
+                        post: {method: 'POST'}
                     });
                 }
         };
