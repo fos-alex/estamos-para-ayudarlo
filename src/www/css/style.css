@@ -86,8 +86,8 @@ a:visited{
 }
 
 /* ABM Listas */
-.listaItem{ /* Revisar */
-    font-family: verdana;
+.listaItem{
+    font-family: sans-serif;
     font-size: 12px;
 }
 
@@ -97,6 +97,21 @@ a:visited{
     color:  #D0DFFA;
 }
 
+/* HEADER*/
+
+.logoHeader{
+    max-width: 20%;
+}
+
+.contenedorLogo{
+    text-align: right;
+}
+
+.tituloHeader{
+    text-align: center;
+    color: white;
+    font-size: 12px;
+}
 /*Main Menu*/
 .menuBackground{
  
