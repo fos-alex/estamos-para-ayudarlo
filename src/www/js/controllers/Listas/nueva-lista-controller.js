@@ -33,7 +33,6 @@ angular.module('EPA.controllers')
                 $scope.createdList = {};
                 $state.go('app.listas');
             });
-
         }
 
         if (typeof $scope.createdList != "object" || $scope.createdList.length == 0) {

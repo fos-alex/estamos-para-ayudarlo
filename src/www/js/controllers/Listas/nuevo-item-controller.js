@@ -20,8 +20,14 @@ angular.module('EPA.controllers')
         }
 
         Producto.get("", {refreshCache: true}).then(function(response) {
-            response = angular.extend(response, $scope.createdList.productos);
             $scope.itemsDisponibles = response;
+            angular.forEach($scope.itemsDisponibles, function (itemDisponible, key) {
+                angular.forEach($scope.createdList.productos, function (itemAgregado, key) {
+                    if (itemDisponible.id === itemAgregado.id) {
+                        itemDisponible.added = true;
+                    }
+                }, this);
+            }, this);
         });
     }
 ])
