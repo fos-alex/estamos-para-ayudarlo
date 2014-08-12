@@ -23,7 +23,7 @@ angular.module('EPA')
             url: "/registrar",
             views: {
                 'menuContent' :{
-                    templateUrl: "templates/Registrar.html",
+                    templateUrl: "templates/registrar.html",
                     controller: 'RegistrarCtrl'
                 }
             }
