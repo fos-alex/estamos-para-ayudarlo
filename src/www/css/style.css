@@ -77,6 +77,14 @@ a:visited{
     text-align: center;
 }
 
+.logoEPA{
+    max-width: 100%;
+}
+
+.backgroundLogoMenu{
+    background-color: #F5F5F0;
+}
+
 /* ABM Listas */
 .listaItem{ /* Revisar */
     font-family: verdana;
