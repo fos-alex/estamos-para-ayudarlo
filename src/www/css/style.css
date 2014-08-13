@@ -96,16 +96,19 @@ a:visited{
 
 .logoHeader{
     max-width: 20%;
-}
-
-.contenedorLogo{
-    text-align: right;
+    max-height: 100%; 
+    margin-left: auto;
 }
 
 .tituloHeader{
     text-align: center;
     color: white;
     font-size: 12px;
+}
+
+.backHeader{
+    max-width: 10%;
+    
 }
 /*Main Menu*/
 .menuBackground{
