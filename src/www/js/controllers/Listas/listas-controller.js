@@ -6,4 +6,14 @@ angular.module('EPA.controllers')
         Lista.get("", {refreshCache: true}).then(function(response) {
             $scope.listas = response;
         });
+
+        $scope.delete = function (lista) {
+            Lista.delete(lista).then(function (response) {
+                angular.forEach($scope.listas, function(value, key) {
+                    if (value.id == response.id) {
+                        $scope.listas.splice(key, 1);
+                    }
+                });
+            });
+        };
 }])

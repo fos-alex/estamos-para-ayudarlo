@@ -63,7 +63,7 @@ angular.module('EPA.services')
                         object.id = response.data.id;
                         objectList[object.id] = object;
                         Cache.set(cacheKey, objectList);
-                        deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
+                        deferred.resolve((Object.keys(response.data).length <= 1)? response.data: response.data[0]);
                     });
                     return deferred.promise;
                 },
@@ -89,7 +89,7 @@ angular.module('EPA.services')
                         var objectList = Cache.get(cacheKey);
                         objectList[object.id] = object;
                         Cache.set(cacheKey, objectList);
-                        deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
+                        deferred.resolve((Object.keys(response.data).length <= 1)? response.data: response.data[0]);
                     });
 
                     return deferred.promise;
@@ -111,7 +111,7 @@ angular.module('EPA.services')
                         var objectList = Cache.get(cacheKey);
                         delete objectList[object.id];
                         Cache.set(cacheKey, objectList);
-                        deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
+                        deferred.resolve((Object.keys(response.data).length <= 1)? response.data: response.data[0]);
                     });
 
                     return deferred.promise;

@@ -18,13 +18,12 @@
         <ion-list
           show-delete="true"
         >
-            <ion-item ng-repeat="lista in listas" href="#/app/listas/{{lista.id}}" class="listaItem">    
-            <img ng-src="{{item.img}}">
-            <h2 class="listaItem">{{lista.nombre}}</h2>
-            
-            <ion-delete-button class="ion-minus-circled"
-                               ng-click="items.splice($index, 1)">
-            </ion-delete-button>               
+            <ion-item ng-repeat="lista in listas" href="#/app/listas/{{lista.id}}" class="listaItem">
+                <h2 class="listaItem">{{lista.nombre || 'Lista Sin Nombre'}}</h2>
+
+                <ion-delete-button class="ion-minus-circled"
+                                   data-ng-click="delete(lista);">
+                </ion-delete-button>
             </ion-item>
         </ion-list>
     </ion-content>
