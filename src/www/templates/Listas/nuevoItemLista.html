@@ -1,28 +1,41 @@
 <ion-view title="Nuevo Elemento">
     <!-- HEADER -->
-    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
-        <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
-    </ion-nav-bar>
+    <ion-header-bar class="bar-positive centrado" animation="nav-title-slide-ios7">
+        <a class="tab-item backHeader" href="#/app/listas">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado">Nuevo Elemento</h1>        
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
     <!-- BODY -->
     <ion-content>
         <label class="item item-input">
             <i class="icon ion-search placeholder-icon"></i>
             <input type="search" placeholder="Buscar" ng-model="nombreProducto">
         </label>
-        <div class="list">
+        <div class="list" show-delete='true'>
             <a class="item item-avatar item-icon-right"
                ng-repeat="item in itemsDisponibles | filter:nombreProducto"
                ng-click="item.added = item.added? false: true">
-                <img src="img/ionic.png">
+                <!-- <img src="img/ionic.png">  -->
                 <h2>{{item.nombre}}</h2>
                 <p>{{item.descripcion}}</p>
-                <i class="icon" ng-class="item.added? 'ion-checkmark-round' :''"></i>
+                <i class="icon" ng-class="item.added? 'ion-ios7-checkmark-outline' :''"></i>
             </a>
         </div>
     </ion-content>
-    <div class="tabs tabs-icon-only">
+    <!-- FOOTER-->
+    <ion-footer-bar class="bar-dark">     
+        <a class="tab-item" href="#/app/menu">
+                <i class="ion-home footerIconos"></i>
+        </a>
+        <a class="tab-item" ng-click="acceptList();">
+            <i class="icon ion-checkmark-circled footerIconos"></i> 
+        </a>
+    </ion-footer-bar>
+    <!-- <div class="tabs tabs-icon-only">
         <a class="tab-item">
             <i class="icon ion-checkmark-round" ng-click="acceptList();"></i>
         </a>
-    </div>
+    </div>-->
 </ion-view>
