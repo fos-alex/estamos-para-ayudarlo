@@ -17,7 +17,7 @@
             <a class="item item-avatar item-icon-right"
                ng-repeat="item in itemsDisponibles | filter:nombreProducto"
                ng-click="item.added = item.added? false: true">
-                <!-- <img src="img/ionic.png">  -->
+                <img src="img/ionic.png">
                 <h2>{{item.nombre}}</h2>
                 <p>{{item.descripcion}}</p>
                 <i class="icon" ng-class="item.added? 'ion-ios7-checkmark-outline' :''"></i>
