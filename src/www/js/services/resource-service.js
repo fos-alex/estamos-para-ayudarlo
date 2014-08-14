@@ -1,7 +1,7 @@
 angular.module('EPA.services')
 .factory('Resource',
-    ['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', 'CONFIG', 'Cache',
-        function resourceFactory ($http, $state, $rootScope, $q, $timeout, $resource, CONFIG, Cache)
+    ['$http' ,'$state', '$rootScope', '$q', '$timeout', '$resource', '$ionicLoading', 'CONFIG', 'Cache',
+        function resourceFactory ($http, $state, $rootScope, $q, $timeout, $resource, $ionicLoading, CONFIG, Cache)
         {
             var urlDefault = CONFIG.WS_URL;
 
@@ -29,7 +29,9 @@ angular.module('EPA.services')
                     }
                     if (!result) {
                         var res = this.resource(id? '/' + id : '', null, options);
+                        $ionicLoading.show({template: 'Cargando...'});
                         res.get(function (response) {
+                            $ionicLoading.hide();
                             if (response.codigo != 0) {
                                 //@TODO: throw exception
                                 deferred.reject(response);
@@ -53,11 +55,14 @@ angular.module('EPA.services')
                     options = angular.extend(defaultOptions, options);
 
                     var deferred = $q.defer();
-                    var res = this.resource('/', object.id, options);
+                    var res = this.resource('/', null, options);
 
-                    res.post(function (response) {
+                    $ionicLoading.show({template: 'Cargando...'});
+                    res.post(object, function (response) {
+                        $ionicLoading.hide();
                         if (response.code != 0) {
                             //@TODO: throw exception
+                            deferred.reject(response);
                         }
                         var objectList = Cache.get(cacheKey);
                         object.id = response.data.id;
@@ -82,9 +87,12 @@ angular.module('EPA.services')
                     var deferred = $q.defer();
                     var res = this.resource('/:id', null, options);
 
+                    $ionicLoading.show({template: 'Cargando...'});
                     res.put({id: object.id}, object, function (response) {
+                        $ionicLoading.hide();
                         if (response.code != 0) {
                             //@TODO: throw exception
+                            deferred.reject(response);
                         }
                         var objectList = Cache.get(cacheKey);
                         objectList[object.id] = object;
@@ -103,7 +111,9 @@ angular.module('EPA.services')
                     var deferred = $q.defer();
                     var res = this.resource('/'+object.id, null, options);
 
+                    $ionicLoading.show({template: 'Cargando...'});
                     res.delete(function (response) {
+                        $ionicLoading.hide();
                         if (response.codigo != 0) {
                             //@TODO: throw exception
                             deferred.reject(response);
