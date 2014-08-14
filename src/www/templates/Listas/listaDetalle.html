@@ -4,7 +4,7 @@
         <a class="tab-item backHeader" href="#/app/listas">
             <i class="ion-arrow-left-c footerIconos"></i>
         </a>
-        <h1 class="title centrado">Nombre de la lista</h1> <!-- traer el nombre de la lista -->        
+        <h1 class="title centrado">{{lista.nombre}}</h1>
         <img class="logoHeader" src="./img/carrito.png">
     </ion-header-bar>
     <!-- BODY -->
@@ -16,10 +16,7 @@
         <div class="list" show-delete='true'> 
             <a class="item item-avatar"
                ng-repeat="item in lista.productos | filter:nombreProducto">
-            <!--<ion-delete-button class="ion-minus-circled" 
-                               ng-click="items.splice($index, 1)">
-            </ion-delete-button>                 
-                <!-- <img src="img/ionic.png">  -->
+                <img src="img/ionic.png">
                 <h2>{{item.nombre}}</h2>
                 <p>{{item.descripcion}}</p>               
             </a>
