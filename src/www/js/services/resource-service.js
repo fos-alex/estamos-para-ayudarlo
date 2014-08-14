@@ -60,7 +60,7 @@ angular.module('EPA.services')
                     $ionicLoading.show({template: 'Cargando...'});
                     res.post(object, function (response) {
                         $ionicLoading.hide();
-                        if (response.code != 0) {
+                        if (response.codigo != 0) {
                             //@TODO: throw exception
                             deferred.reject(response);
                         }
@@ -90,7 +90,7 @@ angular.module('EPA.services')
                     $ionicLoading.show({template: 'Cargando...'});
                     res.put({id: object.id}, object, function (response) {
                         $ionicLoading.hide();
-                        if (response.code != 0) {
+                        if (response.codigo != 0) {
                             //@TODO: throw exception
                             deferred.reject(response);
                         }

@@ -18,7 +18,7 @@ angular.module('EPA.controllers')
         $scope.saveList = function () {
             Lista.save(this.createdList).then(function () {
                 $scope.createdList = {};
-                $state.go('app.listas');
+                return $state.go('app.listas');
             });
         }
 
