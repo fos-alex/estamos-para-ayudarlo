@@ -10,20 +10,23 @@
           <img class="logoEPA" src= "./img/epa_logo.svg">
       </div>
       <div id="loginContainer" style="margin-top:5%;">
-          <form name="loginForm">
+         <!-- <form name="loginForm"> -->
+          <div class="list list-inset loginForm">    
               <div class="row">
                   <div class="col">
-                      <label class="item item-input">
-                          <span class="input-label">Email</span>
-                          <input type="text" name="user" ng-model="user" ng-required>
+                      <label class="item item-input loginInput">
+                          <input type="text" placeholder="E-Mail" name="user" ng-model="user" ng-required>
+                          <!--<span class="input-label">Email</span>
+                          <input type="text" name="user" ng-model="user" ng-required>-->
                       </label>
                   </div>
               </div>
               <div class="row">
                   <div class="col">
-                      <label class="item item-input">
-                          <span class="input-label">Contraseña</span>
-                          <input type="password" name="pass" ng-model="password" ng-required>
+                      <label class="item item-input loginInput">
+                          <input type="password" placeholder="Contraseña" name="pass" ng-model="password" ng-required>
+                          <!-- <span class="input-label">Contraseña</span>
+                          <input type="password" name="pass" ng-model="password" ng-required>-->
                       </label>
                   </div>
               </div>
@@ -37,14 +40,27 @@
                       </div>
                   </div>
               </div>
+<<<<<<< HEAD
           </form>
           <div class="row centrado">
               <div class="col">
+=======
+          </div>
+          <div class="row">             
+              <div class="col centrado">
+>>>>>>> 2781729192c4d5fcc7e4ddbea5cbae665ec1bdee
                   <button class="button button-positive loginButton button-small" data-ng-click="login()">
                       Ingresar
                   </button>
               </div>
           </div>
+            <div class="row">
+                <div class="col centrado">
+                    <a href="#/app/registrar" class="loginRegistrarse">
+                        Registrate
+                    </a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col centrado">
                   <a href="#/loginFb">
