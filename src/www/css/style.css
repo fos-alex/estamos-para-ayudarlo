@@ -53,7 +53,7 @@ a:visited{
 
 .loginRegistrarse{
     background-size: cover;
-    font-family: verdana;
+    font-family: sans-serif;
     font-size: 12px;
     font-weight: bold;
     color: #0F2E4C;
@@ -65,6 +65,14 @@ a:visited{
     color:  #527ACC;
 }
 
+.loginForm{
+    background-color: rgba(220, 224, 224, 0.5);
+    border-radius: 18px; 
+}
+
+.loginInput{
+    border-color: rgb(119, 170, 247);
+}
 
 .loginButton{
     font-size: 16px;
@@ -99,6 +107,23 @@ a:visited{
 .nombre-lista-input:focus {
     background-color: white;
     color: darkgrey !important;
+}
+
+.listaCantIcon{
+    font-size: 15px;
+    font-family: sans-serif;
+    margin-bottom: 10%;
+    margin-top: 10%;
+    color: rgb(76, 162, 236);
+}
+
+.listaCantInput{
+    background-color: rgb(222, 228, 228); 
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 /*FOOTER*/
@@ -172,4 +197,12 @@ a:visited{
 
 .centrado{
     text-align: center;
+}
+
+.izq{
+    text-align: left;
+}
+
+.derecha {
+    text-align: right;
 }
