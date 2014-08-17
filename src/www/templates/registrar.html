@@ -9,31 +9,41 @@
         <div class="list list-inset">
             <label class="item item-input">
                 <span class="input-label">Email </span>
-                <input type="text" placeholder=" xxx@xxxx" data-ng-model="user.data.email">
+                <input type="text" placeholder=" xxx@xxxx" ng-model="user.data.email" ng-required>
             </label>
             <label class="item item-input">
                 <span class="input-label">Contraseña</span>
-                <input type="text" placeholder="xxxx" data-ng-model="user.data.password">
+                <input type="password" placeholder="xxxx" ng-model="user.data.password" ng_required>
             </label>
             <label class="item item-input">
                 <span class="input-label">Nombre</span>
-                <input type="text" placeholder="xxxx">
+                <input type="text" placeholder="xxxx" ng-model="user.data.nombre" ng_required>
             </label>
             <label class="item item-input">
                 <span class="input-label">Apellido</span>
-                <input type="text" placeholder="xxxx">
+                <input type="text" placeholder="xxxx" ng-model="user.data.apellido" ng-required>
             </label>
             <label class="item item-input">
                 <span class="input-label">Fecha de Nacimiento</span>
-                <input type="text" placeholder="dd/mm/aaaa">
+                <input type="date" placeholder="dd/mm/aaaa" ng-model="user.data.fechanacimiento">
             </label>
             <label class="item item-input">
                 <span class="input-label">Localidad</span>
-                <input type="text" placeholder="xxxx">
+                <input type="text" placeholder="xxxx" ng-model="user.data.localidad">
             </label>
         </div>
-        <div class="row"> </div>
-        <div class="row"> </div>
+
+        <div class="row" ng-show="loginResponse.notifyShow">
+            <div class="col">
+                <div class="notify" ng-class="loginResponse.type">
+                    <i class="icon ion-close-circled"></i>
+                          <span id="notifyTextLogin" class="notifyText">
+                              {{loginResponse.message}}
+                          </span>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col"></div>
             <div class="col">

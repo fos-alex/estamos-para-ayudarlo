@@ -49,17 +49,18 @@ angular.module('EPA.services')
                     isLoggedIn = false;
                     $state.go('app.login');
                 },
-                registrar: function (userData) {
+                registrar: function (userdata) {
+
                     var deferred = $q.defer();
 
-                    $http.post(CONFIG.WS_URL+"/app/registrar", userData)
+                    $http.post(CONFIG.WS_URL+"/app/registrar", userdata)
                         .success(function (result, status, headers){
                             var response = {
                                 code: status,
                                 type: "success"
                             };
                             response.message = "Usuario creado correctamente";
-                            $state.go('app.menu');
+                            $state.go('app.login');
                             $timeout(function(){
                                 deferred.resolve(response);
                             });

@@ -86,6 +86,21 @@ a:visited{
     font-size: 12px;
 }
 
+.nombre-lista-input {
+    width: 80%;
+    margin-left: 15%;
+    text-align: center;
+    background-color: transparent;
+    color: white !important;
+    font-weight: bold;
+    display: inline-block !important;
+}
+
+.nombre-lista-input:focus {
+    background-color: white;
+    color: darkgrey !important;
+}
+
 /*FOOTER*/
 .footerIconos{
     font-size: 30px;

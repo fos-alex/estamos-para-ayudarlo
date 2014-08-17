@@ -1,13 +1,15 @@
 <ion-view>
     <!-- HEADER -->
     <ion-header-bar class="bar-positive centrado" animation="nav-title-slide-ios7">
-        <a class="tab-item backHeader" href="#/app/listas">
-            <i class="ion-arrow-left-c footerIconos"></i>
-        </a>
-        <h1 class="title centrado" ng-click="editTitle();">
-            {{createdList.nombre}}&nbsp;&nbsp;
-            <i class="icon ion-chevron-right ion-edit"></i>
-        </h1> <!-- traer el nombre de la lista -->        
+            <a class="tab-item backHeader" href="#/app/listas">
+                <i class="ion-arrow-left-c footerIconos"></i>
+            </a>
+            <h1 class="title centrado" >
+                <input class="nombre-lista-input" type="text" onClick="this.select();" ng-model="createdList.nombre" value="{{createdList.nombre}}" />
+            </h1> <!-- traer el nombre de la lista -->
+            <a class="tab-item backHeader nombre-lista-lapiz" >
+                <i class="icon ion-chevron-right ion-edit"></i>
+            </a>
         <img class="logoHeader" src="./img/carrito.png">
     </ion-header-bar>
 <!--    HEADER VIEJO:
@@ -52,7 +54,7 @@
     <a class="tab-item" href="#/app/menu">
             <i class="ion-home footerIconos"></i>
     </a>
-    <a class="tab-item" href="#/app/listas/nuevalista/nuevoitem">
+    <a class="tab-item" href="" ng-click="newItem();">
         <i class="icon ion-plus-circled footerIconos"></i>
     </a>
     <a class="tab-item">

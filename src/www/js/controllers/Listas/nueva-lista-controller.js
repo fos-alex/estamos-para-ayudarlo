@@ -10,19 +10,6 @@ angular.module('EPA.controllers')
             Session.set('createdList', this.createdList);
         }
 
-        $scope.editTitle = function () {
-            var text = jQuery(".title").text();
-            var input = jQuery('<input class="titleInput" type="text" value="' + text + '" />');
-            jQuery('.title').text('').append(input);
-            input.select();
-
-            input.blur(function() {
-                var text = jQuery('.titleInput').val();
-                jQuery('.titleInput').parent().text(text);
-                jQuery('.titleInput').remove();
-            });
-        }
-
         $scope.deleteAllItems = function () {
             $scope.createdList = {};
             Session.set('createdList', this.createdList);
@@ -31,8 +18,13 @@ angular.module('EPA.controllers')
         $scope.saveList = function () {
             Lista.save(this.createdList).then(function () {
                 $scope.createdList = {};
-                $state.go('app.listas');
+                return $state.go('app.listas');
             });
+        }
+
+        $scope.newItem = function () {
+            Session.set('createdList', $scope.createdList);
+            $state.go('app.nuevoItemLista');
         }
 
         if (typeof $scope.createdList != "object" || $scope.createdList.length == 0) {
