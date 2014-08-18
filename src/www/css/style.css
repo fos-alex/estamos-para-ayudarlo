@@ -143,6 +143,10 @@ a:visited{
     color:  #D0DFFA;
 }
 
+.tab-item{
+    max-width: initial;
+}
+
 /* HEADER*/
 
 .logoHeader{
