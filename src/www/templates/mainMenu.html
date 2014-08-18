@@ -1,23 +1,25 @@
-<ion-view title="Menu">
+<ion-view title="Menu" class="background-menu">
     <!-- HEADER 
     <ion-nav-bar class="bar-stable nav-title-slide-ios7">
         <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
     </ion-nav-bar> -->
     <!-- BODY -->
   <ion-content animation="slide-left-right-ios7">
-      <div id='logo' align=center ><img class="logoEPA backgroundLogoMenu"  src= "./img/epa_logo.svg"></div>
-      <div class="row">
+      <div id='logo' align=center ><img class="logoEPA"  src= "./img/epa_logo.svg"></div>
+      <div class="row padding-iconos">
         <div class="col">          
           <div id="listas" class="cuadrado celeste">
-              <a href="#/app/listas">
+              <a href="#/app/listas" class="menu-link">
                     <i class="ion-clipboard mainMenuIcon celesteLogo"></i>
+                    <p class="menu-leyendas celeste-leyenda">Listas de Compra</p>
               </a>
           </div>
         </div>
         <div class="col">            
           <div id="navegar" class="cuadrado rojo">
-              <a href="#/app/map"> 
+              <a href="#/app/map" class="menu-link"> 
                 <i class="ion-location mainMenuIcon rojoLogo"></i>
+                <p class="menu-leyendas rojo-leyenda">Navegar</p>
               </a>  
           </div>
         </div>
@@ -25,15 +27,17 @@
       <div class="row">
       <div class="col">                    
       <div id="estadisticas" class="cuadrado naranja">
-          <!--<a href="#/app/estadisticas">-->
+          <!--<a href="#/app/estadisticas" class="menu-link">-->
             <i class="ion-pie-graph mainMenuIcon naranjaLogo"></i>
+            <p class="menu-leyendas naranja-leyenda">Estadísticas</p>
           <!--</a>--> 
       </div>
       </div>
       <div class="col">          
       <div id="ajustes" class="cuadrado verde">
-          <!--<a href="#/app/ajustes>--> 
+          <!--<a href="#/app/ajustes class="menu-link">--> 
             <i class="ion-ios7-gear mainMenuIcon verdeLogo"></i>
+            <p class="menu-leyendas verde-leyenda">Ajustes</p>
           <!--/a-->
       </div>
       </div>

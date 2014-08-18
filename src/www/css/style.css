@@ -81,11 +81,8 @@ a:visited{
 }
 
 .logoEPA{
+    padding-top: 10px;
     max-width: 100%;
-}
-
-.backgroundLogoMenu{
-    background-color: #F5F5F0;
 }
 
 /* ABM Listas */
@@ -165,8 +162,19 @@ a:visited{
     max-width: 10%;
 }
 /*Main Menu*/
-.menuBackground{
- 
+.background-menu{
+    background-color: #F5F5F0;
+}
+
+.menu-leyendas{
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.menu-link{
+    text-decoration: none;
 }
 
 .cuadrado
@@ -182,6 +190,11 @@ a:visited{
     color: #427080;
 }
 
+.celeste-leyenda{
+    color: #427080;
+    background-color: #ACCFFD;
+}
+
 .rojo{
     background-color: #FF6666;
 }
@@ -190,12 +203,22 @@ a:visited{
     color: #B20000;
 }
 
+.rojo-leyenda{
+    color: #B20000;
+    background-color: #FF9393;
+}
+
 .verde{
-    background-color: #70E270;
+    background-color: #46BD46;
 }
 
 .verdeLogo{
     color: #007A00;
+}
+
+.verde-leyenda{
+    color: #007A00;
+    background-color: #6DB86D;
 }
 
 .naranja{
@@ -206,8 +229,17 @@ a:visited{
     color: #B24700;
 }
 
+.naranja-leyenda{
+    color: #B24700;
+    background-color: #FFA467;
+}
+
 .mainMenuIcon{
     font-size: 10em;
+}
+
+.padding-iconos{
+    padding-top: 20px;
 }
 
 .centrado{
