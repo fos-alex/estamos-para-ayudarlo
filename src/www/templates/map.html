@@ -1,9 +1,13 @@
 <ion-view title="Mapa Supermercado">
     <!-- HEADER -->
-    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
-        <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
-    </ion-nav-bar>
-
+    <ion-header-bar class="bar-positive centrado" animation="slide-left-right-ios7">
+        <a class="tab-item backHeader" href="#/app/menu">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado">Mapa Supermercado</h1>        
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+    
     <!-- BODY -->
   <ion-content class="has-header">
       <ion-scroll direction="xy" style="width:370px;height:515px;">
@@ -13,15 +17,15 @@
   </ion-content>
 
     <!-- FOOTER -->
-    <div class="tabs tabs-icon-only">
-        <a class="tab-item">
-            <i class="icon ion-gear-b"></i>
+    <ion-footer-bar class="bar-dark">    
+        <a class="tab-item" href="#/app/menu">
+                <i class="ion-home footerIconos"></i>
         </a>
         <a class="tab-item">
-            <i class="icon ion-home"></i>
+            <i class="icon ion-ios7-camera-outline footerIconos" ng-click="activateCamera();"></i>
         </a>
         <a class="tab-item">
-            <i class="icon ion-android-camera" ng-click="activateCamera();"></i>
+            <i class="ion-ios7-gear footerIconos"></i>
         </a>
-    </div>
+    </ion-footer-bar>  
 </ion-view>
