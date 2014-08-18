@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
 
     <link href="mapa.less" rel="stylesheet/less">
@@ -14,19 +13,100 @@
         }
     </style>
 </head>
-<body onmousedown="return false;">
-<script src="lib/js/kinetic/kinetic-v5.1.0.min.js"></script>
-<script src="lib/js/underscore/underscore-min.js"></script>
-<script src="lib/js/less/less-1.7.4.min.js"></script>
+<body>
 
-<div id="container"></div>
+<div id="container" onmousedown="return false;"></div>
 <div id="controlers">
     <div>
         <button onclick="addRect()">Agregar Cuadrado</button>
+        <button onclick="addProd()">Agregar Producto</button>
+        <select id="productos-select">
+        </select>
     </div>
 </div>
-<script>
-var canvas = {};
+<script type="application/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="lib/js/kinetic/kinetic-v5.1.0.min.js"></script>
+<script src="lib/js/underscore/underscore-min.js"></script>
+<script src="lib/js/less/less-1.7.4.min.js"></script>
+<script type="application/javascript">
+var canvas = {
+    objects: {
+        products: {},
+        shells: {}
+    },
+    stage: {},
+    layer: {}
+};
+var productos = null;
+
+$(document).ready(function () {
+    $.getJSON('http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app/productos', function (response) {
+        var options = $("#productos-select");
+        productos = response.data;
+        $.each(productos, function(ix, el) {
+            options.append($("<option />").val(ix).text(el.nombre));
+        });
+    });
+});
+function addProd() {
+    var ixProducto = $("#productos-select").val();
+    var selectedProd = productos[ixProducto];
+
+    var newGroup = new Kinetic.Group({
+        x: 16,
+        y: 16,
+        id: createId(),
+        draggable: true
+    });
+
+    canvas.layer.add(newGroup);
+
+
+    var prodText = new Kinetic.Text({
+        x: 15,
+        y: 15,
+        text: selectedProd.nombre,
+        fontSize: 14,
+        fontFamily: 'Calibri',
+        fill: 'black',
+        width: selectedProd.nombre.length * 8,
+        padding: 2,
+        align: 'center'
+    });
+    newGroup.add(prodText);
+
+    var prodImg = new Kinetic.Rect({
+        x: 15,
+        y: 15,
+        stroke: 'black',
+        strokeWidth: 3,
+        width: prodText.width(),
+        height: 22,
+        name: name
+    });
+    newGroup.add(prodImg);
+
+    canvas.layer.add(newGroup);
+    canvas.objects.products[prodImg.id] = {
+        id: prodImg.id,
+        idProducto: selectedProd.id
+    };
+    canvas.layer.draw();
+
+
+}
+
+function createId(length)
+{
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    length = length? length: 6;
+
+    for( var i=0; i < length; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
 
 function update(activeAnchor) {
     var group = activeAnchor.getParent();
@@ -120,7 +200,7 @@ function addRect(data) {
         width: 200,
         height: 138,
         name: 'image',
-        stroke: 'black',
+        stroke: '#555',
         strokeWidth: 5,
         draggable: true
     };
@@ -129,10 +209,14 @@ function addRect(data) {
 
     var newGroup = new Kinetic.Group({
         x: data.x,
+        id: createId(),
         y: data.y,
         draggable: data.draggable
     });
 
+    canvas.objects.shells[newGroup.getId()] = {
+        id: newGroup.getId()
+    };
     canvas.layer.add(newGroup);
 
     var rect = new Kinetic.Rect({
@@ -160,7 +244,7 @@ function addRect(data) {
 function initStage() {
     canvas.stage = new Kinetic.Stage({
         container: 'container',
-        width: 1200,
+        width: 1000,
         height: 550
     });
 
