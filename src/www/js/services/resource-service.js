@@ -36,12 +36,20 @@ angular.module('EPA.services')
                                 //@TODO: throw exception
                                 deferred.reject(response);
                             }
-                            deferred.resolve((Object.keys(response.data).length > 1)? response.data: response.data[0]);
-                            for (var id in response.data) {
+                            deferred.resolve(response.data);
+                            if (response.data instanceof Array) {
+                                for (var element in response.data) {
+                                    if (!resource) {
+                                        resource = Cache.get(key);
+                                    }
+                                    resource[element.id] = element;
+                                }
+                            } else {
                                 if (!resource) {
                                     resource = Cache.get(key);
                                 }
-                                resource[response.data[id].id] = response.data[id];
+                                resource[response.data.id] = response.data;
+
                             }
                             Cache.set(key, resource);
                         });

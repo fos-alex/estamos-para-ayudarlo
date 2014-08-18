@@ -16,20 +16,15 @@
         <div class="list" show-delete='true'> 
             <a class="item item-avatar"
                ng-repeat="item in lista.productos | filter:nombreProducto">                
-                <div class="row">
-                <div class="col">
-                    <div class="row">
-                        <i class="icon ion-arrow-up-b listaCantIcon"></i> 
-                        <input class="listaCantInput" type="text">
-                        <i class="icon ion-arrow-down-b listaCantIcon"></i>
-                    </div>
-                </div>
-                <div class="col">
-                <!--<img src="img/ionic.png">-->
+                <img src="img/ionic.png">
                 <h2>{{item.nombre}}</h2>
                 <p>{{item.descripcion}}</p>
+                <div class="force-item-avatar-right">
+                    <i class="icon ion-arrow-up-b lista-cant-icon" data-ng-click="item.cantidad = item.cantidad + 1"></i>
+                    <input class="lista-cant-input text-center" type="text" data-ng-model="item.cantidad">
+                    <i class="icon ion-arrow-down-b lista-cant-icon" data-ng-click="item.cantidad = item.cantidad - 1"></i>
                 </div>
-                </div>
+
             </a>
         </div>
     </ion-content>
