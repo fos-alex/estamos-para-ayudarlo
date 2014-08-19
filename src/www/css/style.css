@@ -4,6 +4,14 @@
     /*overflow:visible !important;*/
 }
 
+/* No arrows on input number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
 
 /* User Info Dialogs */
 
