@@ -50,13 +50,9 @@ class Supermercados_model extends BF_Model {
 			"field"		=> "supermercados_nombre",
 			"label"		=> "Nombre",
 			"rules"		=> "required|max_length[50]"
-		),
-		array(
-			"field"		=> "supermercados_id_usuario",
-			"label"		=> "Usuario",
-			"rules"		=> "required"
-		),
+		)
 	);
+	
 	protected $insert_validation_rules 	= array();
 	protected $skip_validation 			= FALSE;
 

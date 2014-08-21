@@ -19,11 +19,8 @@ class mapas extends Front_Controller
 		parent::__construct();
 
 		$this->load->library('form_validation');
-		$this->load->model('mapas_model', null, true);
-		$this->lang->load('mapas');
-		
-
 		Assets::add_module_js('mapas', 'mapas.js');
+
 	}
 
 	//--------------------------------------------------------------------
@@ -36,13 +33,23 @@ class mapas extends Front_Controller
 	 */
 	public function index()
 	{
-
-		$records = $this->mapas_model->find_all();
-
-		Template::set('records', $records);
 		Template::render();
 	}
 
+	/**
+	 * Displays a list of form data.
+	 *
+	 * @return void
+	 */
+	public function editar()
+	{
+		//PODES AGREGAR JS en la carpeta assets de este modulo
+		//Assets::add_module_js('mapas', 'mapas.js'); 
+		//O ASI de cualquier lado
+		//Assets::add_js("//maps.googleapis.com/maps/api/js?key=AIzaSyBnU9uPcmEmXTau_3noivK_G8Z17MjhpAo&sensor=false&libraries=places&r");
+		
+		Template::render();
+	}
 	//--------------------------------------------------------------------
 
 

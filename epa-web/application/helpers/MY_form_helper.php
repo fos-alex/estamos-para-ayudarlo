@@ -511,3 +511,19 @@ if ( ! function_exists('form_multiselect'))
 
 //--------------------------------------------------------------------
 
+if ( ! function_exists('form_options_array'))
+{
+	/**
+	 * form_options_array
+	 *
+	 * @access	public
+	 */
+	function form_options_array( $attrKey, $attrValue, $values = array(), $default = array() )
+	{
+		$options_vals = $default;
+		foreach ($values as $key => $value) {
+				$options_vals[ $value->$attrKey ] = $value->$attrValue;
+		}		
+		return $options_vals;
+	}
+}

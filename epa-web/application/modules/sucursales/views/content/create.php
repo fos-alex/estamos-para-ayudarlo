@@ -24,13 +24,11 @@ $id = isset($sucursales['id']) ? $sucursales['id'] : '';
 	<?php echo form_open($this->uri->uri_string(), 'class="form-horizontal"'); ?>
 		<fieldset>
 
-			<div class="control-group <?php echo form_error('id_supermercado') ? 'error' : ''; ?>">
-				<?php echo form_label('Supermercado'. lang('bf_form_label_required'), 'sucursales_id_supermercado', array('class' => 'control-label') ); ?>
-				<div class='controls'>
-					<input id='sucursales_id_supermercado' type='text' name='sucursales_id_supermercado'  value="<?php echo set_value('sucursales_id_supermercado', isset($sucursales['id_supermercado']) ? $sucursales['id_supermercado'] : ''); ?>" />
-					<span class='help-inline'><?php echo form_error('id_supermercado'); ?></span>
-				</div>
-			</div>
+
+			<?php // Change the values in this array to populate your dropdown as require
+				$options = $supermercados;
+				echo form_dropdown('sucursales_id_supermercado', $options, set_value('sucursales_id_supermercado', isset($sucursales['id_supermercado']) ? $sucursales['id_supermercado'] : ''), 'Supermercado'. lang('bf_form_label_required'));
+			?>
 
 			<div class="control-group <?php echo form_error('nombre') ? 'error' : ''; ?>">
 				<?php echo form_label('Nombre'. lang('bf_form_label_required'), 'sucursales_nombre', array('class' => 'control-label') ); ?>
@@ -40,7 +38,14 @@ $id = isset($sucursales['id']) ? $sucursales['id'] : '';
 				</div>
 			</div>
 
-			<div class="control-group <?php echo form_error('direccion') ? 'error' : ''; ?>">
+			<div class="control-group">
+				<div class='controls'>
+					<input type="text" id="pac-input" style="width:100%" placeholder="Ingrese Dirección">
+        			<div id="map-canvas" style="width:490px;height:200px;"></div>
+        		</div>
+        	</div>
+
+			<div class="control-group <?php echo form_error('direccion') ? 'error' : ''; ?>" style="display:none;">
 				<?php echo form_label('Direccion'. lang('bf_form_label_required'), 'sucursales_direccion', array('class' => 'control-label') ); ?>
 				<div class='controls'>
 					<input id='sucursales_direccion' type='text' name='sucursales_direccion' maxlength="500" value="<?php echo set_value('sucursales_direccion', isset($sucursales['direccion']) ? $sucursales['direccion'] : ''); ?>" />
@@ -48,7 +53,7 @@ $id = isset($sucursales['id']) ? $sucursales['id'] : '';
 				</div>
 			</div>
 
-			<div class="control-group <?php echo form_error('coordenadas') ? 'error' : ''; ?>">
+			<div class="control-group <?php echo form_error('coordenadas') ? 'error' : ''; ?>" style="display:none;">
 				<?php echo form_label('Coordenadas'. lang('bf_form_label_required'), 'sucursales_coordenadas', array('class' => 'control-label') ); ?>
 				<div class='controls'>
 					<input id='sucursales_coordenadas' type='text' name='sucursales_coordenadas' maxlength="100" value="<?php echo set_value('sucursales_coordenadas', isset($sucursales['coordenadas']) ? $sucursales['coordenadas'] : ''); ?>" />

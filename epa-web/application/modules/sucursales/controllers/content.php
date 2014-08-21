@@ -24,7 +24,6 @@ class content extends Admin_Controller
 		
 		Template::set_block('sub_nav', 'content/_sub_nav');
 
-		Assets::add_module_js('sucursales', 'sucursales.js');
 	}
 
 	//--------------------------------------------------------------------
@@ -62,7 +61,9 @@ class content extends Admin_Controller
 			}
 		}
 
-		$records = $this->sucursales_model->find_all();
+		$records = $this->sucursales_model
+					->join("usuario_supermercado","sucursales.id_supermercado = usuario_supermercado.id_supermercado")
+					->where("usuario_supermercado.id_usuario",$this->current_user->id)->find_all();
 
 		Template::set('records', $records);
 		Template::set('toolbar_title', 'Manage sucursales');
@@ -96,8 +97,15 @@ class content extends Admin_Controller
 				Template::set_message(lang('sucursales_create_failure') . $this->sucursales_model->error, 'error');
 			}
 		}
+		Assets::add_js("//maps.googleapis.com/maps/api/js?key=AIzaSyBnU9uPcmEmXTau_3noivK_G8Z17MjhpAo&sensor=false&libraries=places&r");
 		Assets::add_module_js('sucursales', 'sucursales.js');
 
+		$this->load->model('supermercados/supermercados_model', null, true);
+		$supermercados = $this->supermercados_model
+					->join("usuario_supermercado","supermercados.id = usuario_supermercado.id_supermercado")
+					->where("usuario_supermercado.id_usuario",$this->current_user->id)->find_all();
+		$supermercados_select = form_options_array("id","nombre",$supermercados);
+		Template::set('supermercados', $supermercados_select);
 		Template::set('toolbar_title', lang('sucursales_create') . ' sucursales');
 		Template::render();
 	}
@@ -154,6 +162,14 @@ class content extends Admin_Controller
 				Template::set_message(lang('sucursales_delete_failure') . $this->sucursales_model->error, 'error');
 			}
 		}
+		Assets::add_js("//maps.googleapis.com/maps/api/js?key=AIzaSyBnU9uPcmEmXTau_3noivK_G8Z17MjhpAo&sensor=false&libraries=places&r");
+		Assets::add_module_js('sucursales', 'sucursales.js');
+		$this->load->model('supermercados/supermercados_model', null, true);
+		$supermercados = $this->supermercados_model
+					->join("usuario_supermercado","supermercados.id = usuario_supermercado.id_supermercado")
+					->where("usuario_supermercado.id_usuario",$this->current_user->id)->find_all();
+		$supermercados_select = form_options_array("id","nombre",$supermercados);
+		Template::set('supermercados', $supermercados_select);
 		Template::set('sucursales', $this->sucursales_model->find($id));
 		Template::set('toolbar_title', lang('sucursales_edit') .' sucursales');
 		Template::render();
@@ -183,6 +199,7 @@ class content extends Admin_Controller
 		// make sure we only pass in the fields we want
 		
 		$data = array();
+
 		$data['id_supermercado']        = $this->input->post('sucursales_id_supermercado');
 		$data['nombre']        = $this->input->post('sucursales_nombre');
 		$data['direccion']        = $this->input->post('sucursales_direccion');

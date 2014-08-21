@@ -120,6 +120,9 @@ class content extends Admin_Controller
 	 */
 	public function edit()
 	{
+		$this->load->model('supermercados/usuario_supermercado_model');
+		$this->load->model('users/user_model');
+
 		$id = $this->uri->segment(5);
 
 		if (empty($id))
@@ -162,7 +165,14 @@ class content extends Admin_Controller
 				Template::set_message(lang('supermercados_delete_failure') . $this->supermercados_model->error, 'error');
 			}
 		}
+
+		$usuarios = $this->user_model->select("id,username")->find_all_by("role_name","super");
+		$usuarios_select = form_options_array("id","username",$usuarios,array( 0=>"" ));
+		$id_usuario = $this->usuario_supermercado_model->select("id_usuario")->find_by("id_supermercado",$id);
+		$id_usuario_select = ( is_object($id_usuario) )?$id_usuario->id_usuario:0;
 		Template::set('supermercados', $this->supermercados_model->find($id));
+		Template::set('id_usuario', $id_usuario_select);
+		Template::set('usuarios', $usuarios_select);
 		Template::set('toolbar_title', lang('supermercados_edit') .' supermercados');
 		Template::render();
 	}
@@ -192,7 +202,7 @@ class content extends Admin_Controller
 		
 		$data = array();
 		$data['nombre']        = $this->input->post('supermercados_nombre');
-		$data['id_usuario']        = $this->input->post('supermercados_id_usuario');
+		//$data['id_usuario']        = $this->input->post('supermercados_id_usuario');
 
 		if ($type == 'insert')
 		{
@@ -210,6 +220,8 @@ class content extends Admin_Controller
 		elseif ($type == 'update')
 		{
 			$return = $this->supermercados_model->update($id, $data);
+			$this->usuario_supermercado_model->delete_where(array("id_supermercado"=>$id));
+			$this->usuario_supermercado_model->insert(array("id_supermercado"=>$id,"id_usuario"=>$this->input->post('supermercados_id_usuario')));
 		}
 
 		return $return;

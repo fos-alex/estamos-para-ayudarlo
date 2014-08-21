@@ -32,11 +32,10 @@ $id = isset($supermercados['id']) ? $supermercados['id'] : '';
 				</div>
 			</div>
 
-			<?php // Change the values in this array to populate your dropdown as required
-				$options = array(
-				);
+			<?php // Change the values in this array to populate your dropdown as require
+				$options = $usuarios;
 
-				echo form_dropdown('supermercados_id_usuario', $options, set_value('supermercados_id_usuario', isset($supermercados['id_usuario']) ? $supermercados['id_usuario'] : ''), 'Usuario'. lang('bf_form_label_required'));
+				echo form_dropdown('supermercados_id_usuario', $options, set_value('supermercados_id_usuario', isset($id_usuario) ? $id_usuario : ''), 'Usuario'. lang('bf_form_label_required'));
 			?>
 
 			<div class="form-actions">

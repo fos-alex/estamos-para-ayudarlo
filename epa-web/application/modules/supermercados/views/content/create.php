@@ -32,12 +32,6 @@ $id = isset($supermercados['id']) ? $supermercados['id'] : '';
 				</div>
 			</div>
 
-			<?php // Change the values in this array to populate your dropdown as required
-				$options = $usuarios;
-
-				echo form_dropdown('supermercados_id_usuario', $options, set_value('supermercados_id_usuario', isset($supermercados['id_usuario']) ? $supermercados['id_usuario'] : ''), 'Usuario'. lang('bf_form_label_required'));
-			?>
-
 			<div class="form-actions">
 				<input type="submit" name="save" class="btn btn-primary" value="<?php echo lang('supermercados_action_create'); ?>"  />
 				<?php echo lang('bf_or'); ?>
