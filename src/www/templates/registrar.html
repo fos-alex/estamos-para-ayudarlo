@@ -1,11 +1,15 @@
 <ion-view title="EPA">
+    <!-- HEADER -->
+    <ion-header-bar class="bar-positive centrado" animation="slide-left-right-ios7">
+        <a class="tab-item backHeader" href="#/app/login">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado">Crear Usuario</h1>        
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+    
     <ion-content class="loginBackground">
 
-        <div class="row">
-            <div class="col loginTitulos">
-                Nuevo Usuario
-            </div>
-        </div>
         <div class="list list-inset">
             <label class="item item-input">
                 <span class="input-label">Email </span>
@@ -44,14 +48,12 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col"></div>
-            <div class="col">
+        <div class="row centrado">
+            <div class="col centrado">
                 <button class="button button-positive loginButton button-small" data-ng-click="registrar()">
                     Registrarse
                 </button>
 
             </div>
-            <div class="col"></div>
         </div>
     </ion-content>
