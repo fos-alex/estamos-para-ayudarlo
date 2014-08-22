@@ -87,8 +87,8 @@ class Lista extends Api_Controller
 				unset($lista['productos']);
 			}
 			if($this->lista_model->update($id,$lista)){
-                Modules::run('productos/cantidad_de_productos_validas',$id,$productos);
-				Modules::run('productos/para_lista',$id,$productos);
+                Modules::run('productos/cantidad_de_productos_validas',$productos);
+				Modules::run('productos/para_lista',$productos);
 				return array("id"=>$id);
 			}else{
 				$this->error(406,"Error modificando la lista $id");	

@@ -50,9 +50,9 @@ class productos extends Api_Controller
 	}
 
 	private function existe_producto_en_lista($productos_actuales,$id_lista,$id_producto){
-		
+
 		foreach ($productos_actuales as $key => $producto) {
-			if( $producto->id_lista == $id_lista && $producto->id == $id_producto) 
+			if( $producto->id_lista == $id_lista && $producto->id == $id_producto)
 				return $key;
 		}
 
@@ -60,14 +60,14 @@ class productos extends Api_Controller
 
 	}
 
-    public function cantidad_de_productos_validas($id_lista,$productos){
+    public function cantidad_de_productos_validas($productos){
 
         foreach ($productos as $key => $unProducto) {
             $cantidad = $unProducto['cantidad'];
             if ( $cantidad < 1 || !is_numeric($cantidad))
-                $this->error(408,"Error modificando la lista $id_lista, las cantidades deben ser numericas");
+                $this->error(408,"Error modificando la lista, las cantidades deben ser numericas");
         }
     }
 
-	
+
 }
