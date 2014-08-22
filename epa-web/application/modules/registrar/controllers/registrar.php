@@ -19,7 +19,6 @@ class Registrar extends Api_Controller
         $data ['active'] = 1;
 
         if (array_key_exists('localidad', $data)) {
-            //todo ver dondo guardar la localidad xq la necesitamos para los mapas
             //$data ['algun campo'] = $this->JSON_IN ['localidad'];
             unset($data['localidad']);
         }
@@ -33,15 +32,10 @@ class Registrar extends Api_Controller
 
         if ($this->form_validation->run() !== FALSE) {
 
-            // Activate the user automatically
-            $data['active'] = 1;
-
             if ($user_id = $this->user_model->insert($data)) {
-                //mando mail al usuario
-                $type = $this->sendMail($data);
+                $data_mail = $this->sendMail($data);
                 header('HTTP/1.1 200 Usuario creado correctamente');
-                $this->JSON_OUT->data = (array("id" => $user_id,"mail_enviado?" => $type));
-                //Mando el type para saber si se envio o no el mail segun Bonfire
+                $this->JSON_OUT->data = (array("id" => $user_id, "data_mail" => $data_mail));
                 $this->success();
             } else {
                 $this->error(1000, 'us_registration_fail');
@@ -56,18 +50,16 @@ class Registrar extends Api_Controller
 
     private function sendMail($data)
     {
-        // Prepare user messaging vars
         $message = lang('us_email_thank_you');
         $type = 'success';
         $site_title = $this->settings_lib->item('site.title');
         $error = false;
 
-        //Activate the user and send confirmation email
         $subject = str_replace('[SITE_TITLE]', $this->settings_lib->item('site.title'), lang('us_account_reg_complete'));
         $email_mess = $this->load->view('_emails/activated', array('title' => $site_title, 'link' => site_url()), true);
         $message .= lang('us_account_active_login');
 
-        // Now send the email
+        $this->load->library('email');
         $this->load->library('emailer/emailer');
         $this->load->model('emailer/emailer_model');
         $mail = array(
@@ -84,7 +76,7 @@ class Registrar extends Api_Controller
         if ($error) {
             $type = 'error';
         }
-        return $type;
+        return (array("mail_enviado?" => $type,"mail" => $mail , "message_e" => $message ));
     }
 
 }
