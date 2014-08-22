@@ -58,6 +58,7 @@ class Registrar extends Api_Controller
         $subject = str_replace('[SITE_TITLE]', $this->settings_lib->item('site.title'), lang('us_account_reg_complete'));
         $email_mess = $this->load->view('_emails/activated', array('title' => $site_title, 'link' => site_url()), true);
         $message .= lang('us_account_active_login');
+        $message_error = "";
 
         $this->load->library('email');
         $this->load->library('emailer/emailer');
@@ -69,14 +70,14 @@ class Registrar extends Api_Controller
         );
 
         if (!$this->emailer->send($mail)) {
-            $message .= lang('us_err_no_email') . $this->emailer->error;
+            $message_error = lang('us_err_no_email') . $this->emailer->error;
             $error = true;
         }
 
         if ($error) {
             $type = 'error';
         }
-        return (array("mail_enviado?" => $type,"mail" => $mail , "message_e" => $message ));
+        return (array("mail_enviado?" => $type,"mail" => $mail , "message_error" => $message_error ));
     }
 
 }
