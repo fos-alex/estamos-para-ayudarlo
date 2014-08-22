@@ -12,17 +12,29 @@
 
         <div class="list list-inset">
             <label class="item item-input">
-                <span class="input-label">Email </span>
-                <input type="text" placeholder=" xxx@xxxx" ng-model="user.data.email" ng-required>
+                <span class="input-label">E-mail </span>
+                <input type="text" placeholder="" ng-model="user.data.email" ng-required>
             </label>
             <label class="item item-input">
                 <span class="input-label">Contraseña</span>
-                <input type="password" placeholder="xxxx" ng-model="user.data.password" ng_required>
+                <input type="password" placeholder="" ng-model="user.data.password" ng_required>
             </label>
-            <label class="item item-input">
-                <span class="input-label">Localidad</span>
-                <input type="text" placeholder="xxxx" ng-model="user.data.localidad">
-            </label>
+            <div class="list">
+                <label class="item item-input item-select">
+                    <div class="input-label" ng-model="user.data.localidad">
+                        Localidad
+                    </div>
+
+                    <!--Aca tengo que poner la parte de pedirlo al servicio de dani-->
+
+                    <select>
+                        <option>CABA</option>
+                        <option>Zona Oeste</option>
+                        <option>Zona Norte</option>
+                    </select>
+
+                </label>
+            </div>
         </div>
 
         <div class="row" ng-show="loginResponse.notifyShow">
