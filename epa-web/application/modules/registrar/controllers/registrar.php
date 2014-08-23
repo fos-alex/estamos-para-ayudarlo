@@ -35,7 +35,7 @@ class Registrar extends Api_Controller
             if ($user_id = $this->user_model->insert($data)) {
                 $data_mail = $this->sendMail($data);
                 header('HTTP/1.1 200 Usuario creado correctamente');
-                $this->JSON_OUT->data = (array("id" => $user_id, "data_mail" => $data_mail));
+                $this->JSON_OUT->data = (array("id" => $user_id));
                 $this->success();
             } else {
                 $this->error(1000, 'us_registration_fail');
