@@ -1,0 +1,51 @@
+<ion-view title="Compartir Lista">
+    <!-- HEADER -->
+    <ion-header-bar class="bar-positive centrado" animation="slide-left-right-ios7">
+        <a class="tab-item backHeader" href="#/app/listas">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado">Compartir Lista</h1>        
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+    <!-- BODY -->
+    <ion-content>
+        <div class="row">
+            <div class="col centrado">
+                <label class="item item-input loginInput">
+                    <input type="email" placeholder="E-Mail" name="emailcompartir" ng-model="emailcompartir" ng-required>
+                </label>
+            </div>            
+        </div>
+
+        <div class="row" ng-show="compartirResponse.notifyShow">
+            <div class="col">
+                <div class="notify" ng-class="compartirResponse.type">
+                    <i class="icon ion-close-circled"></i>
+                    <span id="notifyTextCompartir" class="notifyText">
+                        {{compartirResponse.message}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+    <div class="row centrado">
+        <div class="col centrado">
+            <button class="button button-positive loginButton button-small" data-ng-click="compartir()">
+                Compartir
+            </button>
+        </div>
+    </div>
+        
+    </ion-content>
+    <!-- FOOTER-->
+    <ion-footer-bar class="bar-dark">     
+        <a class="tab-item" href="#/app/menu">
+                <i class="ion-home footerIconos"></i>
+        </a>
+    </ion-footer-bar>
+    <!-- <div class="tabs tabs-icon-only">
+        <a class="tab-item">
+            <i class="icon ion-checkmark-round" ng-click="acceptList();"></i>
+        </a>
+    </div>-->
+</ion-view>

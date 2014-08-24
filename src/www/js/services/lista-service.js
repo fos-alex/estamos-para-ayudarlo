@@ -1,8 +1,8 @@
 angular.module('EPA.services')
 
 .factory('Lista',
-    ['CONFIG', 'Resource',
-        function listaFactory (CONFIG, Resource)
+    ['$http', 'CONFIG', 'Resource',
+        function listaFactory ($http, CONFIG, Resource)
         {
             var key = 'lista';
 
@@ -23,6 +23,12 @@ angular.module('EPA.services')
                 },
                 delete: function (lista, options) {
                     return Resource.delete(lista, key, options);
+                },
+                compartir: function (lista, mail) {
+                    //debugger;
+                    return $http.post(CONFIG.WS_URL + '/app/compartir/' + lista, {
+                        mail: mail
+                    });
                 }
             };
         }]);

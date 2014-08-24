@@ -38,6 +38,16 @@ angular.module('EPA')
                 }
             }
         })
+        
+        .state('app.compartir', {
+            url: "/listas/{idLista:[0-9]{1,20}}/compartir",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Listas/compartirLista.html",
+                    controller: 'CompartirCtrl'
+                }
+            }
+        })
 
         .state('app.lista', {
             url: "/listas/{idLista:[0-9]{1,20}}",
