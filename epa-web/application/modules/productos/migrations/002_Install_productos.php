@@ -20,23 +20,18 @@ class Migration_Install_productos extends Migration
 			'constraint' => 11,
 			'auto_increment' => TRUE,
 		),
-		'id_supermercado' => array(
+		'Categoria' => array(
 			'type' => 'INT',
 			'null' => FALSE,
 		),
 		'nombre' => array(
 			'type' => 'VARCHAR',
-			'constraint' => 255,
+			'constraint' => 45,
 			'null' => FALSE,
 		),
 		'descripcion' => array(
 			'type' => 'VARCHAR',
 			'constraint' => 255,
-			'null' => FALSE,
-		),
-		'precio' => array(
-			'type' => 'FLOAT',
-			'constraint' => '10,2',
 			'null' => FALSE,
 		),
 	);

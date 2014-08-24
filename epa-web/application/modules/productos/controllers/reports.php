@@ -183,10 +183,9 @@ class reports extends Admin_Controller
 		// make sure we only pass in the fields we want
 		
 		$data = array();
-		$data['id_supermercado']        = $this->input->post('productos_id_supermercado');
+		$data['Categoria']        = $this->input->post('productos_Categoria');
 		$data['nombre']        = $this->input->post('productos_nombre');
 		$data['descripcion']        = $this->input->post('productos_descripcion');
-		$data['precio']        = $this->input->post('productos_precio');
 
 		if ($type == 'insert')
 		{

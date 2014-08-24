@@ -10,10 +10,9 @@
 		<thead>
 			<tr>
 				
-		<th>Supermercado</th>
+		<th>id_categoria</th>
 		<th>Nombre</th>
 		<th>Descripcion</th>
-		<th>Precio</th>
 			</tr>
 		</thead>
 		<tbody>

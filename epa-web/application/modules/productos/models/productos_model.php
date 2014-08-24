@@ -47,25 +47,10 @@ class Productos_model extends BF_Model {
 	 */
 	protected $validation_rules 		= array(
 		array(
-			"field"		=> "productos_id_supermercado",
-			"label"		=> "Supermercado",
-			"rules"		=> "required"
-		),
-		array(
 			"field"		=> "productos_nombre",
 			"label"		=> "Nombre",
-			"rules"		=> "required|max_length[255]"
-		),
-		array(
-			"field"		=> "productos_descripcion",
-			"label"		=> "Descripcion",
-			"rules"		=> "max_length[255]"
-		),
-		array(
-			"field"		=> "productos_precio",
-			"label"		=> "Precio",
-			"rules"		=> "required|max_length[11]"
-		),
+			"rules"		=> "required|max_length[100]"
+		)
 	);
 	protected $insert_validation_rules 	= array();
 	protected $skip_validation 			= FALSE;

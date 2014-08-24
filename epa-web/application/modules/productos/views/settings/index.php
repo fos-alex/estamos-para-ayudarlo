@@ -1,6 +1,6 @@
 <?php
 
-$num_columns	= 5;
+$num_columns	= 4;
 $can_delete	= $this->auth->has_permission('Productos.Settings.Delete');
 $can_edit		= $this->auth->has_permission('Productos.Settings.Edit');
 $has_records	= isset($records) && is_array($records) && count($records);
@@ -16,10 +16,9 @@ $has_records	= isset($records) && is_array($records) && count($records);
 					<th class="column-check"><input class="check-all" type="checkbox" /></th>
 					<?php endif;?>
 					
-					<th>Supermercado</th>
+					<th>id_categoria</th>
 					<th>Nombre</th>
 					<th>Descripcion</th>
-					<th>Precio</th>
 				</tr>
 			</thead>
 			<?php if ($has_records) : ?>
@@ -45,13 +44,12 @@ $has_records	= isset($records) && is_array($records) && count($records);
 					<?php endif;?>
 					
 				<?php if ($can_edit) : ?>
-					<td><?php echo anchor(SITE_AREA . '/settings/productos/edit/' . $record->id, '<span class="icon-pencil"></span>' .  $record->id_supermercado); ?></td>
+					<td><?php echo anchor(SITE_AREA . '/settings/productos/edit/' . $record->id, '<span class="icon-pencil"></span>' .  $record->Categoria); ?></td>
 				<?php else : ?>
-					<td><?php e($record->id_supermercado); ?></td>
+					<td><?php e($record->Categoria); ?></td>
 				<?php endif; ?>
 					<td><?php e($record->nombre) ?></td>
 					<td><?php e($record->descripcion) ?></td>
-					<td><?php e($record->precio) ?></td>
 				</tr>
 				<?php
 					endforeach;
