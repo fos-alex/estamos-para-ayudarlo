@@ -62,7 +62,7 @@ class content extends Admin_Controller
 			}
 		}
 
-		$records = $this->productos_model->find_all();
+		$records = $this->productos_model->select('productos.*,categorias.nombre as Categoria')->join('categorias','id_categoria = categorias.id','left')->find_all();
 
 		Template::set('records', $records);
 		Template::set('toolbar_title', 'Manage productos');
@@ -98,6 +98,10 @@ class content extends Admin_Controller
 		}
 		Assets::add_module_js('productos', 'productos.js');
 
+		$this->load->model('categorias/categorias_model', null, true);
+		$categorias = $this->categorias_model->find_all();
+		$categorias_select = form_options_array("id","nombre",$categorias);
+		Template::set('categorias', $categorias_select);
 		Template::set('toolbar_title', lang('productos_create') . ' productos');
 		Template::render();
 	}
@@ -154,6 +158,10 @@ class content extends Admin_Controller
 				Template::set_message(lang('productos_delete_failure') . $this->productos_model->error, 'error');
 			}
 		}
+		$this->load->model('categorias/categorias_model', null, true);
+		$categorias = $this->categorias_model->find_all();
+		$categorias_select = form_options_array("id","nombre",$categorias);
+		Template::set('categorias', $categorias_select);
 		Template::set('productos', $this->productos_model->find($id));
 		Template::set('toolbar_title', lang('productos_edit') .' productos');
 		Template::render();
@@ -183,10 +191,9 @@ class content extends Admin_Controller
 		// make sure we only pass in the fields we want
 		
 		$data = array();
-		$data['id_supermercado']        = $this->input->post('productos_id_supermercado');
+		$data['id_categoria']        = $this->input->post('productos_Categoria');
 		$data['nombre']        = $this->input->post('productos_nombre');
 		$data['descripcion']        = $this->input->post('productos_descripcion');
-		$data['precio']        = $this->input->post('productos_precio');
 
 		if ($type == 'insert')
 		{

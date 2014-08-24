@@ -24,18 +24,16 @@ $id = isset($productos['id']) ? $productos['id'] : '';
 	<?php echo form_open($this->uri->uri_string(), 'class="form-horizontal"'); ?>
 		<fieldset>
 
-			<div class="control-group <?php echo form_error('id_supermercado') ? 'error' : ''; ?>">
-				<?php echo form_label('Supermercado'. lang('bf_form_label_required'), 'productos_id_supermercado', array('class' => 'control-label') ); ?>
-				<div class='controls'>
-					<input id='productos_id_supermercado' type='text' name='productos_id_supermercado'  value="<?php echo set_value('productos_id_supermercado', isset($productos['id_supermercado']) ? $productos['id_supermercado'] : ''); ?>" />
-					<span class='help-inline'><?php echo form_error('id_supermercado'); ?></span>
-				</div>
-			</div>
+			<?php // Change the values in this array to populate your dropdown as required
+				$options = $categorias;
+
+				echo form_dropdown('productos_Categoria', $options, set_value('productos_Categoria', isset($productos['id_categoria']) ? $productos['id_categoria'] : ''), 'id_categoria'. lang('bf_form_label_required'));
+			?>
 
 			<div class="control-group <?php echo form_error('nombre') ? 'error' : ''; ?>">
 				<?php echo form_label('Nombre'. lang('bf_form_label_required'), 'productos_nombre', array('class' => 'control-label') ); ?>
 				<div class='controls'>
-					<input id='productos_nombre' type='text' name='productos_nombre' maxlength="255" value="<?php echo set_value('productos_nombre', isset($productos['nombre']) ? $productos['nombre'] : ''); ?>" />
+					<input id='productos_nombre' type='text' name='productos_nombre' maxlength="45" value="<?php echo set_value('productos_nombre', isset($productos['nombre']) ? $productos['nombre'] : ''); ?>" />
 					<span class='help-inline'><?php echo form_error('nombre'); ?></span>
 				</div>
 			</div>
@@ -43,16 +41,8 @@ $id = isset($productos['id']) ? $productos['id'] : '';
 			<div class="control-group <?php echo form_error('descripcion') ? 'error' : ''; ?>">
 				<?php echo form_label('Descripcion', 'productos_descripcion', array('class' => 'control-label') ); ?>
 				<div class='controls'>
-					<?php echo form_textarea( array( 'name' => 'productos_descripcion', 'id' => 'productos_descripcion', 'rows' => '5', 'cols' => '80', 'value' => set_value('productos_descripcion', isset($productos['descripcion']) ? $productos['descripcion'] : '') ) ); ?>
+					<input id='productos_descripcion' type='text' name='productos_descripcion' maxlength="255" value="<?php echo set_value('productos_descripcion', isset($productos['descripcion']) ? $productos['descripcion'] : ''); ?>" />
 					<span class='help-inline'><?php echo form_error('descripcion'); ?></span>
-				</div>
-			</div>
-
-			<div class="control-group <?php echo form_error('precio') ? 'error' : ''; ?>">
-				<?php echo form_label('Precio'. lang('bf_form_label_required'), 'productos_precio', array('class' => 'control-label') ); ?>
-				<div class='controls'>
-					<input id='productos_precio' type='text' name='productos_precio' maxlength="11" value="<?php echo set_value('productos_precio', isset($productos['precio']) ? $productos['precio'] : ''); ?>" />
-					<span class='help-inline'><?php echo form_error('precio'); ?></span>
 				</div>
 			</div>
 
