@@ -22,6 +22,6 @@ angular.module('EPA.controllers')
                 $state.go('app.listas');
             });
         };
-
+        
     }
 ]);

@@ -19,22 +19,6 @@
                 <span class="input-label">Contraseña</span>
                 <input type="password" placeholder="" ng-model="user.data.password" ng_required>
             </label>
-            <div class="list">
-                <label class="item item-input item-select">
-                    <div class="input-label" ng-model="user.data.localidad">
-                        Localidad
-                    </div>
-
-                    <!--Aca tengo que poner la parte de pedirlo al servicio de dani-->
-
-                    <select>
-                        <option>CABA</option>
-                        <option>Zona Oeste</option>
-                        <option>Zona Norte</option>
-                    </select>
-
-                </label>
-            </div>
         </div>
 
         <div class="row" ng-show="loginResponse.notifyShow">
