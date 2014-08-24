@@ -8,14 +8,15 @@ angular.module('EPA.controllers')
         };
 
         //$scope.emailcompartir = null;
-        $scope.compartir = function() {
-            debugger;
-            Lista.compartir($stateParams.idLista, $scope.emailcompartir).then(function(response){
-
-                    $scope.compartirResponse = response;
-                    $scope.compartirResponse.notifyShow = true;
-                    if (response.code ==0) {
+        $scope.compartir = function() {            
+            Lista.compartir($stateParams.idLista, this.emailcompartir).then(function(response){
+                    $scope.compartirResponse.message = response.data.mensaje;
+                    $scope.compartirResponse.notifyShow = true; 
+                    if (response.data.codigo ==0) {
                         $state.go ("app.listas");
+                        $scope.compartirResponse.type = 'success';
+                    }else {
+                        $scope.compartirResponse.type = 'error';
                     }
 
                 }
