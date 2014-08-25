@@ -21,6 +21,8 @@
 	THE SOFTWARE.
 */
 
+$lang['us_back_to']				= 'Volver ';
+
 $lang['us_account_deleted']			= 'Desafortunadamente su cuenta ha sido eliminada. Si aún no ha sido purgada<strong>tal vez</strong> pueda ser restaurada. Contacte al administrador en %s.';
 
 $lang['us_bad_email_pass']			= 'Correo electrónico o contraseña incorrectos.';
@@ -89,7 +91,7 @@ $lang['us_edit_note']				= 'Ingrese sus detalles acontinuación y luego haga cli
 $lang['us_reset_password']			= 'Restablecer su contraseña';
 $lang['us_reset_note']				= 'Ingrese su correo electrónico y le enviaremos una contraseña temporal.';
 
-$lang['us_login']					= 'Mi nombre es...';
+$lang['us_login']					= 'Datos de Acceso';
 $lang['us_remember_note']			= 'Recordarme por 2 semanas';
 $lang['us_no_account']				= '¿No tienes una cuenta?';
 $lang['us_sign_up']					= 'Registrate hoy';

@@ -62,8 +62,7 @@ class content extends Admin_Controller
 		}
 
 		$records = $this->sucursales_model
-					->join("usuario_supermercado","sucursales.id_supermercado = usuario_supermercado.id_supermercado")
-					->where("usuario_supermercado.id_usuario",$this->current_user->id)->find_all();
+					->where("id_supermercado",$this->current_user->supermercado->id)->find_all();
 
 		Template::set('records', $records);
 		Template::set('toolbar_title', 'Manage sucursales');
@@ -100,12 +99,8 @@ class content extends Admin_Controller
 		Assets::add_js("//maps.googleapis.com/maps/api/js?key=AIzaSyBnU9uPcmEmXTau_3noivK_G8Z17MjhpAo&sensor=false&libraries=places&r");
 		Assets::add_module_js('sucursales', 'sucursales.js');
 
-		$this->load->model('supermercados/supermercados_model', null, true);
-		$supermercados = $this->supermercados_model
-					->join("usuario_supermercado","supermercados.id = usuario_supermercado.id_supermercado")
-					->where("usuario_supermercado.id_usuario",$this->current_user->id)->find_all();
-		$supermercados_select = form_options_array("id","nombre",$supermercados);
-		Template::set('supermercados', $supermercados_select);
+		$sucursales = (object) array("id_supermercado"=>$this->current_user->supermercado->id);
+		Template::set('sucursales',$sucursales);
 		Template::set('toolbar_title', lang('sucursales_create') . ' sucursales');
 		Template::render();
 	}
@@ -164,12 +159,7 @@ class content extends Admin_Controller
 		}
 		Assets::add_js("//maps.googleapis.com/maps/api/js?key=AIzaSyBnU9uPcmEmXTau_3noivK_G8Z17MjhpAo&sensor=false&libraries=places&r");
 		Assets::add_module_js('sucursales', 'sucursales.js');
-		$this->load->model('supermercados/supermercados_model', null, true);
-		$supermercados = $this->supermercados_model
-					->join("usuario_supermercado","supermercados.id = usuario_supermercado.id_supermercado")
-					->where("usuario_supermercado.id_usuario",$this->current_user->id)->find_all();
-		$supermercados_select = form_options_array("id","nombre",$supermercados);
-		Template::set('supermercados', $supermercados_select);
+
 		Template::set('sucursales', $this->sucursales_model->find($id));
 		Template::set('toolbar_title', lang('sucursales_edit') .' sucursales');
 		Template::render();

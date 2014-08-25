@@ -24,7 +24,7 @@ $id = isset($promociones['id']) ? $promociones['id'] : '';
 	<?php echo form_open($this->uri->uri_string(), 'class="form-horizontal"'); ?>
 		<fieldset>
 
-			<div class="control-group <?php echo form_error('id_supermercado') ? 'error' : ''; ?>">
+			<div class="control-group <?php echo form_error('id_supermercado') ? 'error' : ''; ?>" style="display:none;">
 				<?php echo form_label('Id_Supermercado', 'promociones_id_supermercado', array('class' => 'control-label') ); ?>
 				<div class='controls'>
 					<input id='promociones_id_supermercado' type='text' name='promociones_id_supermercado'  value="<?php echo set_value('promociones_id_supermercado', isset($promociones['id_supermercado']) ? $promociones['id_supermercado'] : ''); ?>" />

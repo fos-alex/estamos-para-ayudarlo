@@ -64,7 +64,7 @@ class content extends Admin_Controller
 			}
 		}
 
-		$records = $this->promociones_model->find_all();
+		$records = $this->promociones_model->where("id_supermercado",$this->current_user->supermercado->id)->find_all();
 
 		Template::set('records', $records);
 		Template::set('toolbar_title', 'Manage Promociones');
@@ -99,7 +99,8 @@ class content extends Admin_Controller
 			}
 		}
 		Assets::add_module_js('promociones', 'promociones.js');
-
+		$promociones = (object) array("id_supermercado"=>$this->current_user->supermercado->id);
+		Template::set('promociones',$promociones);
 		Template::set('toolbar_title', lang('promociones_create') . ' Promociones');
 		Template::render();
 	}

@@ -20,7 +20,7 @@ $id = isset($productosdetalle['id']) ? $productosdetalle['id'] : '';
 
 ?>
 <div class="admin-box">
-	<h3>productosDetalle</h3>
+	<h3>Productos</h3>
 	<?php echo form_open($this->uri->uri_string(), 'class="form-horizontal"'); ?>
 		<fieldset>
 

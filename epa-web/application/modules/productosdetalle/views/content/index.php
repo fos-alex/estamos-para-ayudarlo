@@ -7,7 +7,7 @@ $has_records	= isset($records) && is_array($records) && count($records);
 
 ?>
 <div class="admin-box">
-	<h3>productosDetalle</h3>
+	<h3>Productos</h3>
 	<?php echo form_open($this->uri->uri_string()); ?>
 		<table class="table table-striped">
 			<thead>

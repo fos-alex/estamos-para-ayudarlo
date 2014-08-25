@@ -324,6 +324,14 @@ class Auth
 		{
 			$this->user->id = (int) $this->user->id;
 			$this->user->role_id = (int) $this->user->role_id;
+			/*CARGO DATOS DE SUPERMERCADO */
+			if($this->user->role_name == 'super'){
+				$this->ci->load->model('supermercados/supermercados_model', null, true);
+				$supermercados = $this->ci->supermercados_model
+						->join("usuario_supermercado","supermercados.id = usuario_supermercado.id_supermercado")
+						->find_by("usuario_supermercado.id_usuario",$this->user->id);
+				$this->user->supermercado = $supermercados;
+			}
 		}
 
 		return $this->user;
@@ -1005,7 +1013,7 @@ class Auth
 			'role_id'		=> $role_id,
 			'logged_in'		=> TRUE,
 		);
-
+		
 		$this->ci->session->set_userdata($data);
 
 		// Should we remember the user?

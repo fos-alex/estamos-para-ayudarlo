@@ -15,9 +15,8 @@ $has_records	= isset($records) && is_array($records) && count($records);
 					<?php if ($can_delete && $has_records) : ?>
 					<th class="column-check"><input class="check-all" type="checkbox" /></th>
 					<?php endif;?>
-					
-					<th>Id_Supermercado</th>
 					<th>Descripcion</th>
+					<th>Id_Supermercado</th>
 					<th>Fecha_Desde</th>
 					<th>Fecha_Hasta</th>
 				</tr>
@@ -45,11 +44,11 @@ $has_records	= isset($records) && is_array($records) && count($records);
 					<?php endif;?>
 					
 				<?php if ($can_edit) : ?>
-					<td><?php echo anchor(SITE_AREA . '/content/promociones/edit/' . $record->id, '<span class="icon-pencil"></span>' .  $record->id_supermercado); ?></td>
+					<td><?php echo anchor(SITE_AREA . '/content/promociones/edit/' . $record->id, '<span class="icon-pencil"></span>' .  $record->descripcion); ?></td>
 				<?php else : ?>
-					<td><?php e($record->id_supermercado); ?></td>
+					<td><?php e($record->descripcion); ?></td>
 				<?php endif; ?>
-					<td><?php e($record->descripcion) ?></td>
+					<td><?php e($record->id_supermercado) ?></td>
 					<td><?php e($record->fecha_desde) ?></td>
 					<td><?php e($record->fecha_hasta) ?></td>
 				</tr>

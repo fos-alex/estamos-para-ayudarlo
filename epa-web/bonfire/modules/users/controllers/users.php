@@ -73,6 +73,7 @@ class Users extends Front_Controller
 				// Try to login
 				if ($this->auth->login($this->input->post('login'), $this->input->post('password'), $remember) === TRUE)
 				{
+		
 
 					// Log the Activity
 					log_activity($this->auth->user_id(), lang('us_log_logged') . ': ' . $this->input->ip_address(), 'users');

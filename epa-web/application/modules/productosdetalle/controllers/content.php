@@ -65,7 +65,7 @@ class content extends Admin_Controller
 		$records = $this->productosdetalle_model->find_all();
 
 		Template::set('records', $records);
-		Template::set('toolbar_title', 'Manage productosDetalle');
+		Template::set('toolbar_title', 'Gestionar Productos');
 		Template::render();
 	}
 
@@ -98,7 +98,7 @@ class content extends Admin_Controller
 		}
 		Assets::add_module_js('productosdetalle', 'productosdetalle.js');
 
-		Template::set('toolbar_title', lang('productosdetalle_create') . ' productosDetalle');
+		Template::set('toolbar_title', lang('productosdetalle_create') . ' Producto');
 		Template::render();
 	}
 
@@ -155,7 +155,7 @@ class content extends Admin_Controller
 			}
 		}
 		Template::set('productosdetalle', $this->productosdetalle_model->find($id));
-		Template::set('toolbar_title', lang('productosdetalle_edit') .' productosDetalle');
+		Template::set('toolbar_title', lang('productosdetalle_edit') .' Producto');
 		Template::render();
 	}
 
@@ -213,5 +213,9 @@ class content extends Admin_Controller
 
 	//--------------------------------------------------------------------
 
+	public function carga_masiva(){
+		Template::set('toolbar_title', lang('productosdetalle_cargamasiva') .' Producto');
+		Template::render();
+	}
 
 }

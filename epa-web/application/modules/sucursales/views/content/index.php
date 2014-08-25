@@ -16,8 +16,8 @@ $has_records	= isset($records) && is_array($records) && count($records);
 					<th class="column-check"><input class="check-all" type="checkbox" /></th>
 					<?php endif;?>
 					
-					<th>Supermercado</th>
 					<th>Nombre</th>
+					<th>Supermercado</th>
 					<th>Direccion</th>
 					<th>Coordenadas</th>
 				</tr>
@@ -45,11 +45,11 @@ $has_records	= isset($records) && is_array($records) && count($records);
 					<?php endif;?>
 					
 				<?php if ($can_edit) : ?>
-					<td><?php echo anchor(SITE_AREA . '/content/sucursales/edit/' . $record->id, '<span class="icon-pencil"></span>' .  $record->id_supermercado); ?></td>
+					<td><?php echo anchor(SITE_AREA . '/content/sucursales/edit/' . $record->id, '<span class="icon-pencil"></span>' .  $record->nombre); ?></td>
 				<?php else : ?>
-					<td><?php e($record->id_supermercado); ?></td>
+					<td><?php e($record->nombre); ?></td>
 				<?php endif; ?>
-					<td><?php e($record->nombre) ?></td>
+					<td><?php e($record->id_supermercado) ?></td>
 					<td><?php e($record->direccion) ?></td>
 					<td><?php e($record->coordenadas) ?></td>
 				</tr>

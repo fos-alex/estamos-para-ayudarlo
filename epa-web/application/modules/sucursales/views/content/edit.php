@@ -24,10 +24,13 @@ $id = isset($sucursales['id']) ? $sucursales['id'] : '';
 	<?php echo form_open($this->uri->uri_string(), 'class="form-horizontal"'); ?>
 		<fieldset>
 
-			<?php // Change the values in this array to populate your dropdown as require
-				$options = $supermercados;
-				echo form_dropdown('sucursales_id_supermercado', $options, set_value('sucursales_id_supermercado', isset($sucursales['id_supermercado']) ? $sucursales['id_supermercado'] : ''), 'Supermercado'. lang('bf_form_label_required'));
-			?>
+			<div class="control-group <?php echo form_error('id_supermercado') ? 'error' : ''; ?>" style="display:none;">
+				<?php echo form_label('Supermercado '. lang('bf_form_label_required'), 'sucursales_id_supermercado', array('class' => 'control-label') ); ?>
+				<div class='controls'>
+					<input id='sucursales_id_supermercado' type='text' name='sucursales_id_supermercado' maxlength="50" value="<?php echo set_value('sucursales_id_supermercado', isset($sucursales['id_supermercado']) ? $sucursales['id_supermercado'] : ''); ?>" />
+					<span class='help-inline'><?php echo form_error('id_supermercado'); ?></span>
+				</div>
+			</div>
 
 			<div class="control-group <?php echo form_error('nombre') ? 'error' : ''; ?>">
 				<?php echo form_label('Nombre'. lang('bf_form_label_required'), 'sucursales_nombre', array('class' => 'control-label') ); ?>
