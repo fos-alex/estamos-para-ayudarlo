@@ -43,7 +43,7 @@ class Registrar extends Api_Controller
 
         } else {
             $this->error(455, $this->form_validation->validation_errors_list());
-            die();
+            
         }
     }
 

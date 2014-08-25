@@ -53,15 +53,13 @@ class mapas extends Api_Controller {
 		}else{
 			$this->error(405,"Falta parametro");
 		}
-	
 	}
 	
 	
 	private function obtenerMapa($id) {
 		$this->load->model ( 'mapas_model', null, true );
 		$sucursal = $this->mapas_model->find ( $id );
-	
-		if (! sucursal) {
+		if (! $sucursal) {
 			$this->error ( 404, "El mapa $id no existe" );
 		}
 		return $sucursal->mapa;
@@ -83,17 +81,20 @@ class mapas extends Api_Controller {
 				
 		$this->load->model ( 'mapas_model', null, true );
 		$sucursal = $this->mapas_model->find ( $id );
-		$sucursal['mapa'] = $mapa['mapa'];
 		
-		if($this->mapas_model->update($id,$sucursal)){
+		if (!$sucursal) {
+			$this->error ( 404, "El mapa $id no existe" );
+		}
+		
+		$sucursal->mapa = array("mapa"=>$mapa['mapa']);
+		
+		if($this->mapas_model->update_where( "id",$sucursal->id,$sucursal)){
 			return array("id"=>$id);
 		}else{
 			$this->error(406,"Error modificando el mapa $id");
 		}	
 	}
 
-	
-	
 	
 	
 	
