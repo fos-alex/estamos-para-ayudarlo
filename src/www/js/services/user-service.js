@@ -59,11 +59,19 @@ angular.module('EPA.services')
                                 code: status,
                                 type: "success"
                             };
-                            response.message = "Usuario creado correctamente";
-                            $state.go('app.login');
+                            //response.message = "Usuario creado correctamente";
+                            //$state.go('app.login');
+
+
                             $timeout(function(){
                                 deferred.resolve(response);
                             });
+
+                            if (result['codigo'] == 0) {
+                                    $state.go ('app.menu');
+                            } else {
+                                response.message = result['mensaje'];
+                            }
                         })
                         .error(function (result, status, headers) {
                             var response = {
