@@ -39,7 +39,7 @@ class Content extends Admin_Controller
 	{
 		parent::__construct();
 
-		Template::set('toolbar_title', 'Content');
+		Template::set('toolbar_title', 'Contenidos');
 
 		$this->auth->restrict('Site.Content.View');
 	}//end __construct()
@@ -53,7 +53,11 @@ class Content extends Admin_Controller
 	 */
 	public function index()
 	{
-		Template::set_view('admin/content/index');
+		if($this->current_user->role_name == 'super'){
+			Template::set_view('admin/content/supermercado');	
+		}else{
+			Template::set_view('admin/content/index');
+		}
 		Template::render();
 	}//end index()
 

@@ -62,7 +62,11 @@ $id = isset($sucursales['id']) ? $sucursales['id'] : '';
 					<span class='help-inline'><?php echo form_error('coordenadas'); ?></span>
 				</div>
 			</div>
-
+			<div class="control-group">
+				<div class='controls'>
+				<?php echo anchor(SITE_AREA .'/content/mapas/edit/'.$id, 'Editar Mapa', 'class="btn btn-success"'); ?>
+				</div>
+			</div>
 			<div class="form-actions">
 				<input type="submit" name="save" class="btn btn-primary" value="<?php echo lang('sucursales_action_edit'); ?>"  />
 				<?php echo lang('bf_or'); ?>

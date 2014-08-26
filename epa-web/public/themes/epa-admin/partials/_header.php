@@ -42,32 +42,6 @@
 						<span class="icon-bar"></span>
 					</a>
 					
-					<?php if(isset($shortcut_data) && is_array($shortcut_data['shortcuts']) && is_array($shortcut_data['shortcut_keys']) && count($shortcut_data['shortcut_keys'])):?>
-					<!-- Shortcut Menu -->
-					<div class="nav pull-right" id="shortcuts">
-					<div class="btn-group">
-						<a class="dropdown-toggle light btn" data-toggle="dropdown" href="#"><img src="<?php echo Template::theme_url('images/keyboard-icon.png') ?>" id="shortkeys_show" title="Keyboard Shortcuts" alt="Keyboard Shortcuts"/></a>
-						<ul class="dropdown-menu pull-right toolbar-keys">
-								<li>
-										<div class="inner keys">
-											<?php if (isset($shortcut_data) && is_array($shortcut_data['shortcut_keys'])): ?>
-											<h4><?php echo lang('bf_keyboard_shortcuts') ?></h4>
-											<ul>
-											<?php foreach($shortcut_data['shortcut_keys'] as $key => $data): ?>
-												<li><span><?php e($data)?></span> : <?php echo $shortcut_data['shortcuts'][$key]['description']; ?></li>
-											<?php endforeach; ?>
-											</ul>
-											<?php else:?>
-											<h4><?php echo lang('bf_keyboard_shortcuts_empty') ?></h4>
-											<?php endif;?>
-											<a href="<?php echo site_url(SITE_AREA.'/settings/ui');?>"><?php echo lang('bf_keyboard_shortcuts_edit');?></a>
-										</div>
-								</li>
-						</ul>
-					</div>
-					</div>
-					<?php endif;?>
-
 					<div class="nav-collapse in collapse">
 						<!-- User Menu -->
 						<div class="nav pull-right" id="user-menu">
@@ -80,7 +54,7 @@
 								<ul class="dropdown-menu pull-right toolbar-profile">
 									<li>
 										<div class="inner">
-											<div class="toolbar-profile-img">
+											<div class="toolbar-profile-img" style="display:none">
 												<?php echo gravatar_link($current_user->email, 96, null, $current_user->display_name) ?>
 											</div>
 
@@ -89,10 +63,11 @@
 													<?php e($current_user->email) ?>
 													<br/>
 												</p>
-												<a href="<?php echo site_url(SITE_AREA .'/settings/users/edit') ?>"><?php echo lang('bf_user_settings')?></a>
-												<a href="<?php echo site_url('logout'); ?>"><?php echo lang('bf_action_logout')?></a>
 											</div>
 										</div>
+									</li>
+									<li>
+										<a href="<?php echo site_url('logout'); ?>"><?php echo lang('bf_action_logout')?></a>
 									</li>
 								</ul>
 							</div>

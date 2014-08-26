@@ -159,8 +159,11 @@ class content extends Admin_Controller
 		}
 		Assets::add_js("//maps.googleapis.com/maps/api/js?key=AIzaSyBnU9uPcmEmXTau_3noivK_G8Z17MjhpAo&sensor=false&libraries=places&r");
 		Assets::add_module_js('sucursales', 'sucursales.js');
-
-		Template::set('sucursales', $this->sucursales_model->find($id));
+		$sucursales = $this->sucursales_model->find($id);
+		if(!$sucursales || $sucursales->id_supermercado != $this->current_user->supermercado->id){
+			$this->auth->restrict('Productos.Content.View');
+		}		
+		Template::set('sucursales', $sucursales);
 		Template::set('toolbar_title', lang('sucursales_edit') .' sucursales');
 		Template::render();
 	}
