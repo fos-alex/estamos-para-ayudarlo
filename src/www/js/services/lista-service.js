@@ -27,7 +27,7 @@ angular.module('EPA.services')
                 compartir: function (lista, mail) {
                     //debugger;
                     return $http.post(CONFIG.WS_URL + '/app/compartir/' + lista, {
-                        mail: mail
+                        email: mail
                     });
                 }
             };

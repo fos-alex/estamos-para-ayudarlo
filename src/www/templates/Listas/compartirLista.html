@@ -4,11 +4,22 @@
         <a class="tab-item backHeader" href="#/app/listas">
             <i class="ion-arrow-left-c footerIconos"></i>
         </a>
-        <h1 class="title centrado">Compartir Lista</h1>        
+        <h1 class="title centrado">Compartir Lista "{{lista.nombre}}"</h1>        
         <img class="logoHeader" src="./img/carrito.png">
     </ion-header-bar>
     <!-- BODY -->
     <ion-content>
+        <div class="row">
+            <div class="col">
+                
+                <div class="card">
+                    <div class="item item-text-wrap celeste">
+                      Indica la dirección de correo con la que quieres compartir la lista '{{lista.nombre}}'
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="row"></div>
         <div class="row">
             <div class="col centrado">
                 <label class="item item-input loginInput">
@@ -28,6 +39,7 @@
             </div>
         </div>
         
+        <div class="row"></div>
     <div class="row centrado">
         <div class="col centrado">
             <button class="button button-positive loginButton button-small" data-ng-click="compartir()">
