@@ -62,7 +62,7 @@ class mapas extends Api_Controller {
 		if (! $sucursal) {
 			$this->error ( 404, "El mapa $id no existe" );
 		}
-		return $sucursal->mapa;
+		return json_decode($sucursal->mapa);
 	}
 	
 	private function obtenerMapas(){
@@ -86,9 +86,9 @@ class mapas extends Api_Controller {
 			$this->error ( 404, "El mapa $id no existe" );
 		}
 		
-		$sucursal->mapa = array("mapa"=>$mapa['mapa']);
-		
-		if($this->mapas_model->update_where( "id",$sucursal->id,$sucursal)){
+		$sucursal = array( "mapa" => json_encode($mapa) );
+
+		if($this->mapas_model->update_where( "id",$id,$sucursal)){
 			return array("id"=>$id);
 		}else{
 			$this->error(406,"Error modificando el mapa $id");

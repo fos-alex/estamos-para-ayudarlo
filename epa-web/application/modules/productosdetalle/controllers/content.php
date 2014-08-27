@@ -97,7 +97,11 @@ class content extends Admin_Controller
 			}
 		}
 		Assets::add_module_js('productosdetalle', 'productosdetalle.js');
-
+		
+		$this->load->model('productos/productos_model', null, true);
+		$productosTipo = $this->productos_model->find_all();
+		$productos_select = form_options_array("id","nombre",$productosTipo);
+		Template::set('productos_tipo', $productos_select);
 		Template::set('toolbar_title', lang('productosdetalle_create') . ' Producto');
 		Template::render();
 	}
@@ -154,6 +158,10 @@ class content extends Admin_Controller
 				Template::set_message(lang('productosdetalle_delete_failure') . $this->productosdetalle_model->error, 'error');
 			}
 		}
+		$this->load->model('productos/productos_model', null, true);
+		$productosTipo = $this->productos_model->find_all();
+		$productos_select = form_options_array("id","nombre",$productosTipo);
+		Template::set('productos_tipo', $productos_select);
 		Template::set('productosdetalle', $this->productosdetalle_model->find($id));
 		Template::set('toolbar_title', lang('productosdetalle_edit') .' Producto');
 		Template::render();
@@ -184,7 +192,7 @@ class content extends Admin_Controller
 		
 		$data = array();
 		$data['id_producto']        = $this->input->post('productosdetalle_id_producto');
-		$data['Supermercado']        = $this->input->post('productosdetalle_Supermercado');
+		$data['id_supermercado']        = $this->current_user->supermercado->id;
 		$data['presentacion']        = $this->input->post('productosdetalle_presentacion');
 		$data['marca']        = $this->input->post('productosdetalle_marca');
 		$data['precio']        = $this->input->post('productosdetalle_precio');
@@ -224,7 +232,33 @@ class content extends Admin_Controller
 
 	public function uploadFile(){
 		$this->auth->restrict('ProductosDetalle.Content.Edit');
-		
+
+		$this->load->library('productosdetalle/phpexcel');
+		$objPHPExcel = PHPExcel_IOFactory::load($_FILES['productos']['tmp_name']);
+		$sheet = $objPHPExcel->getSheet(0); 
+		$highestRow = $sheet->getHighestRow(); 
+		$highestColumn = $sheet->getHighestColumn();
+
+		for ($row = 2; $row <= $highestRow; $row++){ 
+		    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
+		                                    NULL,
+		                                    TRUE,
+		                                    FALSE);
+		    //llevar a un metodo y validar cada campo
+		    $producto = array();
+		    $producto['id_supermercado'] = $this->current_user->supermercado->id;
+		    $producto['id_producto'] = $rowData[0][0];
+		    $producto['marca'] = $rowData[0][1];
+		    $producto['presentacion'] = $rowData[0][2];
+		    $producto['precio'] = $rowData[0][3];
+		    $producto['descripcion'] = $rowData[0][4];
+		    var_dump($producto);
+   			$id = $this->productosdetalle_model->insert($producto);
+		    var_dump($id);
+
+		}
+
+		// La salida debe contener descripcion de errores
 	}
 
 }

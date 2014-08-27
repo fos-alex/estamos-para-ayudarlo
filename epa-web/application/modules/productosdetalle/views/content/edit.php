@@ -25,19 +25,10 @@ $id = isset($productosdetalle['id']) ? $productosdetalle['id'] : '';
 		<fieldset>
 
 			<?php // Change the values in this array to populate your dropdown as required
-				$options = array(
-				);
+				$options = $options = $productos_tipo;
 
-				echo form_dropdown('productosdetalle_id_producto', $options, set_value('productosdetalle_id_producto', isset($productosdetalle['id_producto']) ? $productosdetalle['id_producto'] : ''), 'Producto'. lang('bf_form_label_required'));
+				echo form_dropdown('productosdetalle_id_producto', $options, set_value('productosdetalle_id_producto', isset($productosdetalle['id_producto']) ? $productosdetalle['id_producto'] : ''), 'Producto Tipo'. lang('bf_form_label_required'));
 			?>
-
-			<div class="control-group <?php echo form_error('Supermercado') ? 'error' : ''; ?>">
-				<?php echo form_label('id_supermercado'. lang('bf_form_label_required'), 'productosdetalle_Supermercado', array('class' => 'control-label') ); ?>
-				<div class='controls'>
-					<input id='productosdetalle_Supermercado' type='text' name='productosdetalle_Supermercado'  value="<?php echo set_value('productosdetalle_Supermercado', isset($productosdetalle['Supermercado']) ? $productosdetalle['Supermercado'] : ''); ?>" />
-					<span class='help-inline'><?php echo form_error('Supermercado'); ?></span>
-				</div>
-			</div>
 
 			<div class="control-group <?php echo form_error('presentacion') ? 'error' : ''; ?>">
 				<?php echo form_label('Presentacion'. lang('bf_form_label_required'), 'productosdetalle_presentacion', array('class' => 'control-label') ); ?>

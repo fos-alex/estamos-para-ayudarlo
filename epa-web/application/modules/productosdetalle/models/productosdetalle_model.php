@@ -52,11 +52,6 @@ class Productosdetalle_model extends BF_Model {
 			"rules"		=> "required"
 		),
 		array(
-			"field"		=> "productosdetalle_Supermercado",
-			"label"		=> "id_supermercado",
-			"rules"		=> "required"
-		),
-		array(
 			"field"		=> "productosdetalle_presentacion",
 			"label"		=> "Presentacion",
 			"rules"		=> "required|max_length[100]"
