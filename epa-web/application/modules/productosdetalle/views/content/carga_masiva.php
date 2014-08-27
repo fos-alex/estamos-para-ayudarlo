@@ -5,4 +5,5 @@
 </div>
 
 <div class="admin-box">
+	<div id="fileuploader">Upload</div>
 </div>

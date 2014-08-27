@@ -24,7 +24,11 @@ class content extends Admin_Controller
 		
 		Template::set_block('sub_nav', 'content/_sub_nav');
 
+		Assets::add_css('jquery.simplecolorpicker.css');
 		Assets::add_module_js('categorias', 'categorias.js');
+		Assets::add_js('jquery.simplecolorpicker.js');
+		
+		
 	}
 
 	//--------------------------------------------------------------------
@@ -61,7 +65,7 @@ class content extends Admin_Controller
 				}
 			}
 		}
-
+		
 		$records = $this->categorias_model->find_all();
 
 		Template::set('records', $records);
@@ -96,8 +100,8 @@ class content extends Admin_Controller
 				Template::set_message(lang('categorias_create_failure') . $this->categorias_model->error, 'error');
 			}
 		}
-		Assets::add_module_js('categorias', 'categorias.js');
-
+		
+		Template::set('colores', $this->colores());
 		Template::set('toolbar_title', lang('categorias_create') . ' Categorias');
 		Template::render();
 	}
@@ -154,6 +158,8 @@ class content extends Admin_Controller
 				Template::set_message(lang('categorias_delete_failure') . $this->categorias_model->error, 'error');
 			}
 		}
+
+		Template::set('colores', $this->colores());
 		Template::set('categorias', $this->categorias_model->find($id));
 		Template::set('toolbar_title', lang('categorias_edit') .' Categorias');
 		Template::render();
@@ -184,6 +190,7 @@ class content extends Admin_Controller
 		
 		$data = array();
 		$data['nombre']        = $this->input->post('categorias_nombre');
+		$data['color']        = $this->input->post('categorias_color');
 
 		if ($type == 'insert')
 		{
@@ -207,6 +214,16 @@ class content extends Admin_Controller
 	}
 
 	//--------------------------------------------------------------------
-
+	private function colores(){
+		return array(
+					"#000000"=>"Negro",
+					"#7bd148"=>"Verde",
+					"#a4bdfc"=>"Azul",
+					"#46d6db"=>"Turquesa",
+					"#fbd75b"=>"Amarillo",
+					"#ffb878"=>"Naranja",
+					"#ff887c"=>"Rojo"
+				);
+	}
 
 }

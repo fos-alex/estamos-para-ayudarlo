@@ -31,7 +31,14 @@ $id = isset($categorias['id']) ? $categorias['id'] : '';
 					<span class='help-inline'><?php echo form_error('nombre'); ?></span>
 				</div>
 			</div>
+			
+			<?php // Change the values in this array to populate your dropdown as required
 
+				$options = $colores;
+
+				echo form_dropdown('categorias_color', $options, set_value('categorias_color', isset($categorias['color']) ? $categorias['color'] : ''), 'Color'. lang('bf_form_label_required'));
+			?>
+			
 			<div class="form-actions">
 				<input type="submit" name="save" class="btn btn-primary" value="<?php echo lang('categorias_action_edit'); ?>"  />
 				<?php echo lang('bf_or'); ?>

@@ -1,6 +1,6 @@
 <?php
 
-$num_columns	= 2;
+$num_columns	= 3;
 $can_delete	= $this->auth->has_permission('Categorias.Content.Delete');
 $can_edit		= $this->auth->has_permission('Categorias.Content.Edit');
 $has_records	= isset($records) && is_array($records) && count($records);
@@ -17,6 +17,8 @@ $has_records	= isset($records) && is_array($records) && count($records);
 					<?php endif;?>
 					
 					<th>Nombre</th>
+					<th>Color</th>
+
 				</tr>
 			</thead>
 			<?php if ($has_records) : ?>
@@ -46,6 +48,9 @@ $has_records	= isset($records) && is_array($records) && count($records);
 				<?php else : ?>
 					<td><?php e($record->nombre); ?></td>
 				<?php endif; ?>
+					<td><span class="simplecolorpicker inline ">
+						<span style="background-color: <?e($record->color)?>;" data-color="<?e($record->color)?>" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					</span></td>
 				</tr>
 				<?php
 					endforeach;
