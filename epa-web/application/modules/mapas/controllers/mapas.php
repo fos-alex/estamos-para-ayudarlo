@@ -62,7 +62,7 @@ class mapas extends Api_Controller {
 		if (! $sucursal) {
 			$this->error ( 404, "El mapa $id no existe" );
 		}
-		return json_decode($sucursal->mapa);
+		return (object)json_decode($sucursal->mapa);
 	}
 	
 	private function obtenerMapas(){
