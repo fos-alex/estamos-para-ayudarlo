@@ -1,6 +1,11 @@
 angular.module('EPA.controllers')
 
-.controller('CompartirCtrl', ['$scope', '$state', '$stateParams', 'User', 'Lista', function($scope, $state, $stateParams, User, Lista) {
+.controller('CompartirCtrl', ['$scope', '$state', '$stateParams', 'User', 'Lista', function($scope, $state, $stateParams, User, Lista) {            
+        Lista.get($stateParams.idLista, {}).then(function(response){
+            $scope.lista = response;
+            }
+        );
+        
         $scope.compartirResponse = {
             message: "",
             notifyShow: false,
@@ -22,5 +27,5 @@ angular.module('EPA.controllers')
                 }
 
             );
-        };
+        };       
 }])
