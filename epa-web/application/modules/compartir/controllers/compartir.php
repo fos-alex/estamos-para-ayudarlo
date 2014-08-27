@@ -46,13 +46,7 @@ Ya puedes visualizarla en tu aplicación
 Atte. EPA Staff"
 		);
 		
-		
-		
-		$res_mail = Modules::run('registrar/sendMail',$data_mail);
-		
-		
-		
-
+		Modules::run('registrar/sendMail',$data_mail);
 	}
 
 	private function compartirLista($id_lista,$id_usuario){

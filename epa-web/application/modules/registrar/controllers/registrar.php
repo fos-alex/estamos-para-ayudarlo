@@ -35,16 +35,15 @@ class Registrar extends Api_Controller
 
         if ($this->form_validation->run() !== FALSE) {
 
-            if (true){//$user_id = $this->user_model->insert($data)) {
+            if ($user_id = $this->user_model->insert($data)) {
             	
             	$data_mail =  array(
 		            'to' => $data['email'],
 		            'subject' => str_replace('[SITE_TITLE]', $this->settings_lib->item('site.title'), lang('us_account_reg_complete')),
-		            'message' => lang('us_account_active_login'). $this->JSON_IN. lang('us_account_active_login_fin').$lang['us_epa_staff']
+		            'message' => lang('us_account_active_login'). lang('us_account_active_login_fin'). lang('us_epa_staff')
 		        );
             	
-                $data_mai = $this->sendMail($data_mail);
-                $this->error(1000, $data_mai);
+                $this->sendMail($data_mail);
                 
                 header('HTTP/1.1 200 Usuario creado correctamente');
                 $this->JSON_OUT->data = (array("id" => $user_id));
@@ -68,14 +67,12 @@ class Registrar extends Api_Controller
         $this->load->model('emailer/emailer_model');
 
         if (!$this->emailer->send($mail)) {
-            $message_error = lang('us_err_no_email') . $this->emailer->error;
             $error = true;
         }
 
         if ($error) {
-            $type = 'error';
+            $this->error(450, "Error al enviar email");
         }
-        return (array("mail_enviado?" => $type,"mail" => $mail , "message_error" => $message_error ));
     }
 
 }
