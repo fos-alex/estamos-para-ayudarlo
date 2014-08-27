@@ -46,7 +46,7 @@ Ya puedes visualizarla en tu aplicación
 Atte. EPA Staff"
 		);
 		
-		Modules::run('registrar/sendMail',$data_mail);
+		$this->sendMail($data_mail);
 	}
 
 	private function compartirLista($id_lista,$id_usuario){
@@ -63,6 +63,24 @@ Atte. EPA Staff"
 		}
 
 	}
+	
+
+	private function sendMail($mail)
+	{
+	
+		$this->load->library('email');
+		$this->load->library('emailer/emailer');
+		$this->load->model('emailer/emailer_model');
+	
+		if (!$this->emailer->send($mail)) {
+			$error = true;
+		}
+	
+		if ($error) {
+			$this->error(450, "Error al enviar email");
+		}
+	}
+	
 
 	
 }
