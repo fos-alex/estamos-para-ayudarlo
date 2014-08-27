@@ -21,16 +21,10 @@ class Registrar extends Api_Controller
         $data ['password'] = $this->JSON_IN['password'];
         $data ['active'] = 1;
 
-        if (array_key_exists('localidad', $data)) {
-            //$data ['algun campo'] = $this->JSON_IN ['localidad'];
-            unset($data['localidad']);
-        }
-
         // Cargo validaciones
         $_POST = $data;
         $this->load->library('form_validation');
         $this->form_validation->set_rules('email', 'lang:bf_email', 'required|trim|valid_email|max_length[50]|unique[users.email]');
-        $this->form_validation->set_rules('username', 'lang:bf_username', 'required|trim|max_length[30]|unique[users.username]');
         $this->form_validation->set_rules('password', 'lang:bf_password', 'required|max_length[40]|valid_password');
 
         if ($this->form_validation->run() !== FALSE) {

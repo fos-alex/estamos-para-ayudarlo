@@ -38,12 +38,7 @@ class compartir extends Api_Controller
 		$data_mail =  array(
 				'to' => $usuario_datos['email'],
 				'subject' => "Se ha compartido una lista con usted!",
-				'message' => "Estimado/a:
-
-El usuario <Email_cliente> ha compartido una lista con vos. 
-Ya puedes visualizarla en tu aplicación
-
-Atte. EPA Staff"
+				'message' => "Estimado/a: El usuario <Email_cliente> ha compartido una lista con usted. Ya puedes visualizarla en tu aplicación.	Atte. EPA Staff"
 		);
 		
 		$this->sendMail($data_mail);
@@ -57,7 +52,7 @@ Atte. EPA Staff"
 			if($error_db == 1062){
 				$this->error(405,"El usuario ya tiene esa lista");	
 			}else if($error_db > 0){
-				$this->error(406,"Error al comprartir");	
+				$this->error(406,"Error al compartir");	
 			}	
 			
 		}
