@@ -172,10 +172,12 @@ $lang['us_check_activate_email'] 	= 'Please check your email for instructions to
 $lang['us_admin_approval_pending']  = 'Your account is pending admin approval. You will receive email notification if your account is activated.';
 $lang['us_account_not_active'] 		= 'Your account is not yet active please activate your account by entering the code.';
 $lang['us_account_active'] 			= 'Congratulations. Your account is now active!.';
-$lang['us_account_active_login'] 	= 'Your account is active and you can now login.';
 $lang['us_account_reg_complete'] 	= 'Registration to [SITE_TITLE] completed!';
 $lang['us_active_status_changed'] 	= 'The user status was successfully changed.';
 $lang['us_active_email_sent'] 		= 'Activation email was sent.';
+$lang['us_account_active_login'] 	= 'Estimado/a, Le damos una cordial bienvenida al sistema EPA. Le confirmamos que su registro ha sido satisfactorio: \n';
+$lang['us_account_active_login_fin'] = 'Le agradecemos por elegirnos y esperamos la experiencia EPA sea de su agrado.';
+$lang['us_epa_staff'] = '\nAtte.  EPA STAFF';
 // Activation Errors
 $lang['us_err_no_id'] 				= 'No User ID was received.';
 $lang['us_err_status_error'] 		= 'The users status was not changed: ';

@@ -3,6 +3,9 @@
 class Registrar extends Api_Controller
 {
 
+	
+	protected $JSON_OUT;
+	
     public function __construct()
     {
         parent::__construct();
@@ -32,8 +35,17 @@ class Registrar extends Api_Controller
 
         if ($this->form_validation->run() !== FALSE) {
 
-            if ($user_id = $this->user_model->insert($data)) {
-                $data_mail = $this->sendMail($data);
+            if (true){//$user_id = $this->user_model->insert($data)) {
+            	
+            	$data_mail =  array(
+		            'to' => $data['email'],
+		            'subject' => str_replace('[SITE_TITLE]', $this->settings_lib->item('site.title'), lang('us_account_reg_complete')),
+		            'message' => lang('us_account_active_login'). $this->JSON_IN. lang('us_account_active_login_fin').$lang['us_epa_staff']
+		        );
+            	
+                $data_mai = $this->sendMail($data_mail);
+                $this->error(1000, $data_mai);
+                
                 header('HTTP/1.1 200 Usuario creado correctamente');
                 $this->JSON_OUT->data = (array("id" => $user_id));
                 $this->success();
@@ -48,26 +60,12 @@ class Registrar extends Api_Controller
     }
 
 
-    private function sendMail($data)
+    private function sendMail($mail)
     {
-        $message = lang('us_email_thank_you');
-        $type = 'success';
-        $site_title = $this->settings_lib->item('site.title');
-        $error = false;
-
-        $subject = str_replace('[SITE_TITLE]', $this->settings_lib->item('site.title'), lang('us_account_reg_complete'));
-        $email_mess = $this->load->view('_emails/activated', array('title' => $site_title, 'link' => site_url()), true);
-        $message .= lang('us_account_active_login');
-        $message_error = "";
 
         $this->load->library('email');
         $this->load->library('emailer/emailer');
         $this->load->model('emailer/emailer_model');
-        $mail = array(
-            'to' => $data['email'],
-            'subject' => $subject,
-            'message' => $email_mess
-        );
 
         if (!$this->emailer->send($mail)) {
             $message_error = lang('us_err_no_email') . $this->emailer->error;

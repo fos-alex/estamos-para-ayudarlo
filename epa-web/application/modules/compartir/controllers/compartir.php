@@ -32,7 +32,26 @@ class compartir extends Api_Controller
 		if(!$usuario){
 			$this->error(404,"El usuario ".$usuario_datos['email']." no existe");	
 		}
-		$this->JSON_OUT->data = $this->compartirLista($id_lista,$usuario->id); 
+		$this->JSON_OUT->data = $this->compartirLista($id_lista,$usuario->id);
+		
+		
+		$data_mail =  array(
+				'to' => $usuario_datos['email'],
+				'subject' => "Se ha compartido una lista con usted!",
+				'message' => "Estimado/a:
+
+El usuario <Email_cliente> ha compartido una lista con vos. 
+Ya puedes visualizarla en tu aplicación
+
+Atte. EPA Staff"
+		);
+		
+		
+		
+		$res_mail = Modules::run('registrar/sendMail',$data_mail);
+		
+		
+		
 
 	}
 
