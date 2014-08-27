@@ -47,7 +47,7 @@ $has_records	= isset($records) && is_array($records) && count($records);
 				<?php else : ?>
 					<td><?php e($record->nombre); ?></td>
 				<?php endif; ?>
-					<td></td>
+					<td><?php e($record->username); ?></td>
 				</tr>
 				<?php
 					endforeach;

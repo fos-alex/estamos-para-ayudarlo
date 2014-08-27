@@ -24,6 +24,7 @@ $lang['supermercados_cancel']			= 'Cancel';
 $lang['supermercados_delete_record']		= 'Delete this supermercados';
 $lang['supermercados_delete_confirm']	= 'Are you sure you want to delete this supermercados?';
 $lang['supermercados_edit_heading']		= 'Edit supermercados';
+$lang['supermercados_invalid_usuario_asignado']		= 'El usuario ya esta asignado a otro Supermercado';
 
 // Create/Edit Buttons
 $lang['supermercados_action_edit']		= 'Save supermercados';

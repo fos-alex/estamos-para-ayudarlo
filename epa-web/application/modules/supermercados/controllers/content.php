@@ -62,7 +62,9 @@ class content extends Admin_Controller
 			}
 		}
 
-		$records = $this->supermercados_model->find_all();
+		$records = $this->supermercados_model->select("supermercados.*,users.username")
+		->join("usuario_supermercado","id = usuario_supermercado.id_supermercado","left")
+		->join("users","usuario_supermercado.id_usuario = users.id","left")->find_all();
 
 		Template::set('records', $records);
 		Template::set('toolbar_title', 'Manage supermercados');
@@ -221,7 +223,12 @@ class content extends Admin_Controller
 		{
 			$return = $this->supermercados_model->update($id, $data);
 			$this->usuario_supermercado_model->delete_where(array("id_supermercado"=>$id));
+			
 			$this->usuario_supermercado_model->insert(array("id_supermercado"=>$id,"id_usuario"=>$this->input->post('supermercados_id_usuario')));
+			if($this->usuario_supermercado_model->db->_error_number()==1062){
+				$this->supermercados_model->error = lang('supermercados_invalid_usuario_asignado');
+				$return = FALSE;
+			}
 		}
 
 		return $return;

@@ -214,11 +214,17 @@ class content extends Admin_Controller
 	//--------------------------------------------------------------------
 
 	public function carga_masiva(){
+		$this->auth->restrict('ProductosDetalle.Content.Edit');
 		Assets::add_css('//hayageek.github.io/jQuery-Upload-File/uploadfile.min.css');
 		Assets::add_js('//hayageek.github.io/jQuery-Upload-File/jquery.uploadfile.min.js');
 		Assets::add_module_js('productosdetalle', 'cargamasiva.js');
 		Template::set('toolbar_title', lang('productosdetalle_cargamasiva') .' Producto');
 		Template::render();
+	}
+
+	public function uploadFile(){
+		$this->auth->restrict('ProductosDetalle.Content.Edit');
+		
 	}
 
 }
