@@ -18,9 +18,10 @@
 <div id="container" onmousedown="return false;"></div>
 <div id="controlers">
     <div>
-        <button onclick="addRect()">Agregar Góndola</button>
+        <button onclick="newMap()">Nuevo Mapa</button>
         <button onclick="save()">Guardar Mapa</button>
-        <select id="productos-select">
+        <button onclick="addRect()">Agregar Góndola</button>
+        <select id="categorias-select">
         </select>
     </div>
 </div>
@@ -37,25 +38,82 @@ var canvas = {
     stage: {},
     layer: {}
 };
-var productos = null;
+var categorias = null;
 
 $(document).ready(function () {
-    $.getJSON('http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app/productos', function (response) {
-        var options = $("#productos-select");
-        productos = response.data;
-        $.each(productos, function(ix, el) {
+    $.getJSON('http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app/categorias', function (response) {
+        var options = $("#categorias-select");
+        categorias = response.data;
+        $.each(categorias, function(ix, el) {
             options.append($("<option />").val(ix).text(el.nombre));
         });
     });
+
+    loadMap();
 });
 
 function save()
 {
     // save stage as a json string
-    var json = canvas.stage.toJSON();
+    var mapa = {
+        mapaJSON: canvas.stage.toJSON(),
+        objects: canvas.objects
+    };
 
-    debugger;
+    $.ajax({
+        url: 'http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app/mapas/1',
+        type: 'PUT',
+        data: JSON.stringify(mapa),
+        success: function (response) {
+            if (response.codigo == 0) {
+                alert("El mapa se guardó satisfactoriamente.");
+            }
+        }
+    });
 }
+
+function loadMap()
+{
+    $.getJSON('http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app/mapas/1', function (response) {
+        if (!response.data) {
+            alert('La sucursal no tiene mapa.');
+            return newMap();
+        }
+        var mapa;
+        if (mapa = response.data.mapaJSON) {
+            canvas.objects = response.data.objects;
+            canvas.stage = Kinetic.Node.create(mapa, 'container');
+            canvas.stage.draw();
+            debugger;
+            canvas.layer = canvas.stage.getLayers()[0];
+            addBehaviour(canvas.stage);
+        } else {
+            newMap();
+        }
+    });
+}
+
+function newMap()
+{
+    canvas = {
+        objects: {
+            products: {},
+            shells: {}
+        },
+        stage: {},
+        layer: {}
+    };
+
+    canvas.stage = new Kinetic.Stage({
+        container: 'container',
+        width: 1000,
+        height: 550
+    });
+
+    canvas.layer = new Kinetic.Layer();
+    canvas.stage.add(canvas.layer);
+}
+
 
 function createId(length)
 {
@@ -109,8 +167,23 @@ function update(activeAnchor) {
         image.setSize({width:width, height: height});
     }
 }
+
+function addBehaviour(layer) {
+    var stage = layer.getStage();
+    // Add bindings to circles
+    $.each(['.topLeft',
+            '.topRight',
+            '.bottomRight',
+            '.bottomLeft'],
+        function (ix, el) {
+            var anchor = stage.find(el);
+            anchor.each(function (el) {
+                addBindings(el);
+            });
+    });
+}
+
 function addAnchor(group, x, y, name) {
-    var stage = group.getStage();
     var layer = group.getLayer();
 
     var anchor = new Kinetic.Circle({
@@ -125,43 +198,49 @@ function addAnchor(group, x, y, name) {
         dragOnTop: false
     });
 
-    anchor.on('dragmove', function() {
-        update(this);
-        layer.draw();
-    });
-    anchor.on('mousedown touchstart', function() {
-        group.setDraggable(false);
-        this.moveToTop();
-    });
-    anchor.on('dragend', function() {
-        group.setDraggable(true);
-        layer.draw();
-    });
-    // add hover styling
-    anchor.on('mouseover', function() {
-        var layer = this.getLayer();
-        document.body.style.cursor = 'pointer';
-        this.setStrokeWidth(4);
-        layer.draw();
-    });
-    anchor.on('mouseout', function() {
-        var layer = this.getLayer();
-        document.body.style.cursor = 'default';
-        this.strokeWidth(2);
-        layer.draw();
-    });
+    addBindings(anchor);
 
     group.add(anchor);
 }
-function addRect(data) {
 
+function addBindings(anchor) {
+    anchor.on('dragmove', function() {
+        update(this);
+        this.getLayer().draw();
+    });
+    anchor.on('mousedown touchstart', function() {
+        // Parent should be group
+        this.parent.setDraggable(false);
+        this.moveToTop();
+    });
+    anchor.on('dragend', function() {
+        // Parent should be group
+        this.parent.setDraggable(true);
+        this.getLayer().draw();
+    });
+    // add hover styling
+    anchor.on('mouseover', function() {
+        document.body.style.cursor = 'pointer';
+        this.setStrokeWidth(4);
+        this.getLayer().draw();
+    });
+    anchor.on('mouseout', function() {
+        document.body.style.cursor = 'default';
+        this.strokeWidth(2);
+        this.getLayer().draw();
+    });
+
+}
+
+function addRect(data) {
+    var categoria = categorias[$("#categorias-select").val()];
     var defaultData = {
         x: 0,
         y: 0,
-        width: 200,
-        height: 138,
+        width: 140,
+        height: 80,
         name: 'image',
-        stroke: '#555',
+        stroke: categoria.color,
         strokeWidth: 5,
         draggable: true
     };
@@ -202,79 +281,7 @@ function addRect(data) {
 
     canvas.stage.draw();
 }
-function initStage() {
-    canvas.stage = new Kinetic.Stage({
-        container: 'container',
-        width: 1000,
-        height: 550
-    });
 
-    canvas.layer = new Kinetic.Layer();
-    canvas.stage.add(canvas.layer);
-
-    addRect({
-        x: 0,
-        width: 160,
-        height: 80,
-        draggable: true
-    });
-
-    addRect({
-        x: 100,
-        width: 160,
-        height: 80,
-        draggable: true
-    });
-
-    addRect({
-        x: 200,
-        width: 160,
-        height: 80,
-        draggable: true
-    });
-
-    addRect({
-        x: 300,
-        width: 160,
-        height: 80,
-        draggable: true
-    });
-
-    addRect({
-        x: 0,
-        y: 60,
-        width: 160,
-        height: 80,
-        draggable: true
-    });
-
-    addRect({
-        x: 100,
-        y: 60,
-        width: 160,
-        height: 80,
-        draggable: true
-    });
-
-    addRect({
-        x: 200,
-        y: 60,
-        width: 160,
-        height: 80,
-        draggable: true
-    });
-
-    addRect({
-        x: 300,
-        y: 60,
-        width: 160,
-        height: 80,
-        draggable: true
-    });
-
-}
-
-initStage();
 </script>
 </body>
 </html>
