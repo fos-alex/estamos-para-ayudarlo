@@ -171,8 +171,8 @@ $lang['us_check_activate_email'] 	= 'Por favor revisa tu correo electrónivo par
 $lang['us_admin_approval_pending']  = 'Su cuenta esta pendiente de aprobación por el administrador. Recibirás un correo electrónico de notificación si su cuenta esta activada.';
 $lang['us_account_not_active'] 		= 'Su cuenta aún no ha sido activada, por favor active su cuenta ingresando el código.';
 $lang['us_account_active'] 			= 'Felicitaciones. Su cuenta esta activa!.';
-$lang['us_account_active_login'] 	= 'Estimado/a<br/> Le damos una cordial bienvenida al sistema EPA. Le confirmamos que su registro ha sido satisfactorio<br/>';
-$lang['us_account_active_login_fin'] = 'Le agradecemos por elegirnos y esperamos que la experiencia EPA sea de su agrado.<br/><br/>';
+$lang['us_account_active_login'] 	= 'Estimado/a<br/> Le damos una cordial bienvenida al sistema EPA. Le confirmamos que su registro ha sido satisfactorio:<br/><br/>';
+$lang['us_account_active_login_fin'] = '<br/>Le agradecemos por elegirnos y esperamos que la experiencia EPA sea de su agrado.<br/><br/>';
 $lang['us_epa_staff'] = 'Atte.  EPA STAFF';
 
 

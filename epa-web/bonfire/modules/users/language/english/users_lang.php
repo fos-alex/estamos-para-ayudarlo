@@ -175,8 +175,8 @@ $lang['us_account_active'] 			= 'Congratulations. Your account is now active!.';
 $lang['us_account_reg_complete'] 	= 'Registration to [SITE_TITLE] completed!';
 $lang['us_active_status_changed'] 	= 'The user status was successfully changed.';
 $lang['us_active_email_sent'] 		= 'Activation email was sent.';
-$lang['us_account_active_login'] 	= 'Estimado/a<br/> Le damos una cordial bienvenida al sistema EPA. Le confirmamos que su registro ha sido satisfactorio<br/>';
-$lang['us_account_active_login_fin'] = 'Le agradecemos por elegirnos y esperamos que la experiencia EPA sea de su agrado.<br/><br/>';
+$lang['us_account_active_login'] 	= 'Estimado/a<br/> Le damos una cordial bienvenida al sistema EPA. Le confirmamos que su registro ha sido satisfactorio:<br/><br/>';
+$lang['us_account_active_login_fin'] = '<br/>Le agradecemos por elegirnos y esperamos que la experiencia EPA sea de su agrado.<br/><br/>';
 $lang['us_epa_staff'] = 'Atte.  EPA STAFF';
 // Activation Errors
 $lang['us_err_no_id'] 				= 'No User ID was received.';

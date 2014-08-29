@@ -18,7 +18,7 @@ class Registrar extends Api_Controller {
 		
 		if ($user_id = $this->user_model->insert ( $data )) {
 			
-			$user_datos = "NOMBRE DE USUARIO: $data ['username']<br/>CONTRASEÑA: $data ['password']<br/>";
+			$user_datos = "NOMBRE DE USUARIO: ". $data ['username']."<br/>CONTRASEÑA: ".$data ['password']."<br/>";
 			
 			$data_mail = array (
 					'to' => $data ['email'],
@@ -35,7 +35,7 @@ class Registrar extends Api_Controller {
 		}
 	}
 	private function controlarValidaciones($data) {
-		if (! $data || ! array_key_exists ( 'email', $data ) || ! array_key_exists ( 'password', $data )) {
+		if (! $data || !isset($data['email']) || !isset($data['password'])) {
 			$this->error ( 405, "Debe ingresar datos obligatorios" );
 		}
 		
@@ -51,10 +51,12 @@ class Registrar extends Api_Controller {
 		if (! ($this->form_validation->run () !== FALSE)) {
 			$this->error ( 407, "Ya existe un usuario con ese correo electronico" );
 		}
-		
-		if (! $this->password_correcta ( $data ['password'] )) {
+
+		$this->form_validation->set_rules('password', 'lang:bf_password', 'min_length[6]|max_length[40]');
+		if (! ($this->form_validation->run () !== FALSE) || ! $this->password_correcta ( $data ['password'] )) {
 			$this->error ( 408, "Formato de clave incorrecto. Debe ser alfanumerica entre 6 y 40 caracteres y contener al menos 1 letra y 1 numero" );
 		}
+		
 	}
 	private function sendMail($mail) {
 		$this->load->library ( 'email' );
