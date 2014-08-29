@@ -38,7 +38,7 @@ class compartir extends Api_Controller
 		$data_mail =  array(
 				'to' => $usuario_datos['email'],
 				'subject' => "Se ha compartido una lista con usted!",
-				'message' => "Estimado/a: El usuario <Email_cliente> ha compartido una lista con usted. Ya puedes visualizarla en tu aplicación.	Atte. EPA Staff"
+				'message' => "Estimado/a<br/> El usuario XXXXXXXXX ha compartido una lista con vos.<br/>Ya puedes visualizarla en tu aplicación.<br/><br/>Atte. EPA Staff"
 		);
 		
 		$this->sendMail($data_mail);
