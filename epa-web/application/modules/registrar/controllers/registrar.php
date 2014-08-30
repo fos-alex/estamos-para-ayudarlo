@@ -12,6 +12,12 @@ class Registrar extends Api_Controller {
 		$data ['username'] = $usuario_registro ['email'];
 		$data ['email'] = $usuario_registro ['email'];
 		$data ['password'] = $usuario_registro ['password'];
+		
+		if ($usuario_registro ['password'] !== $usuario_registro ['confirmpassword'])
+		{
+			$this->error ( 410, "No coinciden las claves ingresadas" );
+		}
+		
 		$data ['active'] = 1;
 		
 		$this->controlarValidaciones ( $data );
@@ -31,7 +37,7 @@ class Registrar extends Api_Controller {
 			$this->JSON_OUT->data = (array ("id" => $user_id));
 			$this->success();
 		} else {
-			$this->error ( 409, "Ha ocurrido un error al registrar usuario. Intente nuevamente más tarde" );
+			$this->error ( 411, "Ha ocurrido un error al registrar usuario. Intente nuevamente más tarde" );
 		}
 	}
 	private function controlarValidaciones($data) {
@@ -55,6 +61,11 @@ class Registrar extends Api_Controller {
 		$this->form_validation->set_rules('password', 'lang:bf_password', 'min_length[6]|max_length[40]');
 		if (! ($this->form_validation->run () !== FALSE) || ! $this->password_correcta ( $data ['password'] )) {
 			$this->error ( 408, "Formato de clave incorrecto. Debe ser alfanumerica entre 6 y 40 caracteres y contener al menos 1 letra y 1 numero" );
+		}
+		
+		$comparacion = strcmp($data['email'],$data['password']);
+		if ( $comparacion == 0  ) {
+			$this->error ( 409, "Su password no debe ser el mismo el email" );
 		}
 		
 	}
