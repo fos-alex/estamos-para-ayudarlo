@@ -1,0 +1,35 @@
+<ion-view title="EPA">
+    <!-- HEADER -->
+    <ion-header-bar class="bar-positive centrado" animation="slide-left-right-ios7">
+        <a class="tab-item backHeader" href="#/app/login">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado">Recuperar contraseña</h1>
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+
+    <ion-content class="loginBackground">
+        <div id="loginContainer" style="margin-top:5%;">
+            <div class="list list-inset loginForm">
+                <div class="row">
+                    <div class="col">
+                        <h3>Para restablecer la contraseña, introduce la dirección de correo electrónico que utilizas para iniciar sesión en EPA.</h3>
+                        <label class="item item-input loginInput">
+                            <input type="email" placeholder="E-Mail" name="user" ng-model="user" ng-required>
+                            <!--<span class="input-label">Email</span>
+                            <input type="text" name="user" ng-model="user" ng-required>-->
+                        </label>
+                    </div>
+                </div>
+
+        <div class="row centrado">
+            <div class="col centrado">
+                <button class="button button-positive recuperobutton button-small" data-ng-click="registrar()">
+                    Recuperar Contraseña
+                </button>
+
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

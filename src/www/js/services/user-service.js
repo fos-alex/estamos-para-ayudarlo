@@ -68,7 +68,7 @@ angular.module('EPA.services')
                             });
 
                             if (result['codigo'] == 0) {
-                                    $state.go ('app.menu');
+                                    $state.go ('app.login');
                             } else {
                                 response.message = result['mensaje'];
                             }
