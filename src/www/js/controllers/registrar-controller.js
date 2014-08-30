@@ -1,11 +1,11 @@
 angular.module('EPA.controllers')
 
 .controller('RegistrarCtrl', ['$scope', '$state', 'User', function($scope, $state, User) {
-        $scope.loginResponse = {
-            message: "El usuario y password son requeridos",
-            notifyShow: false,
-            type: "info"
-        };
+//        $scope.loginResponse = {
+//            message: "El usuario y password son requeridos",
+//            notifyShow: false,
+//            type: "info"
+//        };
 
         $scope.user = {
             data:{}
@@ -14,14 +14,14 @@ angular.module('EPA.controllers')
         $scope.registrar = function() {
             User.registrar($scope.user.data).then(function(response){
 
-                    $scope.loginResponse = response;
-                    $scope.loginResponse.notifyShow = true;
-                    if (response.code ==0) {
-                        $state.go ("app.menu");
-                    }
+                    $scope.registrarResponse = response;
+                    $scope.registrarResponse.notifyShow = true;
+//                    if (response.code ==0) {
+//                        $state.go ("app.login");
+//                    }
 
                 }
 
             );
         };
-}])
+}]);

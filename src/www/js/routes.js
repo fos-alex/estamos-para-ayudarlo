@@ -29,6 +29,17 @@ angular.module('EPA')
             }
         })
 
+        .state('app.recupero-clave', {
+            url: "/recuperopassword",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/recupero-clave.html",
+                    controller: 'recupero-claveCtrl'
+                }
+            }
+        })
+
+
         .state('app.listas', {
             url: "/listas",
             views: {
