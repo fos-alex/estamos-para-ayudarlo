@@ -26,12 +26,12 @@
             </label>
         </div>
 
-        <div class="row" ng-show="loginResponse.notifyShow">
+        <div class="row" ng-show="registrarResponse.notifyShow">
             <div class="col">
-                <div class="notify" ng-class="loginResponse.type">
+                <div class="notify" ng-class="registrarResponse.type">
                     <i class="icon ion-close-circled"></i>
                           <span id="notifyTextLogin" class="notifyText">
-                              {{loginResponse.message}}
+                              {{registrarResponse.message}}
                           </span>
                 </div>
             </div>
@@ -39,7 +39,7 @@
 
         <div class="row centrado">
             <div class="col centrado">
-                <button class="button button-positive loginButton button-large" data-ng-click="registrar()">
+                <button class="button button-positive loginButton button-small" data-ng-click="registrar()">
                     Registrarse
                 </button>
 

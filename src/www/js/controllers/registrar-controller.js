@@ -14,8 +14,8 @@ angular.module('EPA.controllers')
         $scope.registrar = function() {
             User.registrar($scope.user.data).then(function(response){
 
-                    $scope.loginResponse = response;
-                    $scope.loginResponse.notifyShow = true;
+                    $scope.registrarResponse = response;
+                    $scope.registrarResponse.notifyShow = true;
 //                    if (response.code ==0) {
 //                        $state.go ("app.login");
 //                    }
