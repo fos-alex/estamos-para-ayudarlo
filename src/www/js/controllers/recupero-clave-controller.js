@@ -10,6 +10,15 @@ angular.module('EPA.controllers')
 
                     $scope.recuperoClaveResponse = response;
                     $scope.recuperoClaveResponse.notifyShow = true;
+                    if (response.codigo ==0) {
+                        setTimeout(function(){
+                            $state.go ("app.login");
+                        },2000);
+                        $scope.recuperoClaveResponse.type = 'success';
+                    }else {
+                        $scope.recuperoClaveResponse.type = 'error';
+                    }
+
 
                 }
 

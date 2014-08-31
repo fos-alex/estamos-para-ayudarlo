@@ -19,6 +19,15 @@ angular.module('EPA.controllers')
 //                    if (response.code ==0) {
 //                        $state.go ("app.login");
 //                    }
+                    if (response.codigo ==0) {
+                        setTimeout(function(){
+                            $state.go ("app.login");
+                        },2000);
+                        $scope.registrarResponse.type = 'success';
+                    }else {
+                        $scope.registrarResponse.type = 'error';
+                    }
+
 
                 }
 

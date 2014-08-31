@@ -18,7 +18,9 @@ angular.module('EPA.controllers')
                     $scope.compartirResponse.message = response.data.mensaje;
                     $scope.compartirResponse.notifyShow = true; 
                     if (response.data.codigo ==0) {
-                        $state.go ("app.listas");
+                        setTimeout(function(){
+                            $state.go ("app.listas");
+                            },2000);
                         $scope.compartirResponse.type = 'success';
                     }else {
                         $scope.compartirResponse.type = 'error';

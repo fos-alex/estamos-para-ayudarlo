@@ -1,6 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('NuevoItemListaCtrl', ['$scope', '$state', 'Producto', 'Session',
+.controller('NuevoItemListaCtrl', [
+    '$scope', '$state', 'Producto', 'Session',
     function($scope, $state, Producto, Session) {
         $scope.createdList = Session.get('createdList') || {};
 
