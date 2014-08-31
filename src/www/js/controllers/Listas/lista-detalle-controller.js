@@ -21,7 +21,7 @@ angular.module('EPA.controllers')
             Lista.save($scope.lista).then(function() {
                 $state.go('app.listas');
             });
-        };
+        };        
         
     }
 ]);
