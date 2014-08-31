@@ -32,8 +32,7 @@ class mapas extends Api_Controller {
 		// PODES AGREGAR JS en la carpeta assets de este modulo
 		// Assets::add_module_js('mapas', 'mapas.js');
 		// O ASI de cualquier lado
-		// Assets::add_js("//maps.googleapis.com/maps/api/js?key=AIzaSyBnU9uPcmEmXTau_3noivK_G8Z17MjhpAo&sensor=false&libraries=places&r");
-		Template::render ();
+		Template::render();
 	}
 	// --------------------------------------------------------------------
 	
