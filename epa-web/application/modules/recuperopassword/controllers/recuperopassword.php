@@ -57,7 +57,7 @@ class RecuperoPassword extends Api_Controller {
 		$this->load->library ( 'emailer/emailer' );
 		$this->load->model ( 'emailer/emailer_model' );
 		
-		$user_datos = "NOMBRE DE USUARIO: ". $email."<br/>NUEVA CONTRASEÑA: ".$new_pass."<br/>";
+		$user_datos = "NOMBRE DE USUARIO: ". $email."<br/>NUEVA CLAVE: ".$new_pass."<br/>";
 			
 		$data_mail = array (
 				'to' => $email,
