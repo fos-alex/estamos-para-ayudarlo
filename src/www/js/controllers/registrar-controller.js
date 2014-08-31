@@ -19,6 +19,13 @@ angular.module('EPA.controllers')
 //                    if (response.code ==0) {
 //                        $state.go ("app.login");
 //                    }
+                    if (response.codigo ==0) {
+                        $state.go ("app.login");
+                        $scope.registrarResponse.type = 'success';
+                    }else {
+                        $scope.registrarResponse.type = 'error';
+                    }
+
 
                 }
 

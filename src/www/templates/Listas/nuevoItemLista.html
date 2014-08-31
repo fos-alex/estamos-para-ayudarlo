@@ -14,15 +14,21 @@
             <input type="search" placeholder="Buscar" ng-model="nombreProducto">
         </label>
         <div class="list" show-delete='true'>
-            <a class="item item-avatar item-icon-right"
-               ng-repeat="item in itemsDisponibles | filter:nombreProducto"
-               ng-click="item.added = item.added? false: true">
-                <img src="img/ionic.png">
-                <h2>{{item.nombre}}</h2>
-                <p>{{item.descripcion}}</p>
-                <i class="icon" ng-class="item.added? 'ion-ios7-checkmark-outline' :''"></i>
+            <a class="item item-icon-left"
+               ng-repeat="item in itemsDisponibles | filter:nombreProducto">
+                <div class="force-item-avatar-left" ng-click="item.added = item.added? false: true;item.cantidad = (item.added? 1:0);">
+                    <i class="icon" ng-class="item.added? 'ion-ios7-checkmark-outline' :''"></i>
+                    <h2>{{item.nombre}}</h2>
+                    <p>{{item.descripcion}}</p>
+                </div>
+                <div class="force-item-avatar-right">
+                    <i class="ion-arrow-up-b lista-cant-icon" data-ng-click="item.cantidad = (item.cantidad > 0)? item.cantidad + 1: 1"></i>
+                    <input class="lista-cant-input text-center" type="number" min="1"  data-ng-model="item.cantidad">
+                    <i class="ion-arrow-down-b lista-cant-icon" data-ng-click="item.cantidad = (item.cantidad  > 0)? item.cantidad - 1: 0"></i>
+                </div>
             </a>
         </div>
+
     </ion-content>
     <!-- FOOTER-->
     <ion-footer-bar class="bar-dark">     
