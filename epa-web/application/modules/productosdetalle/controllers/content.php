@@ -62,7 +62,7 @@ class content extends Admin_Controller
 			}
 		}
 
-		$records = $this->productosdetalle_model->find_all();
+		$records = $this->productosdetalle_model->select("productosdetalle.*,productos.nombre as tipo_producto")->join("productos","productos.id = id_producto")->find_all();
 
 		Template::set('records', $records);
 		Template::set('toolbar_title', 'Gestionar Productos');
@@ -225,40 +225,49 @@ class content extends Admin_Controller
 		$this->auth->restrict('ProductosDetalle.Content.Edit');
 		Assets::add_css('//hayageek.github.io/jQuery-Upload-File/uploadfile.min.css');
 		Assets::add_js('//hayageek.github.io/jQuery-Upload-File/jquery.uploadfile.min.js');
-		Assets::add_module_js('productosdetalle', 'cargamasiva.js');
 		Template::set('toolbar_title', lang('productosdetalle_cargamasiva') .' Producto');
 		Template::render();
 	}
 
 	public function uploadFile(){
 		$this->auth->restrict('ProductosDetalle.Content.Edit');
+		$this->load->model('productos/productos_model', null, true);
+				
+		$tipos = array(
+				"0"=>"id_producto",
+				"1"=>"marca",
+				"2"=>"presentacion",
+				"3"=>"precio",
+				"4"=>"descripcion"
+			);
 
-		$this->load->library('productosdetalle/phpexcel');
-		$objPHPExcel = PHPExcel_IOFactory::load($_FILES['productos']['tmp_name']);
-		$sheet = $objPHPExcel->getSheet(0); 
-		$highestRow = $sheet->getHighestRow(); 
-		$highestColumn = $sheet->getHighestColumn();
+		$this->load->library('excel/lectorexcel',$tipos);
+		$this->lectorexcel->cargar($_FILES['productos']['tmp_name']);
+		$productosleidos = $this->lectorexcel->obtenerFilas();
+		$productoscargados = array();
+		$productosnocargados = array();
+		
+		foreach ($productosleidos as $key => $producto) {
+			$producto['id_supermercado'] = (string)$this->current_user->supermercado->id;
+			$tipo = $producto['id_producto'];
+			$productosTipo = $this->productos_model->where('LOWER(nombre)',trim(strtolower($tipo)))->find_all();
+			if(!$productosTipo){
+				$producto['id_producto'] = 0;
+			}else{
+				$producto['id_producto'] = $productosTipo[0]->id;
+			}
 
-		for ($row = 2; $row <= $highestRow; $row++){ 
-		    $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row,
-		                                    NULL,
-		                                    TRUE,
-		                                    FALSE);
-		    //llevar a un metodo y validar cada campo
-		    $producto = array();
-		    $producto['id_supermercado'] = $this->current_user->supermercado->id;
-		    $producto['id_producto'] = $rowData[0][0];
-		    $producto['marca'] = $rowData[0][1];
-		    $producto['presentacion'] = $rowData[0][2];
-		    $producto['precio'] = $rowData[0][3];
-		    $producto['descripcion'] = $rowData[0][4];
-		    var_dump($producto);
-   			$id = $this->productosdetalle_model->insert($producto);
-		    var_dump($id);
-
+			if($this->productosdetalle_model->insert($producto))
+				array_push($productoscargados, $producto);
+			else
+				array_push($productosnocargados, $producto);
 		}
 
-		// La salida debe contener descripcion de errores
+		die(json_encode(array(
+				"CORRECTOS"=> sizeof($productoscargados),
+				"FALLIDOS"=> sizeof($productosnocargados)
+			)));
+
 	}
 
 }
