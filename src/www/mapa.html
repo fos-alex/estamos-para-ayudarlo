@@ -7,6 +7,7 @@
 </head>
 <body>
 
+<input id="id_sucursal" type="hidden" value="<?php echo $id_sucursal?>">
 <div id="map-container"></div>
 <script type="application/javascript" src="lib/js/jQuery/jquery.min.js"></script>
 <script src="lib/js/kinetic/kinetic-v5.1.0.min.js"></script>
@@ -15,7 +16,10 @@
 <script src="lib/js/mapa-plugin.js"></script>
 <script type="application/javascript">
     $(document).ready(function () {
-        $('#map-container').canvasMap();
+        $('#map-container').canvasMap({
+            url: "http://local.epa-web.com/app",
+            url_mapa: '/mapas/' + $('#id_sucursal').val()
+        });
     });
 </script>
 </body>
