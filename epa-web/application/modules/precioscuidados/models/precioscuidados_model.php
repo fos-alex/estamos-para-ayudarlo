@@ -1,8 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Productosdetalle_model extends BF_Model {
+class Precioscuidados_model extends BF_Model {
 
-	protected $table_name	= "productosdetalle";
+	protected $table_name	= "precioscuidados";
 	protected $key			= "id";
 	protected $soft_deletes	= false;
 	protected $date_format	= "datetime";
@@ -47,33 +47,38 @@ class Productosdetalle_model extends BF_Model {
 	 */
 	protected $validation_rules 		= array(
 		array(
-			"field"		=> "productosdetalle_id_producto",
+			"field"		=> "precioscuidados_categoria",
+			"label"		=> "Categoria",
+			"rules"		=> "required|max_length[255]"
+		),
+		array(
+			"field"		=> "precioscuidados_producto",
 			"label"		=> "Producto",
-			"rules"		=> "required"
+			"rules"		=> "required|max_length[255]"
 		),
 		array(
-			"field"		=> "productosdetalle_presentacion",
-			"label"		=> "Presentacion",
-			"rules"		=> "required|max_length[100]"
-		),
-		array(
-			"field"		=> "productosdetalle_marca",
+			"field"		=> "precioscuidados_marca",
 			"label"		=> "Marca",
-			"rules"		=> "max_length[100]"
+			"rules"		=> "required|max_length[255]"
 		),
 		array(
-			"field"		=> "productosdetalle_precio",
+			"field"		=> "precioscuidados_cantidad",
+			"label"		=> "Cantidad",
+			"rules"		=> "required|max_length[255]"
+		),
+		array(
+			"field"		=> "precioscuidados_precio",
 			"label"		=> "Precio",
-			"rules"		=> "required|max_length[10]"
+			"rules"		=> "required|max_length[255]"
 		),
 		array(
-			"field"		=> "productosdetalle_descripcion",
-			"label"		=> "Descripcion",
-			"rules"		=> "max_length[255]"
+			"field"		=> "precioscuidados_vigencia",
+			"label"		=> "Vigencia",
+			"rules"		=> ""
 		),
 	);
 	protected $insert_validation_rules 	= array();
-	protected $skip_validation 			= TRUE;
+	protected $skip_validation 			= FALSE;
 
 	//--------------------------------------------------------------------
 
