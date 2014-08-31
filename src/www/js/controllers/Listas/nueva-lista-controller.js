@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('NuevaListaCtrl', ['$scope', '$state', 'Session', 'Lista',
-    function($scope, $state, Session, Lista) {
+.controller('NuevaListaCtrl', ['$scope', '$state','$location' , 'Session', 'Lista',
+    function($scope, $state, $location, Session, Lista) {
         $scope.createdList = Session.get('createdList') || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Lista";
 
@@ -17,8 +17,10 @@ angular.module('EPA.controllers')
 
         $scope.saveList = function () {
             Lista.save(this.createdList).then(function () {
+                var idLista = $scope.createdList.id
                 $scope.createdList = {};
-                return $state.go('app.listas');
+                var path = '/app/listas/';
+                return $location.path(path+ idLista);
             });
         }
 

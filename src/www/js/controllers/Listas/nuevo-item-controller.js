@@ -16,6 +16,10 @@ angular.module('EPA.controllers')
             }, this);
 
             Session.set('createdList', this.createdList);
+            
+                //var idLista = this.createdList.id
+                //var path = '/app/listas/';
+              //  return $location.path(path+ idLista);            
             $state.go('app.nuevaLista');
         }
 
