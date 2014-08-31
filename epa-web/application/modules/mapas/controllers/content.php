@@ -64,7 +64,8 @@ class content extends Admin_Controller
 	 */
 	public function edit()
 	{
-		$id = $this->uri->segment(5);
+        $this->auth->restrict('Mapas.Content.Create');
+        $id = $this->uri->segment(5);
 
 		if (empty($id))
 		{
@@ -73,6 +74,9 @@ class content extends Admin_Controller
 		}
 		$this->load->model('sucursales/sucursales_model', null, true);
 		$sucursal = $this->sucursales_model->find($id);
+        Assets::add_js("underscore-min.js");
+        Assets::add_js("kinetic-v5.1.0.min.js");
+        Assets::add_js("mapa-plugin.js");
 		Template::set('id_sucursal', $id);
 		Template::set('mapa', ($sucursal)?$sucursal->mapa:'');
 		Template::set('toolbar_title', lang('mapas_edit') .' Mapas');
