@@ -19,14 +19,19 @@
                 <span class="input-label">Contraseña</span>
                 <input type="password" placeholder="" ng-model="user.data.password" ng_required>
             </label>
+
+            <label class="item item-input">
+                <span class="input-label">Confirmar Contraseña</span>
+                <input type="password" placeholder="" ng-model="user.data.confirmpassword" ng_required>
+            </label>
         </div>
 
-        <div class="row" ng-show="loginResponse.notifyShow">
+        <div class="row" ng-show="registrarResponse.notifyShow">
             <div class="col">
-                <div class="notify" ng-class="loginResponse.type">
+                <div class="notify" ng-class="registrarResponse.type">
                     <i class="icon ion-close-circled"></i>
                           <span id="notifyTextLogin" class="notifyText">
-                              {{loginResponse.message}}
+                              {{registrarResponse.message}}
                           </span>
                 </div>
             </div>
@@ -41,3 +46,4 @@
             </div>
         </div>
     </ion-content>
+</ion-view>
