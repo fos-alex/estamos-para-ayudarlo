@@ -18,6 +18,7 @@ class Usuario extends Api_Controller
 		$json = $this->JSON_IN;
 		if ($this->auth->login( $json['username'] , $json['password'] , FALSE) === TRUE){
 			header('HTTP/1.1 200 Usuario Correcto');
+			//var_dump($this->auth->user_id( ));
 			die();
 		}else{
 			header('HTTP/1.1 403 Usuario Invalido');

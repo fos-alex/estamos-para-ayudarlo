@@ -44,13 +44,16 @@ class Lista extends Api_Controller
 
 	private function obtenerLista($id){
 			$this->load->model('lista_model', null, true);
+			$this->load->library ( 'users/auth' );
 
 			$lista = $this->lista_model->find($id);
 
 			if(!$lista){
 				$this->error(404,"La lista $id no existe");
 			}
-
+			
+			//var_dump($this->auth->user_id( ));
+		
 			$lista->productos = Modules::run('productos/de_lista',$id);
 			return $lista;
 	}	
