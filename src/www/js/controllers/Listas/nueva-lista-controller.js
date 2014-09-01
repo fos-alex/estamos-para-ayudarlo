@@ -17,10 +17,10 @@ angular.module('EPA.controllers')
 
         $scope.saveList = function () {
             Lista.save(this.createdList).then(function () {
-                var idLista = $scope.createdList.id
-                $scope.createdList = {};
-                var path = '/app/listas/';
-                return $location.path(path+ idLista);
+                    var idLista = $scope.createdList.id
+                    $scope.createdList = {};
+                    var path = '/app/listas/';
+                    return $location.path(path+ idLista);                                       
             });
         }
 
