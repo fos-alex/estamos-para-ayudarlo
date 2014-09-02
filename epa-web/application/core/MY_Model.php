@@ -590,6 +590,7 @@ class BF_Model extends CI_Model
 	 */
 	public function insert($data=null)
 	{
+		
 		if ($this->skip_validation === false) {
 		    $data = $this->validate($data, 'insert');
             if ($data === false) {
@@ -598,11 +599,17 @@ class BF_Model extends CI_Model
 		}
 
 		$data = $this->trigger('before_insert', $data);
+		
 
 		if ($this->set_created === true && $this->log_user === true
             && ! array_key_exists($this->created_by_field, $data)
            ) {
 			$data[$this->created_by_field] = $this->auth->user_id();
+		}
+		
+		if ($this->set_modified === TRUE && !isset($data[$this->modified_field]))
+		{
+			$data[$this->modified_field] = $this->set_date();
 		}
 
 		// Insert it
@@ -691,14 +698,19 @@ class BF_Model extends CI_Model
                 	return false;
             		}
 		}
-
+		
 		if ( ! is_array($where))
 		{
 			$where = array($this->key => $where);
 		}
 
 		$data = $this->trigger('before_update', $data);
-
+		
+		if ($this->set_modified === TRUE && !isset($data[$this->modified_field]))
+		{
+			$data[$this->modified_field] = $this->set_date();
+		}
+		
 		// Add the user id if using a modified_by field
 		if ($this->set_modified === TRUE && $this->log_user === TRUE && !array_key_exists($this->modified_by_field, $data))
 		{

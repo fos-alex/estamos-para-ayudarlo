@@ -12,8 +12,8 @@ class Lista_model extends BF_Model {
 	protected $set_created  = TRUE;
     protected $created_field    = 'fecha_creacion';
 
-	//protected $set_modified = TRUE;
-	//protected $created_field    = 'ult_fecha_modificacion';
+	protected $set_modified = TRUE;
+	protected $modified_field    = 'fecha_modificacion';
 
 	/*
 		For performance reasons, you may require your model to NOT return the

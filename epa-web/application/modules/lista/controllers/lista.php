@@ -78,6 +78,7 @@ class Lista extends Api_Controller
 				$productos = $lista['productos'];
 				unset($lista['productos']);
 			}
+			
 			$id = $this->lista_model->insert($lista);
 			Modules::run('productos/para_lista',$id,$productos);
 			return array("id"=>$id);
@@ -90,6 +91,7 @@ class Lista extends Api_Controller
 				$productos = $lista['productos'];
 				unset($lista['productos']);
 			}
+			
 			if($this->lista_model->update($id,$lista)){
                 Modules::run('productos/cantidad_de_productos_validas',$productos);
 				Modules::run('productos/para_lista',$id,$productos);
