@@ -27,6 +27,7 @@ angular.module('EPA.controllers')
                 angular.forEach($scope.createdList.productos, function (itemAgregado, key) {
                     if (itemDisponible.id === itemAgregado.id) {
                         itemDisponible.added = true;
+                        itemDisponible.cantidad=itemAgregado.cantidad;
                     }
                 }, this);
             }, this);
