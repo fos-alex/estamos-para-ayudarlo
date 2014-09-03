@@ -30,38 +30,43 @@
         });
 
         element.append(
-            '<div id="container" onmousedown="return false;" style="display: inline-block; float:left;"></div>'
-        );
-
-        element.append(
-            '<div id="view-panel" class="main-panel-container" style="float: right; width:20%; text-align: center; display:inline-block;">' +
-                '<div class="panel-header">' +
-                '<h2>Descripción de Elemento</h2>' +
+            '<div id="main-map-container" class="container-fluid">' +
+                '<div class="row-fluid">' +
+                    '<div id="internal-map-container" class="span10" style="overflow:scroll; border: 1px solid grey;" onmousedown="return false;"></div>' +
+                    '<div id="view-panel" class="main-panel-container span2 text-center">' +
+                        '<div class="row-fluid">' +
+                            '<div class="panel-header span12">' +
+                                '<h2>Descripción de Elemento</h2>' +
+                            '</div>' +
+                            '<div class="panel-body span12 text-left">' +
+                                '<div class="row">' +
+                                    '<div class="element-name-container span12">' +
+                                        '<span>Elemento: </span>' +
+                                        '&nbsp;' +
+                                        '<span class="element-name"></span>' +
+                                    '</div>' +
+                                    '<div class="element-description-container span12">' +
+                                        '<span>Descripción: </span>' +
+                                        '&nbsp;' +
+                                        '<span class="element-description"></span>' +
+                                    '</div>' +
+                                    '<div class="element-delete-container span12">' +
+                                        '<button id="map-element-delete-button">Borrar</button>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
                 '</div>' +
-                '<div class="panel-body" style="text-align: left;">' +
-                '<div class="element-name-container">' +
-                    '<span>Elemento: </span>' +
-                    '&nbsp;' +
-                    '<span class="element-name"></span>' +
+                '<div id="controlers" class="row-fluid">' +
+                    '<div class="span12">' +
+                        '<button id="map-new-button" >Nuevo Mapa</button>' +
+                        '<button id="map-save-button" >Guardar Mapa</button>' +
+                        '<button id="map-add-rect-button" >Agregar Góndola</button>' +
+                        '<button id="map-add-exit-button" >Agregar Entrada/Salida</button>' +
+                        '<select id="map-categorias-select"></select>' +
+                    '</div>' +
                 '</div>' +
-                '<div class="element-description-container">' +
-                    '<span>Descripción: </span>' +
-                    '&nbsp;' +
-                    '<span class="element-description"></span>' +
-                '</div>' +
-                '<div class="element-delete-container">' +
-                    '<button id="map-element-delete-button">Borrar</button>' +
-                '</div>' +
-            '</div>'
-        );
-
-        element.append(
-            '<div id="controlers" style="clear:both;">' +
-                '<button id="map-new-button" >Nuevo Mapa</button>' +
-                '<button id="map-save-button" >Guardar Mapa</button>' +
-                '<button id="map-add-rect-button" >Agregar Góndola</button>' +
-                '<button id="map-add-exit-button" >Agregar Entrada/Salida</button>' +
-                '<select id="map-categorias-select"></select>' +
             '</div>'
         );
 
@@ -98,7 +103,7 @@
         };
 
         $.ajax({
-            url: 'http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app/mapas/1',
+            url: opts.url + opts.url_mapa,
             type: 'PUT',
             data: JSON.stringify(mapa),
             success: function (response) {
@@ -111,15 +116,16 @@
 
     $.fn.canvasMap.loadMap = function (){
         var that = this;
-        $.getJSON(opts.url + '/mapas/1', function (response) {
-            if (!response.data) {
+        $.getJSON(opts.url + opts.url_mapa, function (response) {
+            // Check if response empty
+            if (!response.data || Object.keys(response.data).length === 0) {
                 alert('La sucursal no tiene mapa.');
                 return that.newMap();
             }
             var mapa;
             if (mapa = response.data.mapaJSON) {
                 canvas.objects = response.data.objects;
-                canvas.stage = Kinetic.Node.create(mapa, 'container');
+                canvas.stage = Kinetic.Node.create(mapa, 'internal-map-container');
                 canvas.stage.draw();
                 canvas.layer = canvas.stage.getLayers()[0];
                 that.addBehaviour(canvas.layer);
@@ -140,7 +146,7 @@
         };
 
         canvas.stage = new Kinetic.Stage({
-            container: 'container',
+            container: 'internal-map-container',
             width: 1000,
             height: 550
         });

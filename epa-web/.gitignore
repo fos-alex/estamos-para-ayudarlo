@@ -17,6 +17,7 @@ nbactions.xml
 .metadata
 .properties
 .idea
+../.idea
 
 # Ignore Bonfire Application Specifics
 application/logs/*
