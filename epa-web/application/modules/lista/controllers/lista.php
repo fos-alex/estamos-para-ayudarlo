@@ -44,13 +44,16 @@ class Lista extends Api_Controller
 
 	private function obtenerLista($id){
 			$this->load->model('lista_model', null, true);
+			$this->load->library ( 'users/auth' );
 
 			$lista = $this->lista_model->find($id);
 
 			if(!$lista){
 				$this->error(404,"La lista $id no existe");
 			}
-
+			
+			//var_dump($this->auth->user_id( ));
+		
 			$lista->productos = Modules::run('productos/de_lista',$id);
 			return $lista;
 	}	
@@ -59,9 +62,10 @@ class Lista extends Api_Controller
 			$this->load->model('lista_model', null, true);
 
 			$listas = $this->lista_model->find_all();
-
-			foreach ($listas as $key => $lista) {
-				$lista->productos = Modules::run('productos/de_lista',$lista->id);
+			if($listas){
+				foreach ($listas as $key => $lista) {
+					$lista->productos = Modules::run('productos/de_lista',$lista->id);
+				}
 			}
 						
 			return $listas;
@@ -74,6 +78,7 @@ class Lista extends Api_Controller
 				$productos = $lista['productos'];
 				unset($lista['productos']);
 			}
+			
 			$id = $this->lista_model->insert($lista);
 			Modules::run('productos/para_lista',$id,$productos);
 			return array("id"=>$id);
@@ -86,6 +91,7 @@ class Lista extends Api_Controller
 				$productos = $lista['productos'];
 				unset($lista['productos']);
 			}
+			
 			if($this->lista_model->update($id,$lista)){
                 Modules::run('productos/cantidad_de_productos_validas',$productos);
 				Modules::run('productos/para_lista',$id,$productos);

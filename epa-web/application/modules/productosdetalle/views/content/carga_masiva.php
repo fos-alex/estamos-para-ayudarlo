@@ -5,5 +5,23 @@
 </div>
 
 <div class="admin-box">
-	<div id="fileuploader">Upload</div>
+	<h3>Subir productos desde plantilla excel</h3>
+	<div class="row">
+		<div class="span6">
+			<div class="control-group div-carga">
+				<label>Elejir archivo</label>
+				<div class='controls'>
+					<div id="fileuploader">Examinar...</div>
+				</div>
+			</div>
+		</div>
+		<div class="span6">
+			<div class="control-group">
+				<div class='controls'>
+					<a href="/assets/docs/productos-ejemplo.xls" target="_blank"><img src="/assets/images/Excel-icon.png" style="width:40px;"/>Descargar ejemplo de planilla</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </div>
