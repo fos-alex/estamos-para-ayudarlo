@@ -47,7 +47,7 @@ class compartir extends Api_Controller
 	private function compartirLista($id_lista,$id_usuario){
 		$this->load->model('lista/usuario_lista_model', null, true);
 
-		if(!$this->usuario_lista_model->insert(array("id_lista"=>$id_lista,"id_usuario"=>$id_usuario)) ){
+		if(!$this->usuario_lista_model->insert(array("id_lista"=>$id_lista,"id_usuario"=>$id_usuario,"permisos"=> 1)) ){
 			$error_db = $this->db->_error_number();
 			if($error_db == 1062){
 				$this->error(405,"El usuario ya tiene esa lista");	

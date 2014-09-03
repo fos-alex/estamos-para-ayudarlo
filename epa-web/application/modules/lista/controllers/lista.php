@@ -53,14 +53,27 @@ class Lista extends Api_Controller
 			}
 			
 			//var_dump($this->auth->user_id( ));
-		
+			//aca es donde setearia la fecha de modificacion
+			//$data[$this->modified_field] = $this->set_date();
+			
+			//var_dump($this->auth->user_id( ));
+			//var_dump($this->lista_model->modified_field);
+			
+			//var_dump($this->lista_model->modified_field);
+			
+			//$this->lista_model->update($id,$data);			
+			
 			$lista->productos = Modules::run('productos/de_lista',$id);
 			return $lista;
 	}	
 
 	private function obtenerListas(){
 			$this->load->model('lista_model', null, true);
+			$this->load->library ( 'users/auth' );
 
+			//var_dump($this->auth->user_id( ));
+			
+			//filtrar por usuario
 			$listas = $this->lista_model->find_all();
 			if($listas){
 				foreach ($listas as $key => $lista) {
@@ -73,6 +86,9 @@ class Lista extends Api_Controller
 
 	private function crearLista($lista){
 			$this->load->model('lista_model', null, true);
+			$this->load->model('usuario_lista_model', null, true);
+			$this->load->library ( 'users/auth' );
+			
 			$productos = array();
 			if(array_key_exists('productos', $lista)){
 				$productos = $lista['productos'];
@@ -80,6 +96,13 @@ class Lista extends Api_Controller
 			}
 			
 			$id = $this->lista_model->insert($lista);
+			
+			$id_usuario = 1;
+			if ($this->auth->user_id( ))
+				$id_usuario = $this->auth->user_id( );
+
+			$this->usuario_lista_model->insert(array("id_lista"=>$id,"id_usuario"=>$id_usuario,"permisos"=> 0));
+			
 			Modules::run('productos/para_lista',$id,$productos);
 			return array("id"=>$id);
 	}	
@@ -91,6 +114,10 @@ class Lista extends Api_Controller
 				$productos = $lista['productos'];
 				unset($lista['productos']);
 			}
+			
+			//$this->lista_model->update($id,$data);
+			
+			//aca setear la fecha en null
 			
 			if($this->lista_model->update($id,$lista)){
                 Modules::run('productos/cantidad_de_productos_validas',$productos);
@@ -105,6 +132,8 @@ class Lista extends Api_Controller
 	private function eliminarLista($id){
 			$this->load->model('lista_model', null, true);
 
+			//solo borrar si es el creador
+			
 			if($this->lista_model->delete($id)){
 				return array("id"=>$id);
 			}else{
