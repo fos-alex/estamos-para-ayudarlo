@@ -62,7 +62,8 @@
                             "xml": "<uses-feature android:name=\"android.hardware.nfc\" android:required=\"false\" />",
                             "count": 1
                         }
-                    ]
+                    ],
+                    "application": []
                 }
             },
             "res/values/strings.xml": {
@@ -545,6 +546,11 @@
                             "count": 1
                         }
                     ]
+                }
+            },
+            "res/values/facebookconnect.xml": {
+                "parents": {
+                    "/*": []
                 }
             }
         }

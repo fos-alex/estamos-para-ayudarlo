@@ -8,18 +8,22 @@ angular.module('EPA.services')
                 }
 
                 init();
+                if (typeof cordova !== 'undefined') {
+                    var scanner = cordova.plugins.barcodeScanner;
+                }
 
                 return {
-                    read: function () {
-                        var scanner = cordova.plugins.barcodeScanner;
+                    read: function (cb) {
                         scanner.scan(
                             function (result) {
                                 var reads = Session.get('QRReads');
                                 reads.push(result);
-                                return Session.set('QRReads', reads);
+                                alert(result);
+                                return cb({}, Session.set('QRReads', reads));
                             }, function (error) {
                                 //@TODO: Throw error
                                 alert("Fallo el scanner: " + error);
+                                cb(error);
                             });
                     }
                 };

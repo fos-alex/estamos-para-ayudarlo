@@ -2,7 +2,9 @@
 
 angular.module('EPA', [
         'ionic',
-        'EPA.controllers'
+        'EPA.controllers',
+        'EPA.directives',
+        'EPA.services'
     ])
 
 .run(function($ionicPlatform) {
