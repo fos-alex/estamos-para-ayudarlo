@@ -52,16 +52,8 @@ class Lista extends Api_Controller
 				$this->error(404,"La lista $id no existe");
 			}
 			
-			//var_dump($this->auth->user_id( ));
-			//aca es donde setearia la fecha de modificacion
-			//$data[$this->modified_field] = $this->set_date();
+			//aca deberia bloquearla para q nadie mas la pueda tocar  bloqueado = 1
 			
-			//var_dump($this->auth->user_id( ));
-			//var_dump($this->lista_model->modified_field);
-			
-			//var_dump($this->lista_model->modified_field);
-			
-			//$this->lista_model->update($id,$data);			
 			
 			$lista->productos = Modules::run('productos/de_lista',$id);
 			return $lista;
@@ -69,17 +61,28 @@ class Lista extends Api_Controller
 
 	private function obtenerListas(){
 			$this->load->model('lista_model', null, true);
+			$this->load->model('usuario_lista_model', null, true);
 			$this->load->library ( 'users/auth' );
 
-			//var_dump($this->auth->user_id( ));
-			
-			//filtrar por usuario
-			$listas = $this->lista_model->find_all();
+			$listas;
+			if ($id_usuario = $this->auth->user_id( )) //Si se quu usuario es
+				$listas = $this->usuario_lista_model->join('lista l', 'id_lista = l.id')->find_all_by('id_usuario',$id_usuario);
+			else
+				$listas = $this->lista_model->find_all();
+				
 			if($listas){
 				foreach ($listas as $key => $lista) {
+					//Ver con pablo como sacar estas cosas para no mandar data de mas!!!!!!!
+// 					$lista = (array)$lista;
+// 					unset($lista['permisos']);
+// 					unset($lista['id_usuario']);
+// 					unset($lista['id_lista']);
+// 					$lista = (object)$lista;
+					
 					$lista->productos = Modules::run('productos/de_lista',$lista->id);
 				}
 			}
+			//var_dump($listas);
 						
 			return $listas;
 	}	
@@ -97,10 +100,12 @@ class Lista extends Api_Controller
 			
 			$id = $this->lista_model->insert($lista);
 			
+			//TODO boletear esto una vez q sepa el user
 			$id_usuario = 1;
 			if ($this->auth->user_id( ))
 				$id_usuario = $this->auth->user_id( );
 
+			//necesito saber el usuario asi le asigno permisos de creador
 			$this->usuario_lista_model->insert(array("id_lista"=>$id,"id_usuario"=>$id_usuario,"permisos"=> 0));
 			
 			Modules::run('productos/para_lista',$id,$productos);
@@ -114,10 +119,8 @@ class Lista extends Api_Controller
 				$productos = $lista['productos'];
 				unset($lista['productos']);
 			}
-			
-			//$this->lista_model->update($id,$data);
-			
-			//aca setear la fecha en null
+
+			//aca deberia desbloquear la lista  bloqueado = 0
 			
 			if($this->lista_model->update($id,$lista)){
                 Modules::run('productos/cantidad_de_productos_validas',$productos);
@@ -131,14 +134,31 @@ class Lista extends Api_Controller
 
 	private function eliminarLista($id){
 			$this->load->model('lista_model', null, true);
+			$this->load->model('usuario_lista_model', null, true);
+			$this->load->model('productos/productos_lista_model', null, true);
+			$this->load->library ( 'users/auth' );
 
 			//solo borrar si es el creador
+			$id_usuario = 101;
+			if ($this->auth->user_id( ))
+				$id_usuario = $this->auth->user_id( );
 			
-			if($this->lista_model->delete($id)){
-				return array("id"=>$id);
-			}else{
-				$this->error(407,"Error eliminando la lista $id");	
+			if($this->usuario_lista_model->find_all_by(array('id_usuario'=>$id_usuario,'id_lista'=>$id,'permisos'=>0)))
+			{
+				
+				//Si borro una lista
+					//Borro los productos de esa lista
+					//Borro los permisos asociados de esa lista
+				if($this->lista_model->delete($id)){
+					$this->productos_lista_model->delete_where(array('id_lista'=>$id));
+					$this->usuario_lista_model->delete_where(array('id_lista'=>$id));
+					
+					return array("id"=>$id);
+				}else{
+					$this->error(407,"Error eliminando la lista $id");	
+				}
 			}
-
+			else
+				$this->error(407,"No tiene permisos para borrar la lista $id");
 	}
 }
