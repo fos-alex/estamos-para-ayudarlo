@@ -1,8 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('NuevoItemListaCtrl', [
-    '$scope', '$state', 'Producto', 'Session',
-    function($scope, $state, Producto, Session) {
+.controller('NuevoItemListaCtrl', ['$scope', '$state','$ionicPopup' ,  'Producto', 'Session',
+    function($scope, $state,$ionicPopup , Producto, Session) {
         $scope.createdList = Session.get('createdList') || {};
 
         $scope.acceptList = function () {
@@ -20,6 +19,19 @@ angular.module('EPA.controllers')
                          
             $state.go('app.nuevaLista');
         }
+
+        $scope.showConfirm = function() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmación?',
+                template: '¿Estás seguro que deseas salir?'
+            });
+            confirmPopup.then(function(res) {
+                if(res) {
+                    $state.go('app.listas');
+                } else {
+                }
+            });
+        };
 
         Producto.get("", {refreshCache: true}).then(function(response) {
             $scope.itemsDisponibles = response;

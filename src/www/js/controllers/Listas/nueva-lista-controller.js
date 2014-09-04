@@ -12,14 +12,13 @@ angular.module('EPA.controllers')
 
         $scope.showConfirm = function() {
             var confirmPopup = $ionicPopup.confirm({
-                title: 'Consume Ice Cream',
-                template: 'Are you sure you want to eat this ice cream?'
+                title: 'Confirmación?',
+                template: '¿Estás seguro que deseas salir?'
             });
             confirmPopup.then(function(res) {
                 if(res) {
-                    $state.go();
+                    $state.go('app.listas');
                 } else {
-                    console.log('You are not sure');
                 }
             });
         };

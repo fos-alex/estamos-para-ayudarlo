@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams', 'Lista', 'Session',
-    function($scope, $state, $stateParams, Lista, Session) {
+.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams','$ionicPopup' , 'Lista', 'Session',
+    function($scope, $state, $stateParams,$ionicPopup , Lista , Session) {
         Lista.get($stateParams.idLista, {}).then(function(response) {
             $scope.lista = response;
         });
@@ -11,6 +11,18 @@ angular.module('EPA.controllers')
             $state.go('app.nuevoItemLista');
         };
 
+        $scope.showConfirm = function() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Confirmación?',
+                template: '¿Estás seguro que deseas salir?'
+            });
+            confirmPopup.then(function(res) {
+                if(res) {
+                    $state.go('app.listas');
+                } else {
+                }
+            });
+        };
         $scope.deleteList = function () {
             Lista.delete($scope.lista).then(function() {
                 $state.go('app.listas');
