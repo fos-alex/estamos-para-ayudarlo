@@ -1,7 +1,7 @@
 <ion-view>
     <!-- HEADER -->
     <ion-header-bar class="bar-positive centrado" animation="nav-title-slide-ios7">
-            <a class="tab-item backHeader" href="#/app/listas">
+            <a class="tab-item backHeader" ng-click="showConfirm()">
                 <i class="ion-arrow-left-c footerIconos"></i>
             </a>
             <h1 class="title centrado" >
@@ -42,7 +42,17 @@
                 </span>
             </div>
         </div>
-    </div>        
+    </div>
+    <script id="not-saved-modal.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar>
+                <h1 class="title">My Modal title</h1>
+            </ion-header-bar>
+            <ion-content>
+                Hello!
+            </ion-content>
+        </ion-modal-view>
+    </script>
     </ion-content>
 
 <!-- FOOTER-->

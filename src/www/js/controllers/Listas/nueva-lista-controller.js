@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('NuevaListaCtrl', ['$scope', '$state','$location' , 'Session', 'Lista',
-    function($scope, $state, $location, Session, Lista) {
+.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista',
+    function($scope, $state, $location, $ionicPopup, Session, Lista) {
         $scope.createdList = Session.get('createdList') || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Lista";
 
@@ -9,6 +9,20 @@ angular.module('EPA.controllers')
             $scope.createdList.productos.splice(index, 1);
             Session.set('createdList', this.createdList);
         }
+
+        $scope.showConfirm = function() {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Consume Ice Cream',
+                template: 'Are you sure you want to eat this ice cream?'
+            });
+            confirmPopup.then(function(res) {
+                if(res) {
+                    $state.go();
+                } else {
+                    console.log('You are not sure');
+                }
+            });
+        };
 
         $scope.deleteAllItems = function () {
             $scope.createdList = {};

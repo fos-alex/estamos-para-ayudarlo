@@ -2,6 +2,7 @@
 
 angular.module('EPA', [
         'ionic',
+        'EPA.config',
         'EPA.controllers',
         'EPA.directives',
         'EPA.services'

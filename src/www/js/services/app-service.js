@@ -1,4 +1,4 @@
-angular.module('EPA.services', ['EPA.config', 'ngResource'])
+angular.module('EPA.services', ['ngResource'])
 
 .config(['$httpProvider', function($httpProvider) {
         // Allow cross site requests
