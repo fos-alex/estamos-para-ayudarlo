@@ -26,6 +26,18 @@
                 </ion-delete-button>
             </ion-item>
         </ion-list>
+
+        <div class="row" ng-show="deleteResponse.notifyShow">
+            <div class="col">
+                <div class="notify" ng-class="deleteResponse.type">
+                    <i class="icon ion-close-circled"></i>
+                    <span id="notifyTextCompartir" class="notifyText">
+                        {{deleteResponse.message}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
     </ion-content>
     <!-- FOOTER --> 
 <ion-footer-bar class="bar-dark">    
