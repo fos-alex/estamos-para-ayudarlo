@@ -32,9 +32,11 @@ angular.module('EPA.services')
                         $ionicLoading.show({template: 'Cargando...'});
                         res.get(function (response) {
                             $ionicLoading.hide();
-                            if (response.codigo != 0) {
-                                //@TODO: throw exception
-                                deferred.reject(response);
+                            if (response.codigo !== 0 && response.codigo !== 200 ) {
+                                if (options.exception) {
+                                    return deferred.reject(response);
+                                }
+                                return deferred.resolve(response);
                             }
                             deferred.resolve(response.data);
                             if (response.data instanceof Array) {
@@ -58,7 +60,8 @@ angular.module('EPA.services')
                 },
                 insert: function (object, cacheKey, options) {
                     var defaultOptions = {
-                        url :          urlDefault+"/app/"+cacheKey
+                        url :          urlDefault+"/app/"+cacheKey,
+                        exception:     true
                     }
                     options = angular.extend(defaultOptions, options);
 
@@ -68,9 +71,11 @@ angular.module('EPA.services')
                     $ionicLoading.show({template: 'Cargando...'});
                     res.post(object, function (response) {
                         $ionicLoading.hide();
-                        if (response.codigo != 0) {
-                            //@TODO: throw exception
-                            deferred.reject(response);
+                        if (response.codigo !== 0 && response.codigo !== 200 ) {
+                            if (options.exception) {
+                                return deferred.reject(response);
+                            }
+                            return deferred.resolve(response);
                         }
                         var objectList = Cache.get(cacheKey);
                         object.id = response.data.id;
@@ -89,7 +94,8 @@ angular.module('EPA.services')
                 },
                 update: function (object, cacheKey, options) {
                     var defaultOptions = {
-                        url :          urlDefault+"/app/"+cacheKey
+                        url :          urlDefault+"/app/"+cacheKey,
+                        exception:     true
                     }
                     options = angular.extend(defaultOptions, options);
                     var deferred = $q.defer();
@@ -98,9 +104,11 @@ angular.module('EPA.services')
                     $ionicLoading.show({template: 'Cargando...'});
                     res.put({id: object.id}, object, function (response) {
                         $ionicLoading.hide();
-                        if (response.codigo != 0) {
-                            //@TODO: throw exception
-                            deferred.reject(response);
+                        if (response.codigo !== 0 && response.codigo !== 200 ) {
+                            if (options.exception) {
+                                return deferred.reject(response);
+                            }
+                            return deferred.resolve(response);
                         }
                         var objectList = Cache.get(cacheKey);
                         objectList[object.id] = object;
@@ -113,7 +121,8 @@ angular.module('EPA.services')
                 },
                 delete: function (object, cacheKey, options) {
                     var defaultOptions = {
-                        url :          urlDefault+"/app/"+cacheKey
+                        url :          urlDefault+"/app/"+cacheKey,
+                        exception:     true
                     }
                     options = angular.extend(defaultOptions, options);
 
@@ -123,15 +132,17 @@ angular.module('EPA.services')
                     $ionicLoading.show({template: 'Cargando...'});
                     res.delete(function (response) {
                         $ionicLoading.hide();
-                        if (response.codigo != 0) {
-                            //@TODO: throw exception
-                            deferred.reject(response);
+                        if (response.codigo !== 0 && response.codigo !== 200 ) {
+                            if (options.exception) {
+                                return deferred.reject(response);
+                            }
+                            return deferred.resolve(response);
                         }
                         var objectList = Cache.get(cacheKey);
                         delete objectList[object.id];
                         Cache.set(cacheKey, objectList);
                         response.data = response.data || {};
-                        deferred.resolve((Object.keys(response.data).length <= 1)? response.data: response.data[0]);
+                        return deferred.resolve((Object.keys(response.data).length <= 1)? response.data: response.data[0]);
                     });
 
                     return deferred.promise;

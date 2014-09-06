@@ -12,12 +12,15 @@ angular.module('EPA.controllers')
         });
 
         $scope.delete = function (lista) {
-            Lista.delete(lista).then(function (response) {
+            Lista.delete(lista, {exception: false}).then(function (response) {
+                debugger;
                 angular.forEach($scope.listas, function(value, key) {
                     if (value.id == response.id) {
                         $scope.listas.splice(key, 1);
                     }
                 });
+            }, function (response) {
+                debugger;
             });
         };
 }])

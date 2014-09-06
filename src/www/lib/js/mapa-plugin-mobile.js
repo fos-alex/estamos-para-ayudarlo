@@ -32,7 +32,7 @@
         element.append(
             '<div id="main-map-container" class="container-fluid">' +
                 '<div class="row-fluid">' +
-                    '<div id="internal-map-container" class="span10" style="overflow:scroll; border: 1px solid grey;" onmousedown="return false;"></div>' +
+                    '<div id="internal-map-container" class="span10" style="border: 1px solid grey;" onmousedown="return false;"></div>' +
                 '</div>' +
             '</div>'
         );
