@@ -143,6 +143,8 @@ class Lista extends Api_Controller
 			if ($this->auth->user_id( ))
 				$id_usuario = $this->auth->user_id( );
 			
+			$lista = $this->lista_model->find($id);
+			
 			if($this->usuario_lista_model->find_all_by(array('id_usuario'=>$id_usuario,'id_lista'=>$id,'permisos'=>0)))
 			{
 				
@@ -155,10 +157,10 @@ class Lista extends Api_Controller
 					
 					return array("id"=>$id);
 				}else{
-					$this->error(407,"Error eliminando la lista $id");	
+					$this->error(407,"Error eliminando la lista $lista->nombre");	
 				}
 			}
 			else
-				$this->error(407,"No tiene permisos para borrar la lista $id");
+				$this->error(407,"No tiene permisos para borrar la lista $lista->nombre");
 	}
 }
