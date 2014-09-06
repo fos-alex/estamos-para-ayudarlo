@@ -5,10 +5,11 @@
             shells: {}
         },
         stage: {},
-        layer: {}
+        layer: {},
+        editable: true
     },
-        categorias = null,
-        opts = {};
+    categorias = null,
+    opts = {};
 
 
     $.fn.canvasMap = function (options) {
@@ -63,7 +64,9 @@
                         '<button id="map-new-button" >Nuevo Mapa</button>' +
                         '<button id="map-save-button" >Guardar Mapa</button>' +
                         '<button id="map-add-rect-button" >Agregar Góndola</button>' +
-                        '<button id="map-add-exit-button" >Agregar Entrada/Salida</button>' +
+                        '<button id="map-add-entrance-button" >Agregar Entrada</button>' +
+                        '<button id="map-add-exit-button" >Agregar Salida</button>' +
+                        '<button id="map-disable-edit-button" >Editar</button>' +
                         '<select id="map-categorias-select"></select>' +
                     '</div>' +
                 '</div>' +
@@ -74,7 +77,9 @@
         $('#map-save-button').click(this.save.bind(this));
         $('#map-add-rect-button').click(this.addRect.bind(this));
         $('#map-add-exit-button').click(this.addExit.bind(this));
+        $('#map-add-entrance-button').click(this.addEntrance.bind(this));
         $('#map-element-delete-button').click(this.removeElement.bind(this));
+        $('#map-disable-edit-button').click(this.disableEdit.bind(this));
 
         $.getJSON(opts.url + '/categorias', function (response) {
             var options = $("#map-categorias-select");
@@ -86,22 +91,22 @@
 
         this.loadMap();
 
-    }
+    };
 
     $.fn.canvasMap.removeElement = function () {
         var element = canvas.selectedElement;
         element.remove();
         canvas.stage.draw();
 
-    }
+    };
 
     $.fn.canvasMap.save = function () {
         // save stage as a json string
+        $.fn.canvasMap.disableEdit();
         var mapa = {
             mapaJSON: canvas.stage.toJSON(),
             objects: canvas.objects
         };
-
         $.ajax({
             url: opts.url + opts.url_mapa,
             type: 'PUT',
@@ -110,9 +115,10 @@
                 if (response.codigo == 0) {
                     alert("El mapa se guardó satisfactoriamente.");
                 }
+                $.fn.canvasMap.enableEdit();
             }
         });
-    }
+    };
 
     $.fn.canvasMap.loadMap = function (){
         var that = this;
@@ -129,18 +135,22 @@
                 canvas.stage.draw();
                 canvas.layer = canvas.stage.getLayers()[0];
                 that.addBehaviour(canvas.layer);
+                if (canvas.editable) {
+                    that.enableEdit();
+                }
             } else {
                 that.newMap();
             }
         });
-    }
+    };
 
-    $.fn.canvasMap.newMap = function (){
+    $.fn.canvasMap.newMap = function () {
         canvas = {
             objects: {
                 products: {},
                 shells: {}
             },
+            editable: true,
             stage: {},
             layer: {}
         };
@@ -153,7 +163,7 @@
 
         canvas.layer = new Kinetic.Layer();
         canvas.stage.add(canvas.layer);
-    }
+    };
 
     $.fn.canvasMap.createId = function (length){
         var text = "";
@@ -164,7 +174,7 @@
             text += possible.charAt(Math.floor(Math.random() * possible.length));
 
         return text;
-    }
+    };
 
     $.fn.canvasMap.update = function(activeAnchor){
         var group = activeAnchor.getParent();
@@ -205,8 +215,7 @@
         if(width && height) {
             shape.setSize({width:width, height: height});
         }
-    }
-
+    };
 
     $.fn.canvasMap.addBehaviour = function(layer){
         var stage = layer.getStage();
@@ -226,14 +235,15 @@
         $.each(layer.children, function () {
             that.addGroupBindings(this);
         });
-    }
+    };
 
     $.fn.canvasMap.addAnchors = function(group, data){
         this.addAnchor(group, data.x, data.y, 'topLeft');
         this.addAnchor(group, (data.x + data.width), data.y, 'topRight');
         this.addAnchor(group, (data.x + data.width), (data.y + data.height), 'bottomRight');
         this.addAnchor(group, data.x, (data.y + data.height), 'bottomLeft');
-    }
+    };
+
     $.fn.canvasMap.addAnchor = function(group, x, y, name){
         var anchor = new Kinetic.Circle({
             x: x,
@@ -249,18 +259,28 @@
 
         this.addBindings(anchor);
         group.add(anchor);
-    }
+    };
 
     $.fn.canvasMap.addExit = function(data){
+        data.exit = true;
+        this.addDoors(data);
+    };
+    $.fn.canvasMap.addEntrance = function(data){
+        this.addDoors(data);
+    };
+
+    $.fn.canvasMap.addDoors = function(data){
+        var that = this;
         var defaultData = {
             x: 0,
             y: 0,
-            width: 70,
-            height: 20,
-            name: 'shape',
+            width: 50,
+            height: 60,
+            name: 'door',
             stroke: 'black',
             strokeWidth: 5,
-            draggable: true
+            draggable: canvas.editable,
+            exit: false
         };
 
         data = _.extend(defaultData, data);
@@ -273,29 +293,44 @@
             draggable: data.draggable
         });
 
+        // @TODO Fix Path
+        var info = {
+            text: 'Entrada',
+            description: 'Por aquí entrarán los usuarios.',
+            image: 'http://localhost/EPA-WEB/epa-web/public/assets/images/entrada.png'
+        };
+        if (data.exit) {
+            info.text = 'Salida';
+            info.description = 'Por aquí saldrán los usuarios.';
+            // @TODO Fix Path
+            info.image = 'http://localhost/EPA-WEB/epa-web/public/assets/images/salida.png';
+        }
         canvas.objects.shells[newGroup.getId()] = {
             id: newGroup.getId(),
-            type: 'Entrada/Salida',
-            description: 'Por aquí entrarán y saldrán los usuarios.'
+            type: info.text,
+            description: info.description
         };
         canvas.layer.add(newGroup);
 
-        var rect = new Kinetic.Rect({
-            x: data.x,
-            y: data.y,
-            width: data.width,
-            height: data.height,
-            name: data.name,
-            stroke: data.stroke,
-            strokeWidth: data.strokeWidth
-        });
+        var imageObj = new Image();
+        imageObj.src = info.image;
 
-        newGroup.add(rect);
-        this.addAnchors(newGroup, data);
-        this.addGroupBindings(newGroup);
+        imageObj.onload = function () {
+            var img = new Kinetic.Image({
+                x: data.x,
+                y: data.y,
+                width: data.width,
+                height: data.height,
+                name: data.name,
+                image: imageObj
+            });
 
-        canvas.stage.draw();
-    }
+            newGroup.add(img);
+            that.addGroupBindings(newGroup);
+
+            canvas.stage.draw();
+        };
+    };
 
     $.fn.canvasMap.addGroupBindings = function(group){
         var that = this;
@@ -307,7 +342,7 @@
         group.on('dragstart', function() {
             this.moveToTop();
         });
-    }
+    };
 
     $.fn.canvasMap.addBindings = function(anchor){
         var that = this;
@@ -337,7 +372,67 @@
             this.getLayer().draw();
         });
 
-    }
+    };
+
+    $.fn.canvasMap.enableEdit = function(data){
+        var stage = canvas.layer.getStage();
+        var that = this;
+        // Edit mode to all shapes
+        // Add anchors
+        $.each(['.shape'],
+            function (ix, el) {
+                var element = stage.find(el);
+                element.each(function (el) {
+                    var group = el.parent;
+                    that.addAnchors(group, {
+                        x: el.position().x,
+                        y: el.position().y,
+                        width: el.width(),
+                        height: el.height()
+                    });
+                });
+            });
+        // Make draggable
+        $.each(['.shape', '.door'],
+            function (ix, el) {
+                var element = stage.find(el);
+                element.each(function (el) {
+                    var group = el.parent;
+                    group.draggable(true);
+                    that.addGroupBindings(group);
+                });
+            });
+
+        canvas.stage.draw();
+    };
+
+    $.fn.canvasMap.disableEdit = function(data){
+        var stage = canvas.layer.getStage();
+        canvas.editable = false;
+        var that = this;
+        // Delete anchors
+        $.each(['.topLeft',
+            '.topRight',
+            '.bottomRight',
+            '.bottomLeft'],
+            function (ix, el) {
+                var element = stage.find(el);
+                element.each(function (el) {
+                    element.remove();
+                });
+            });
+        // Make draggable
+        $.each(['.shape', '.door'],
+            function (ix, el) {
+                var element = stage.find(el);
+                element.each(function (el) {
+                    var group = el.parent;
+                    group.draggable(false);
+                });
+            });
+
+        canvas.stage.draw();
+    };
 
     $.fn.canvasMap.addRect = function(data){
         var categoria = categorias? categorias[$("#map-categorias-select").val()]: {color: 'black', nombre: 'N/A'};
@@ -349,7 +444,7 @@
             name: 'shape',
             stroke: categoria.color,
             strokeWidth: 5,
-            draggable: true
+            draggable: false
         };
 
         data = _.extend(defaultData, data);
@@ -380,16 +475,20 @@
         });
 
         newGroup.add(rect);
-        this.addAnchors(newGroup, data);
+        if (canvas.editable) {
+            newGroup.draggable(true);
+            this.addAnchors(newGroup, data);
+        }
         this.addGroupBindings(newGroup);
 
         canvas.stage.draw();
-    }
+    };
 
     $.fn.canvasMap.selectElement = function(element){
         canvas.selectedElement = element;
         var object = canvas.objects.shells[element.getId()];
         $('.element-name').text(object.type);
         $('.element-description').text(object.description);
-    }
+    };
+
 }( jQuery ));
