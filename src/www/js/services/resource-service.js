@@ -130,6 +130,7 @@ angular.module('EPA.services')
                         var objectList = Cache.get(cacheKey);
                         delete objectList[object.id];
                         Cache.set(cacheKey, objectList);
+                        response.data = response.data || {};
                         deferred.resolve((Object.keys(response.data).length <= 1)? response.data: response.data[0]);
                     });
 
