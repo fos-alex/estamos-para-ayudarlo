@@ -11,8 +11,15 @@ angular.module('EPA.controllers')
             });
         });
 
+        
+        $scope.deleteResponse = {
+            message: "",
+            notifyShow: false,
+            type: "info"
+        };
+
         $scope.delete = function (lista) {
-            Lista.delete(lista, {exception: false}).then(function (response) {
+            Lista.delete(lista).then(function (response) {
                 debugger;
                 angular.forEach($scope.listas, function(value, key) {
                     if (value.id == response.id) {
@@ -21,6 +28,9 @@ angular.module('EPA.controllers')
                 });
             }, function (response) {
                 debugger;
+                $scope.deleteResponse.notifyShow = true;
+                $scope.deleteResponse.type = 'error';
+                $scope.deleteResponse.message = response.mensaje;
             });
         };
 }])
