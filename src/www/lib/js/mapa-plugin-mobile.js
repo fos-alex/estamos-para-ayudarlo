@@ -38,14 +38,14 @@
         );
 
         this.loadMap();
-    }
+    };
 
     $.fn.canvasMap.removeElement = function () {
         var element = canvas.selectedElement;
         element.remove();
         canvas.stage.draw();
 
-    }
+    };
 
     $.fn.canvasMap.loadMap = function (){
         var that = this;
@@ -66,5 +66,10 @@
                 that.newMap();
             }
         });
-    }
+    };
+
+    $.fn.canvasMap.adaptToMobile = function (){
+
+
+    };
 }( jQuery ));
