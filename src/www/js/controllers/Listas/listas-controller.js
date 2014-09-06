@@ -6,7 +6,9 @@ angular.module('EPA.controllers')
 
         Session.set('createdList', {});
         Lista.get("", {refreshCache: true}).then(function(response) {
-            $scope.listas = response;
+            $scope.listas = response.sort(function(a,b){
+                return (b.fecha_modificacion - a.fecha_modificacion)
+            });
         });
 
         $scope.delete = function (lista) {
