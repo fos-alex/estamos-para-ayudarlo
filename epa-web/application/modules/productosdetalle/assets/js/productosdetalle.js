@@ -3,7 +3,7 @@ $(document).ready(function()
 	if( $("#fileuploader").length > 0 ){
 		$("#fileuploader").uploadFile({
 			url:"/admin/content/productosdetalle/uploadFile",
-			allowedTypes:"xls",
+			allowedTypes:"xls,xlsx",
 			fileName:"productos",
 			dragDropStr: "<span><b>Arrojar los archivos</b></span>",
 			abortStr:"Detener",

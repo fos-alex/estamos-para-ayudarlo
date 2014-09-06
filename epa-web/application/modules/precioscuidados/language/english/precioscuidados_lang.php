@@ -7,6 +7,7 @@ $lang['precioscuidados_false']				= 'False';
 $lang['precioscuidados_create']			= 'Create';
 $lang['precioscuidados_list']				= 'List';
 $lang['precioscuidados_new']				= 'New';
+$lang['precioscuidados_cargamasiva']				= 'Carga Masiva';
 $lang['precioscuidados_edit_text']			= 'Edit this to suit your needs';
 $lang['precioscuidados_no_records']		= 'There aren\'t any precioscuidados in the system.';
 $lang['precioscuidados_create_new']		= 'Create a new preciosCuidados.';

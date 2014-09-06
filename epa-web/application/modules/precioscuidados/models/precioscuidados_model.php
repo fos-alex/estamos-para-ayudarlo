@@ -78,7 +78,7 @@ class Precioscuidados_model extends BF_Model {
 		),
 	);
 	protected $insert_validation_rules 	= array();
-	protected $skip_validation 			= FALSE;
+	protected $skip_validation 			= TRUE;
 
 	//--------------------------------------------------------------------
 

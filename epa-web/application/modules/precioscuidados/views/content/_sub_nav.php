@@ -7,4 +7,7 @@
 		<a href="<?php echo site_url(SITE_AREA .'/content/precioscuidados/create') ?>" id="create_new"><?php echo lang('precioscuidados_new'); ?></a>
 	</li>
 	<?php endif; ?>
+	<li <?php echo $this->uri->segment(4) == 'carga_masiva' ? 'class="active"' : '' ?>>
+		<a href="<?php echo site_url(SITE_AREA .'/content/precioscuidados/carga_masiva') ?>"><?php echo lang('precioscuidados_cargamasiva'); ?></a>
+	</li>
 </ul>

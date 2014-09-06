@@ -23,7 +23,7 @@ class content extends Admin_Controller
 		$this->lang->load('precioscuidados');
 		
 			Assets::add_css('flick/jquery-ui-1.8.13.custom.css');
-			Assets::add_js('jquery-ui-1.8.13.min.js');
+			Assets::add_js('http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js');
 		Template::set_block('sub_nav', 'content/_sub_nav');
 
 		Assets::add_module_js('precioscuidados', 'precioscuidados.js');
@@ -220,7 +220,7 @@ class content extends Admin_Controller
 		$this->auth->restrict('PreciosCuidados.Content.Edit');
 		Assets::add_css('//hayageek.github.io/jQuery-Upload-File/uploadfile.min.css');
 		Assets::add_js('//hayageek.github.io/jQuery-Upload-File/jquery.uploadfile.min.js');
-		Template::set('toolbar_title', lang('productosdetalle_cargamasiva') .' Producto');
+		Template::set('toolbar_title', lang('precioscuidados_cargamasiva') .' Producto');
 		Template::render();
 	}
 
@@ -228,12 +228,11 @@ class content extends Admin_Controller
 		$this->auth->restrict('PreciosCuidados.Content.Edit');
 				
 		$tipos = array(
-				"0"=>"producto",
 				"0"=>"categoria",
-				"1"=>"marca",
-				"2"=>"presentacion",
-				"3"=>"precio",
-				"4"=>"descripcion"
+				"1"=>"producto",
+				"2"=>"marca",
+				"3"=>"cantidad",
+				"4"=>"precio"
 			);
 
 		$this->load->library('excel/lectorexcel',$tipos);
@@ -243,19 +242,14 @@ class content extends Admin_Controller
 		$productosnocargados = array();
 		
 		foreach ($productosleidos as $key => $producto) {
-			$producto['id_supermercado'] = (string)$this->current_user->supermercado->id;
-			$tipo = $producto['id_producto'];
-			$productosTipo = $this->productos_model->where('LOWER(nombre)',trim(strtolower($tipo)))->find_all();
-			if(!$productosTipo){
-				$producto['id_producto'] = 0;
-			}else{
-				$producto['id_producto'] = $productosTipo[0]->id;
-			}
-
-			if($this->productosdetalle_model->insert($producto))
+			$producto['vigencia'] = date('Y-m-d');
+			if($this->precioscuidados_model->insert($producto))
 				array_push($productoscargados, $producto);
-			else
+			else{
 				array_push($productosnocargados, $producto);
+				echo var_dump($this->precioscuidados_model->db->_error_number());
+			}
+				
 		}
 
 		die(json_encode(array(

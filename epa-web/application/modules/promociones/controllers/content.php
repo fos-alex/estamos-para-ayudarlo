@@ -23,7 +23,7 @@ class content extends Admin_Controller
 		$this->lang->load('promociones');
 		
 			Assets::add_css('flick/jquery-ui-1.8.13.custom.css');
-			Assets::add_js('jquery-ui-1.8.13.min.js');
+			Assets::add_js('http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js');
 		Template::set_block('sub_nav', 'content/_sub_nav');
 
 		Assets::add_module_js('promociones', 'promociones.js');
