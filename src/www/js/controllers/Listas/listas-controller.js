@@ -20,15 +20,14 @@ angular.module('EPA.controllers')
 
         $scope.delete = function (lista) {
             Lista.delete(lista).then(function (response) {
-                debugger;
                 angular.forEach($scope.listas, function(value, key) {
                     if (value.id == response.id) {
                         $scope.listas.splice(key, 1);
                     }
                 });
             }, function (response) {
-                debugger;
                 $scope.deleteResponse.notifyShow = true;
+                setTimeout(function(){$scope.deleteResponse.notifyShow = false;}, 5000);
                 $scope.deleteResponse.type = 'error';
                 $scope.deleteResponse.message = response.mensaje;
             });
