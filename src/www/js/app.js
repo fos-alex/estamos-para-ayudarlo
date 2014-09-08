@@ -7,7 +7,9 @@ angular.module('EPA', [
         'EPA.directives',
         'EPA.services'
     ])
-
+.config(function($httpProvider) {
+  $httpProvider.defaults.withCredentials = true;
+})
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     if(window.StatusBar) {
