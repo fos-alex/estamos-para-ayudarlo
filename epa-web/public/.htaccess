@@ -6,6 +6,7 @@
 # ----------------------------------------------------------------------
 
 Header set Access-Control-Allow-Origin: http://localhost
+Header set Access-Control-Allow-Credentials: true
 
 <IfModule mod_mime.c>
 

@@ -4,6 +4,8 @@ class Lista extends Api_Controller
 {
 
 	public function __construct(){
+		$this->load->library ( 'users/auth' );
+
 		parent::__construct();
 	}
 
@@ -44,7 +46,6 @@ class Lista extends Api_Controller
 
 	private function obtenerLista($id){
 			$this->load->model('lista_model', null, true);
-			$this->load->library ( 'users/auth' );
 
 			$lista = $this->lista_model->find($id);
 
@@ -66,13 +67,9 @@ class Lista extends Api_Controller
 	private function obtenerListas(){
 			$this->load->model('lista_model', null, true);
 			$this->load->model('usuario_lista_model', null, true);
-			$this->load->library ( 'users/auth' );
 
-			$listas;
-			if ($id_usuario = $this->auth->user_id( )) //Si se quu usuario es
-				$listas = $this->usuario_lista_model->join('lista l', 'id_lista = l.id')->find_all_by('id_usuario',$id_usuario);
-			else
-				$listas = $this->lista_model->find_all();
+			$id_usuario = $this->current_user->id;
+			$listas = $this->usuario_lista_model->join('lista l', 'id_lista = l.id')->find_all_by('id_usuario',$id_usuario);
 				
 			if($listas){
 				foreach ($listas as $key => $lista) {
@@ -94,7 +91,6 @@ class Lista extends Api_Controller
 	private function crearLista($lista){
 			$this->load->model('lista_model', null, true);
 			$this->load->model('usuario_lista_model', null, true);
-			$this->load->library ( 'users/auth' );
 			
 			$productos = array();
 			if(array_key_exists('productos', $lista)){
@@ -104,10 +100,7 @@ class Lista extends Api_Controller
 			
 			$id = $this->lista_model->insert($lista);
 			
-			//TODO boletear esto una vez q sepa el user
-			$id_usuario = 1;
-			if ($this->auth->user_id( ))
-				$id_usuario = $this->auth->user_id( );
+			$id_usuario = $this->current_user->id;
 
 			//necesito saber el usuario asi le asigno permisos de creador
 			$this->usuario_lista_model->insert(array("id_lista"=>$id,"id_usuario"=>$id_usuario,"permisos"=> 0));
@@ -140,12 +133,8 @@ class Lista extends Api_Controller
 			$this->load->model('lista_model', null, true);
 			$this->load->model('usuario_lista_model', null, true);
 			$this->load->model('productos/productos_lista_model', null, true);
-			$this->load->library ( 'users/auth' );
 
-			//solo borrar si es el creador
-			$id_usuario = 101; //todo boletear esto cuando sepa el user_id
-			if ($this->auth->user_id( ))
-				$id_usuario = $this->auth->user_id( );
+			$id_usuario = $this->current_user->id;
 			
 			$lista = $this->lista_model->find($id);
 			
