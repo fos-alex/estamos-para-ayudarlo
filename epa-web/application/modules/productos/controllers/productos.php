@@ -21,8 +21,18 @@ class productos extends Api_Controller
 
 	public function GET(){
 		$this->load->model('productos_model', null, true);
-		$productos = $this->productos_model->find_all();
-		$this->JSON_OUT->data = $productos;
+		if(array_key_exists(0, $this->PARAMETROS)){
+			//PRODUCTO ESPECIFICO
+			$id_producto = $this->PARAMETROS[0];
+			$producto = $this->productos_model->find($id_producto);
+			if(!$producto){
+				$this->error(404,"Producto inexistente");
+			}
+			$this->JSON_OUT->data = $producto;
+		}else{
+			$productos = $this->productos_model->find_all();
+			$this->JSON_OUT->data = $productos;
+		}
 	}
 
 	public function de_lista($id_lista){
