@@ -52,8 +52,12 @@ class Lista extends Api_Controller
 				$this->error(404,"La lista $id no existe");
 			}
 			
-			//aca deberia bloquearla para q nadie mas la pueda tocar  bloqueado = 1
+// 			if((int)$lista->bloqueada == 1){
+// 				$this->error(410,"La lista $lista->nombre esta siendo modificada");
+// 			}
 			
+// 			$data['bloqueada'] = 1;
+// 			$this->lista_model->update($id,$data);
 			
 			$lista->productos = Modules::run('productos/de_lista',$id);
 			return $lista;
@@ -120,7 +124,7 @@ class Lista extends Api_Controller
 				unset($lista['productos']);
 			}
 
-			//aca deberia desbloquear la lista  bloqueado = 0
+// 			$lista['bloqueada'] = 0;
 			
 			if($this->lista_model->update($id,$lista)){
                 Modules::run('productos/cantidad_de_productos_validas',$productos);
@@ -139,7 +143,7 @@ class Lista extends Api_Controller
 			$this->load->library ( 'users/auth' );
 
 			//solo borrar si es el creador
-			$id_usuario = 101;
+			$id_usuario = 101; //todo boletear esto cuando sepa el user_id
 			if ($this->auth->user_id( ))
 				$id_usuario = $this->auth->user_id( );
 			

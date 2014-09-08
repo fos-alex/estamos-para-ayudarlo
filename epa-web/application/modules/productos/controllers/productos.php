@@ -20,9 +20,12 @@ class productos extends Api_Controller
 	}
 
 	public function GET(){
-		$this->load->model('productos_model', null, true);
-		$productos = $this->productos_model->find_all();
-		$this->JSON_OUT->data = $productos;
+		if(array_key_exists(0, $this->PARAMETROS)){
+			$id_producto = $this->PARAMETROS[0];
+			$this->JSON_OUT->data = $this->obtenerProducto($id_producto);
+		}else{
+			$this->JSON_OUT->data = $this->obtenerProductos();
+		}
 	}
 
 	public function de_lista($id_lista){
@@ -73,6 +76,24 @@ class productos extends Api_Controller
                 $this->error(408,"Error modificando la lista, las cantidades deben ser numericas");
         }
     }
-
+    
+    
+    private function obtenerProducto($id){
+    	$this->load->model('productos_model', null, true);
+    	$producto = $this->productos_model->find($id);
+    
+    	if(!$producto){
+    		$this->error(404,"El producto $id no existe");
+    	}
+    		
+    	return $producto;
+    }
+    
+    private function obtenerProductos(){
+    	$this->load->model('productos_model', null, true);
+    	$productos = $this->productos_model->find_all();
+    
+    	return $productos;
+    }
 
 }
