@@ -1,6 +1,6 @@
 angular.module('EPA.controllers')
 
-.controller('MainMenuCtrl', ['$scope','$ionicPopup','$state','Promociones', function($scope,$ionicPopup, $state, Promociones) {
+.controller('MainMenuCtrl', ['$scope','$ionicPopup','$state', function($scope, $ionicPopup, $state) {
   $scope.menuItems = [
       {title: 'Scanner',         id: 1, href: "barcodescanner"  },
       {title: 'Map',             id: 2, href: "map" },
@@ -8,10 +8,10 @@ angular.module('EPA.controllers')
       {title: 'Geolocalization', id: 4, href: "geo" },
       {title: 'ABM Listas',      id: 5, href: "listas" }
   ];
-        Promociones.get($stateParams.idPromociones, {}).then(function(response){
+        /*Promociones.get($stateParams.idPromociones, {}).then(function(response){
                 $scope.promociones = response;
             }
-        );
+        );*/
 
         $scope.showAlert = function() {
             var alertPopup = $ionicPopup.alert({
