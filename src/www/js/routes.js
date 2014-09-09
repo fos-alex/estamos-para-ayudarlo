@@ -90,6 +90,25 @@ angular.module('EPA')
             }
         })
 
+        .state('app.consultar', {
+            url: "/consultar",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Consultar/index.html"
+                }
+            }
+        })
+        
+        .state('app.consultarProducto', {
+            url: "/consultar/{idProducto:[0-9]{1,20}}",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Consultar/detalleProducto.html",
+                    controller: 'ConsultarCtrl'
+                }
+            }
+        })
+
         .state('app.search', {
             url: "/search",
             views: {
