@@ -14,12 +14,10 @@ angular.module('EPA.controllers')
         );*/
 
         $scope.showAlert = function() {
-            var alertPopup = $ionicPopup.alert({
+            $ionicPopup.alert({
                 title: 'Promociones Vigentes',
                 template: 'Las promociones vigentes son:'
-
-            });
-            alertPopup.then(function(res) {
+            }).then(function(res) {
                 $state.go('app.map');
             });
 
