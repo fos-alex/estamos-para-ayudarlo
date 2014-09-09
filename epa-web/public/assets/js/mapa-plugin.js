@@ -1,16 +1,17 @@
 (function ( $ ) {
-    var canvas = {
+    var defaultCanvas = {
         objects: {
             products: {},
-            shells: {}
+            shells: {},
+            images: {}
         },
         stage: {},
         layer: {},
         editable: true
     },
     categorias = null,
-    opts = {};
-
+    opts = {},
+    canvas = jQuery.extend(true, {}, defaultCanvas);
 
     $.fn.canvasMap = function (options) {
         opts = $.fn.canvasMap.options = $.extend( {}, $.fn.canvasMap.defaults, options );
@@ -97,7 +98,6 @@
         var element = canvas.selectedElement;
         element.remove();
         canvas.stage.draw();
-
     };
 
     $.fn.canvasMap.save = function () {
@@ -135,6 +135,7 @@
                 canvas.stage.draw();
                 canvas.layer = canvas.stage.getLayers()[0];
                 that.addBehaviour(canvas.layer);
+                that.loadImages(canvas.layer);
                 if (canvas.editable) {
                     that.enableEdit();
                 }
@@ -145,15 +146,7 @@
     };
 
     $.fn.canvasMap.newMap = function () {
-        canvas = {
-            objects: {
-                products: {},
-                shells: {}
-            },
-            editable: true,
-            stage: {},
-            layer: {}
-        };
+        canvas = $.extend(true, {}, defaultCanvas);
 
         canvas.stage = new Kinetic.Stage({
             container: 'internal-map-container',
@@ -217,6 +210,26 @@
         }
     };
 
+    $.fn.canvasMap.loadImages = function(layer){
+        var stage = layer.getStage();
+        var that = this;
+        var images = stage.find('.image');
+        $.each(images, function () {
+            that.createImage(stage, this);
+        });
+        stage.draw();
+    };
+
+    $.fn.canvasMap.createImage = function(stage, image){
+        var url = canvas.objects.images[image.getId()]['url'];
+        var oImage = new Image();
+        oImage.onload = function () {
+            image.image(oImage);
+            stage.draw();
+        };
+        oImage.src = url;
+    };
+
     $.fn.canvasMap.addBehaviour = function(layer){
         var stage = layer.getStage();
         var that = this;
@@ -276,7 +289,7 @@
             y: 0,
             width: 50,
             height: 60,
-            name: 'door',
+            name: 'image',
             stroke: 'black',
             strokeWidth: 5,
             draggable: canvas.editable,
@@ -319,12 +332,18 @@
             var img = new Kinetic.Image({
                 x: data.x,
                 y: data.y,
+                id: that.createId(),
                 width: data.width,
                 height: data.height,
                 name: data.name,
                 image: imageObj
             });
 
+            canvas.objects.images[img.getId()] = {
+                id: img.getId(),
+                url: imageObj.src,
+                type: 'door'
+            };
             newGroup.add(img);
             that.addGroupBindings(newGroup);
 
@@ -374,6 +393,30 @@
 
     };
 
+    $.fn.canvasMap.removeShape = function (selector, options){
+        var defaultOptions = {
+            multiple: false
+        }
+        options = $.extend(defaultOptions, options);
+
+        var shape = canvas.stage.find(selector);
+        if (!options.multiple && shape.length > 1) {
+            console.log("Trying to delete multiple items with multiple:false. Only first one deleted.");
+            shape = [shape[0]];
+        }
+
+        $.each(shape, function() {
+            var id = this.getId();
+            if (id) {
+                for (var collection in canvas.objects) {
+                    if (collection[id]) {
+                        delete collection[id];
+                    }
+                }
+            }
+            shape.remove();
+        });
+    };
     $.fn.canvasMap.enableEdit = function(data){
         var stage = canvas.layer.getStage();
         var that = this;
@@ -393,7 +436,7 @@
                 });
             });
         // Make draggable
-        $.each(['.shape', '.door'],
+        $.each(['.shape', '.image'],
             function (ix, el) {
                 var element = stage.find(el);
                 element.each(function (el) {
@@ -416,13 +459,10 @@
             '.bottomRight',
             '.bottomLeft'],
             function (ix, el) {
-                var element = stage.find(el);
-                element.each(function (el) {
-                    element.remove();
-                });
+                that.removeShape(el, {multiple: true});
             });
-        // Make draggable
-        $.each(['.shape', '.door'],
+        // Make not draggable
+        $.each(['.shape', '.image'],
             function (ix, el) {
                 var element = stage.find(el);
                 element.each(function (el) {
@@ -451,9 +491,9 @@
 
         var newGroup = new Kinetic.Group({
             x: data.x,
+            y: data.y,
             id: this.createId(),
             name: 'rect',
-            y: data.y,
             draggable: data.draggable
         });
 
