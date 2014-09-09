@@ -28,7 +28,7 @@ angular.module('EPA.services')
                             $timeout(function(){
                                 deferred.resolve(response);
                             });
-                        })
+                       })
                         .error(function (result, status, headers) {
                             var response = {
                                 code: status,
