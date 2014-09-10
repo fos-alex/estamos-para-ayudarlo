@@ -157,27 +157,49 @@
 
     $.fn.canvasMap.drawRoute = function(positions){
         var that = this;
+        var points = [];
 
+        positions = this.orderRoutes(positions);
         $.each(positions, function (ix, position) {
-            if (typeof positions[ix + 1] === 'undefined') {
-                return;
-            }
-            var o = position;
-            var d = positions[ix + 1];
-            var path = new Kinetic.Path({
-                x: o.x,
-                y: o.y,
-                //data: "M12,9L,150,300Z",
-                data: 'M12,9C3,16,1,29,7,38l-2,1z',
-                fill: 'green',
-                scale: {x:2, y:2},
-                id: that.createId(),
-                name: 'route'
-            });
-            canvas.layer.add(path);
-
+            points.push(position.x);
+            points.push(position.y);
         });
+        var line = new Kinetic.Line({
+            points: points,
+            stroke: 'red',
+            strokeWidth: 10,
+            lineCap: 'round',
+            lineJoin: 'round',
+            id: that.createId(),
+            name: 'route'
+        });
+        canvas.layer.add(line);
         canvas.stage.draw();
+    };
+
+    $.fn.canvasMap.orderRoutes = function(positions){
+        // Asumme first position is starting point
+        var orderedArray = positions.splice(0,1);
+        var pivot = orderedArray[0];
+        $.each(positions, function () {
+            var bestDistanceToPivot = 99999;
+            var nextPositionIndex = null;
+            $.each(positions, function (ix) {
+                if (this.x === pivot.x && this.y === pivot.y) {
+                    return;
+                }
+                var distance = Math.sqrt(Math.pow(pivot.x - this.x, 2) + Math.pow(pivot.y - this.y, 2));
+                if (distance < bestDistanceToPivot) {
+                    bestDistanceToPivot = distance;
+                    nextPositionIndex = ix;
+                }
+            });
+            var nextElement = positions[nextPositionIndex];
+            delete positions[nextPositionIndex];
+            orderedArray.push(nextElement);
+            pivot = nextElement;
+        });
+        return orderedArray;
     };
 
 
@@ -186,7 +208,7 @@
         var user = this.getUserShape(position);
         canvas.layer.add(user);
         canvas.stage.draw();
-        this.drawRoute([{x:100, y:100},{x:200, y:200}]);
+        this.drawRoute([position,{x:100, y:100},{x:210, y:210},{x:300, y:300},{x:200, y:200},{x:600, y:100},{x:350, y:350}]);
     };
 
 }( jQuery ));
