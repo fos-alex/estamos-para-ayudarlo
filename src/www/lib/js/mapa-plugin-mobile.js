@@ -155,11 +155,41 @@
         return newGroup.add(user);
     };
 
+    $.fn.canvasMap.drawRoute = function(positions){
+        var newGroup = new Kinetic.Group({
+            x: 0,
+            y: 0,
+            id: this.createId(),
+            name: 'route'
+        });
+
+        $.each(positions, function (ix, position) {
+            debugger;
+            if (typeof positions[ix + 1] === 'undefined') {
+                return;
+            }
+            var o = position;
+            var d = positions[ix + 1];
+            var path = new Kinetic.Path({
+                x: o.x,
+                y: o.y,
+                data: 'M'+o.x+' '+o.y+',L'+d.x+' '+o.y,
+                fill: 'green'
+            });
+
+            newGroup.add(path);
+        });
+        canvas.layer.add(newGroup);
+        canvas.stage.draw();
+    };
+
+
     $.fn.canvasMap.positionUser = function(position) {
         this.removeShape('.user');
         var user = this.getUserShape(position);
         canvas.layer.add(user);
         canvas.stage.draw();
+        this.drawRoute([{x:100, y:100},{x:200, y:200}, {x:300, y:300}]);
     };
 
 }( jQuery ));

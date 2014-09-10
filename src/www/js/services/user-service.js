@@ -24,6 +24,7 @@ angular.module('EPA.services')
                                 type: "success"
                             };
                             response.message = "Login satisfactorio";
+                            currentUser = response;
                             $state.go('app.menu');
                             $timeout(function(){
                                 deferred.resolve(response);
