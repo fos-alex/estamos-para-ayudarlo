@@ -156,15 +156,9 @@
     };
 
     $.fn.canvasMap.drawRoute = function(positions){
-        var newGroup = new Kinetic.Group({
-            x: 0,
-            y: 0,
-            id: this.createId(),
-            name: 'route'
-        });
+        var that = this;
 
         $.each(positions, function (ix, position) {
-            debugger;
             if (typeof positions[ix + 1] === 'undefined') {
                 return;
             }
@@ -173,13 +167,16 @@
             var path = new Kinetic.Path({
                 x: o.x,
                 y: o.y,
-                data: 'M'+o.x+' '+o.y+',L'+d.x+' '+o.y,
-                fill: 'green'
+                //data: "M12,9L,150,300Z",
+                data: 'M12,9C3,16,1,29,7,38l-2,1z',
+                fill: 'green',
+                scale: {x:2, y:2},
+                id: that.createId(),
+                name: 'route'
             });
+            canvas.layer.add(path);
 
-            newGroup.add(path);
         });
-        canvas.layer.add(newGroup);
         canvas.stage.draw();
     };
 
@@ -189,7 +186,7 @@
         var user = this.getUserShape(position);
         canvas.layer.add(user);
         canvas.stage.draw();
-        this.drawRoute([{x:100, y:100},{x:200, y:200}, {x:300, y:300}]);
+        this.drawRoute([{x:100, y:100},{x:200, y:200}]);
     };
 
 }( jQuery ));
