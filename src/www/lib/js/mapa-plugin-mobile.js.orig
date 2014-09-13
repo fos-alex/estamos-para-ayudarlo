@@ -177,6 +177,7 @@
         canvas.stage.draw();
     };
 
+<<<<<<< HEAD
     $.fn.canvasMap.orderRoutes = function(positions){
         // Asumme first position is starting point
         var orderedArray = positions.splice(0,1);
@@ -202,6 +203,10 @@
         return orderedArray;
     };
 
+
+=======
+/*    $.fn.isPointInside
+
     function isPointInPoly(poly, pt){
         for(var c = false, i = -1, l = poly.length, j = l - 1; ++i < l; j = i)
             ((poly[i].y <= pt.y && pt.y < poly[j].y) || (poly[j].y <= pt.y && pt.y < poly[i].y))
@@ -209,6 +214,7 @@
             && (c = !c);
         return c;
     }*/
+>>>>>>> 8b12d0b9f02dad1bb0fb68cb19fb7c2d40f7b3f6
     $.fn.canvasMap.positionUser = function(position) {
         this.removeShape('.user');
         var user = this.getUserShape(position);

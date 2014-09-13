@@ -30,7 +30,19 @@
                     <i class="icon ion-arrow-down-b lista-cant-icon" data-ng-click="item.cantidad = (item.cantidad  > 0)? item.cantidad - 1: 0"></i>
                 </div>
             </a>
+
         </div>
+        <div class="row"></div>
+        <div class="row">
+            <div class="col">
+                
+                <div class="card" ng-show="!tienePermiso">
+                    <div class="item item-text-wrap celeste">
+                      En estos momentos no puedes editar la lista porque está siendo editada por el usuario {{lista.edita}}. Sólo disponible para lectura.
+                    </div>
+                </div>
+            </div>
+        </div>        
     </ion-content>
    <!-- FOOTER --> 
     <ion-footer-bar class="bar-dark">    
@@ -38,14 +50,14 @@
     <a class="tab-item" href="#/app/menu">
             <i class="ion-home footerIconos"></i>
     </a>
-    <a class="tab-item" ng-click="editList();">
+    <a class="tab-item" ng-show="tienePermiso" ng-click="editList();">
         <i class="icon ion-ios7-compose footerIconos"></i>
          <!--<i class="icon ion-plus-circled footerIconos"></i>-->
     </a>
    <!--  <a class="tab-item">
         <i class="icon ion-minus-circled footerIconos"></i>
     </a> -->
-    <a class="tab-item" ng-click="acceptList();">
+    <a class="tab-item" ng-show="tienePermiso" ng-click="acceptList();">
         <i class="icon ion-checkmark-circled footerIconos"></i> 
     </a>
     <a class="tab-item" href="#/app/listas/{{lista.id}}/compartir">

@@ -1,9 +1,23 @@
 angular.module('EPA.controllers')
 
-.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams','$ionicPopup' , 'Lista', 'Session',
-    function($scope, $state, $stateParams,$ionicPopup , Lista , Session) {
+.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams','$ionicPopup' , 'Lista', 'Session', 'User',
+    function($scope, $state, $stateParams,$ionicPopup , Lista , Session, User) {
+
+        if (User.currentUser() != null){
+           $scope.currentUser = User.currentUser().username;
+        };
+        $scope.tienePermiso = true;
+
         Lista.get($stateParams.idLista, {}).then(function(response) {
             $scope.lista = response;
+            
+            if ($scope.lista.bloqueada === '1'){
+                if($scope.currentUser === $scope.lista.edita){
+                    $scope.tienePermiso = true;
+                }else{
+                    $scope.tienePermiso = false;
+                };
+            };
         });
 
         $scope.editList = function () {
