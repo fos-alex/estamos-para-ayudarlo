@@ -94,7 +94,8 @@ angular.module('EPA')
             url: "/consultar",
             views: {
                 'menuContent' :{
-                    templateUrl: "templates/Consultar/index.html"
+                    templateUrl: "templates/Consultar/index.html",
+                    controller: 'ConsultarCtrl'
                 }
             }
         })
