@@ -74,10 +74,9 @@ class promociones extends Api_Controller
 			$latitud = trim($posicion[0], "(");
 			$longitud = trim($posicion[1], ")");
 // 			$distanciaEnGrados = sqrt(pow($latitud - $posX,2) + pow($longitud - $posY,2));
-			$distanciaEnGrados = abs(abs($latitud - $posX) + abs(abs($longitud - $posY)));
+			$distanciaEnGrados = abs(abs($latitud) - abs($posX)) + abs(abs($longitud) - abs($posY));
 
-// 			$distanciaEnMetros = $distanciaEnGrados * 111000; 
-			$distanciaEnMetros = (abs(abs($latitud) - abs($posX)) + abs(abs($longitud) - abs($posY))) *111000;
+ 			$distanciaEnMetros = $distanciaEnGrados * 111000; 
 			
 			if ($distanciaEnMetros < 2000){
 			array_push($coordenadas, array("super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion,
