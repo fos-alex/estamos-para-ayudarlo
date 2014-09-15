@@ -73,16 +73,21 @@ class promociones extends Api_Controller
 			$posicion = split(",", $unaSucursal->coordenadas);
 			$latitud = trim($posicion[0], "(");
 			$longitud = trim($posicion[1], ")");
+// 			$distanciaEnGrados = sqrt(pow($latitud - $posX,2) + pow($longitud - $posY,2));
+			$distanciaEnGrados = abs(abs($latitud - $posX) + abs(abs($longitud - $posY)));
+
+// 			$distanciaEnMetros = $distanciaEnGrados * 111000; 
+			$distanciaEnMetros = (abs(abs($latitud) - abs($posX)) + abs(abs($longitud) - abs($posY))) *111000;
 			
-			array_push($coordenadas, array("super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion ,"x"=> $latitud,"y"=> $longitud, "distancia"=> sqrt(pow($latitud - $posX,2) + pow($longitud - $posY,2))));
+			if ($distanciaEnMetros < 2000){
+			array_push($coordenadas, array("super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion,
+							"x"=> $latitud,"y"=> $longitud, "distancia_en_grados"=> $distanciaEnGrados, "distancia_en_metros"=> $distanciaEnMetros));
+			}
 		}
 		
 		usort($coordenadas, function($a, $b) {
-			return $a['distancia'] <= $b['distancia'] ? -1 : 1;
+			return $a['distancia_en_metros'] <= $b['distancia_en_metros'] ? -1 : 1;
 		});
-		//TODO FALTARIA LA ESCALA DE GRADOS --> CUADRAS PARA PODER FILTRAR LOS MAS CERCANOS
-		
-		
 
 		return $coordenadas; 
 	}
