@@ -125,7 +125,7 @@ angular.module('EPA')
             views: {
                 'menuContent' :{
                     templateUrl: "templates/Ajustes/gestorMapas.html",
-                    controller: 'AjustesCtrl'
+                    controller: 'GestorDeMapasCtrl'
                 }
             }
         })
