@@ -109,6 +109,46 @@ angular.module('EPA')
                 }
             }
         })
+        
+        .state('app.ajustes', {
+            url: "/ajustes",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Ajustes/index.html",
+                    controller: 'AjustesCtrl'
+                }
+            }
+        })
+        
+        .state('app.gestorMapas', {
+            url: "/ajustes/gestorMapas",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Ajustes/gestorMapas.html",
+                    controller: 'AjustesCtrl'
+                }
+            }
+        })
+        
+        .state('app.gestorNotificaciones', {
+            url: "/ajustes/gestorNotificaciones",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Ajustes/gestorNotificaciones.html",
+                    controller: 'AjustesCtrl'
+                }
+            }
+        })
+        
+        .state('app.modoDeUso', {
+            url: "/ajustes/modoDeUso",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Ajustes/modoDeUso.html",
+                    controller: 'AjustesCtrl'
+                }
+            }
+        })
 
         .state('app.search', {
             url: "/search",
