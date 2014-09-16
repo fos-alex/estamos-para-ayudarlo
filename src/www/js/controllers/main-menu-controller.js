@@ -17,15 +17,17 @@ angular.module('EPA.controllers')
 
                     function(response) {
                         $scope.promociones = response;
-                        $ionicPopup.alert({
-                            templateUrl: '/#/app/promociones.html',
-                            title: 'hola'
-                            //template: 'Las promociones vigentes son:' + JSON.stringify(response)
-
-                        }).then(function() {
-                            $state.go('app.map');
-                        });
-
+                        $ionicPopup.show({
+                            templateUrl: 'templates/promociones.html',
+                            scope: $scope,
+                            title: 'Promociones',
+                            buttons:[{
+                                text: 'OK',
+                                type: 'button-primary',
+                                onTap: function(e) {
+                                    $state.go('app.map');
+                                }
+                            }]});
 
 
                     });
