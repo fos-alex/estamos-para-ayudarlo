@@ -49,12 +49,27 @@ class promociones extends Api_Controller
 	private function obtenerPromociones(){
 		$this->load->model('promociones_model', null, true);
 		$promociones = $this->promociones_model->find_all();
+		
+		foreach ($promociones as $key => $unaPromocion) {
+			$desde = $unaPromocion->fecha_desde;
+			$hasta = $unaPromocion->fecha_hasta;
+			$unaPromocion->fecha_desde = date_format(date_create_from_format('Y-m-d', $desde), 'd-m-Y');
+			$unaPromocion->fecha_hasta = date_format(date_create_from_format('Y-m-d', $hasta), 'd-m-Y');
+		}
+		
 		return $promociones;
 	}
 	
 	private function obtenerPromocionesDeSupermercado($id_supermercado){
 		$this->load->model('promociones_model', null, true);
 		$promociones = $this->promociones_model->find_all_by('id_supermercado', $id_supermercado);
+
+		foreach ($promociones as $key => $unaPromocion) {
+			$desde = $unaPromocion->fecha_desde;
+			$hasta = $unaPromocion->fecha_hasta;
+			$unaPromocion->fecha_desde = date_format(date_create_from_format('Y-m-d', $desde), 'd-m-Y');
+			$unaPromocion->fecha_hasta = date_format(date_create_from_format('Y-m-d', $hasta), 'd-m-Y');
+		}
 		
 		return $promociones;
 	}
