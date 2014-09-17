@@ -12,7 +12,6 @@ input::-webkit-inner-spin-button {
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-
 /* User Info Dialogs */
 
 .error.notify {
@@ -265,4 +264,9 @@ a:visited{
 
 .derecha {
     text-align: right;
+}
+/*Consultar Info de producto*/
+.consultar-tabla{
+    border-color: #B5C4EC;
+    background-color: #D6E4F3;
 }
