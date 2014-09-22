@@ -241,7 +241,7 @@ class content extends Admin_Controller
 				"4"=>"descripcion"
 			);
 
-		$this->load->library('excel/lectorexcel',$tipos);
+		$this->load->library('excel/LectorExcel',$tipos);
 		$this->lectorexcel->cargar($_FILES['productos']['tmp_name']);
 		$productosleidos = $this->lectorexcel->obtenerFilas();
 		$productoscargados = array();
