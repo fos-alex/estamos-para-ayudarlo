@@ -26,17 +26,21 @@ angular.module('EPA.controllers')
         };
 
         $scope.showConfirm = function() {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Confirmación?',
-                template: '¿Estás seguro que deseas salir?'
-            });
-            confirmPopup.then(function(res) {
-                if(res) {
-                    $state.go('app.listas');
-                } else {
-                }
-            });
+            debugger;
+            if (Session.get('createdList').id === $scope.lista.id) {
+                $ionicPopup.confirm({
+                    title: 'Confirmación?',
+                    template: '¿Estás seguro que deseas salir?'
+                }).then(function(res) {
+                    if(res) {
+                        $state.go('app.listas');
+                    }
+                });
+            } else {
+                $state.go('app.listas');
+            }
         };
+
         $scope.deleteList = function () {
             Lista.delete($scope.lista).then(function() {
                 $state.go('app.listas');

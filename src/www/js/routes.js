@@ -39,6 +39,15 @@ angular.module('EPA')
             }
         })
 
+        .state('app.estadisticas', {
+            url: "/estadisticas",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/estadisticas.html",
+                    controller: 'estadisticasCtrl'
+                }
+            }
+        })
 
         .state('app.listas', {
             url: "/listas",
@@ -94,7 +103,8 @@ angular.module('EPA')
             url: "/consultar",
             views: {
                 'menuContent' :{
-                    templateUrl: "templates/Consultar/index.html"
+                    templateUrl: "templates/Consultar/index.html",
+                    controller: 'ConsultarCtrl'
                 }
             }
         })
@@ -105,6 +115,46 @@ angular.module('EPA')
                 'menuContent' :{
                     templateUrl: "templates/Consultar/detalleProducto.html",
                     controller: 'ConsultarCtrl'
+                }
+            }
+        })
+        
+        .state('app.ajustes', {
+            url: "/ajustes",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Ajustes/index.html",
+                    controller: 'AjustesCtrl'
+                }
+            }
+        })
+        
+        .state('app.gestorMapas', {
+            url: "/ajustes/gestorMapas",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Ajustes/gestorMapas.html",
+                    controller: 'GestorDeMapasCtrl'
+                }
+            }
+        })
+        
+        .state('app.gestorNotificaciones', {
+            url: "/ajustes/gestorNotificaciones",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Ajustes/gestorNotificaciones.html",
+                    controller: 'AjustesCtrl'
+                }
+            }
+        })
+        
+        .state('app.modoDeUso', {
+            url: "/ajustes/modoDeUso",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Ajustes/modoDeUso.html",
+                    controller: 'AjustesCtrl'
                 }
             }
         })
