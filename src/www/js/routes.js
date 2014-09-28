@@ -44,7 +44,7 @@ angular.module('EPA')
             views: {
                 'menuContent' :{
                     templateUrl: "templates/estadisticas.html",
-                    controller: 'estadisticasCtrl'
+                    controller: 'estadisticaCtrl'
                 }
             }
         })
