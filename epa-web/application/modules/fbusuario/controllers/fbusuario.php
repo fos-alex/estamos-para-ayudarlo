@@ -6,11 +6,16 @@ class Fbusuario extends Api_Controller
 	public function GET(){
 		if(array_key_exists(0, $this->PARAMETROS)){
 			$user_id = $this->PARAMETROS[0];
-			
+			$this->load->model ( 'users/user_model', null, true );
+			$usuario = $this->user_model->find_by ("facebook_id",$user_id);
+			if($usuario){
+
+			}else{
+				$this->error(403,"Usuario inexistente");
+			}
 		}else{
 			$this->error(403,"Usuario inexistente");
 		}
-	
 	}
 
 	public function POST(){
