@@ -93,10 +93,10 @@ class promociones extends Api_Controller
 
  			$distanciaEnMetros = $distanciaEnGrados * 111000; 
 			
-			if ($distanciaEnMetros < 2000){
+// 			if ($distanciaEnMetros < 2000){
 			array_push($coordenadas, array("super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion,
 							"x"=> $latitud,"y"=> $longitud, "distancia_en_grados"=> $distanciaEnGrados, "distancia_en_metros"=> $distanciaEnMetros));
-			}
+// 			}
 		}
 		
 		usort($coordenadas, function($a, $b) {

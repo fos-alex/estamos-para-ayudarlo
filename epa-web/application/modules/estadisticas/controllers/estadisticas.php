@@ -14,8 +14,13 @@ class Estadisticas extends Api_Controller
     {
         if (array_key_exists(0, $this->PARAMETROS)) {
             $mes = $this->PARAMETROS [0];
-//             $this->JSON_OUT->data = $this->obtenerEstadisticasPorMes($mes);
-            $this->JSON_OUT->data = $this->obtenerEstadisticaDetallada($mes);
+            
+            $tipoEstadistica = $this->PARAMETROS [1];
+            
+            if ($tipoEstadistica == 0)
+            	$this->JSON_OUT->data = $this->obtenerEstadisticasPorMes($mes);
+            else
+                $this->JSON_OUT->data = $this->obtenerEstadisticaDetallada($mes);
         } else
         	$this->error ( 404, "Debe especificar un mes" );
     }
@@ -106,7 +111,6 @@ class Estadisticas extends Api_Controller
     		array_push ( $total, array('categoria'=>$categorias[$i], 'importe_por_categoria'=> $importe_por_categoria
     						,'cantidad_comunes'=>$cant_comunes,'cantidad_cuidados'=>$cant_cuidados));
     	}
-//     	array_push($total, $this->obtenerEstadisticasPorMes($mes));
     	
     	return $total;
     }
