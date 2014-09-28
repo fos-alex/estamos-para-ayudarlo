@@ -37,14 +37,8 @@ class promociones extends Api_Controller
 		if (! $posicion || !isset($posicion['latitud']) || !isset($posicion['longitud'])) {
 			$this->error ( 405, "Debe ingresar datos obligatorios" );
 		}
-		
 		$this->JSON_OUT->data = $this->superCercanos($posicion['latitud'],$posicion['longitud']);
 	}
-	
-	
-	
-	
-	
 	
 	private function obtenerPromociones(){
 		$this->load->model('promociones_model', null, true);
@@ -56,7 +50,6 @@ class promociones extends Api_Controller
 			$unaPromocion->fecha_desde = date_format(date_create_from_format('Y-m-d', $desde), 'd-m-Y');
 			$unaPromocion->fecha_hasta = date_format(date_create_from_format('Y-m-d', $hasta), 'd-m-Y');
 		}
-		
 		return $promociones;
 	}
 	
@@ -70,7 +63,6 @@ class promociones extends Api_Controller
 			$unaPromocion->fecha_desde = date_format(date_create_from_format('Y-m-d', $desde), 'd-m-Y');
 			$unaPromocion->fecha_hasta = date_format(date_create_from_format('Y-m-d', $hasta), 'd-m-Y');
 		}
-		
 		return $promociones;
 	}
 	
@@ -79,9 +71,10 @@ class promociones extends Api_Controller
 	private function superCercanos($posX, $posY){
 		
 		$this->load->model('sucursales/sucursales_model', null, true);
-		$sucursales = $this->sucursales_model->join('supermercados s', 'id_supermercado = s.id')->find_all();
-		
-		$sucursales = $this->sucursales_model->select('coordenadas, direccion, s.nombre')->join('supermercados s', 'id_supermercado = s.id')->find_all();
+		$sucursales = $this->sucursales_model
+					->select('coordenadas, direccion, s.nombre')
+					->join('supermercados s', 'id_supermercado = s.id')
+					->find_all();
 				
 		$coordenadas = array();
 		foreach ($sucursales as $key => $unaSucursal) {
@@ -89,20 +82,18 @@ class promociones extends Api_Controller
 			$latitud = trim($posicion[0], "(");
 			$longitud = trim($posicion[1], ")");
 // 			$distanciaEnGrados = sqrt(pow($latitud - $posX,2) + pow($longitud - $posY,2));
-			$distanciaEnGrados = abs(abs($latitud) - abs($posX)) + abs(abs($longitud) - abs($posY));
+			$distanciaEnMetros = abs(abs($latitud* 111000) - abs($posX* 111000)) + abs(abs($longitud* 111000) - abs($posY* 111000));
 
- 			$distanciaEnMetros = $distanciaEnGrados * 111000; 
-			
+//TODO: Agregar el filtro o pedirlo x parametro		
 // 			if ($distanciaEnMetros < 2000){
-			array_push($coordenadas, array("super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion,
-							"x"=> $latitud,"y"=> $longitud, "distancia_en_grados"=> $distanciaEnGrados, "distancia_en_metros"=> $distanciaEnMetros));
-// 			}
+			array_push($coordenadas, 
+				array("super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion,"distancia_en_metros"=> intval($distanciaEnMetros))
+			);
 		}
 		
 		usort($coordenadas, function($a, $b) {
 			return $a['distancia_en_metros'] <= $b['distancia_en_metros'] ? -1 : 1;
 		});
-
 		return $coordenadas; 
 	}
 	
