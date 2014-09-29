@@ -38,7 +38,7 @@ class Fbusuario extends Api_Controller
 
 	private function crearUsuario($fbuser){
 			$this->load->library ( 'users/auth' );
-
+			$data = array();
 			$data ['username'] = $fbuser ['email'];
 			$data ['email'] = $fbuser ['email'];
 			$data ['password'] = $fbuser ['id'];
