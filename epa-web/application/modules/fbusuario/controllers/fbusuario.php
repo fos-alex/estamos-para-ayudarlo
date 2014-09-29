@@ -9,7 +9,8 @@ class Fbusuario extends Api_Controller
 			$this->load->model ( 'users/user_model', null, true );
 			$usuario = $this->user_model->find_by ("facebook_id",$user_id);
 			if($usuario){
-
+				$this->load->library('users/auth');
+				$this->auth->login( $usuario->username , $user_id , FALSE);
 			}else{
 				header('HTTP/1.1 403 Usuario inexistente');
 				$this->error(403,"Usuario inexistente");
@@ -21,15 +22,59 @@ class Fbusuario extends Api_Controller
 	}
 
 	public function POST(){
-		$this->load->library('users/auth');
-		$json = $this->JSON_IN;
-		if ($this->auth->login( $json['username'] , $json['password'] , FALSE) === TRUE){
-			header('HTTP/1.1 200 Usuario Correcto');
-			die();
+		$this->load->model ( 'users/user_model', null, true );
+		$fbuser = $this->JSON_IN;
+		$usuario = $this->user_model->find_by ("email",$fbuser['email']);
+
+		if($usuario){
+				$set = array('facebook_id'=>$fbuser['id']);
+				$this->user_model->update($usuario->id,$set);
+				$this->JSON_OUT->data = (array ("id" => $usuario->id));
+				$this->success();
 		}else{
-			header('HTTP/1.1 403 Usuario Invalido');
-			die();
-		}		
+			$this->crearUsuario($fbuser);
+		}
 	}
 
+	private function crearUsuario($fbuser){
+			$this->load->library ( 'users/auth' );
+
+			$data ['username'] = $fbuser ['email'];
+			$data ['email'] = $fbuser ['email'];
+			$data ['password'] = $fbuser ['id'];
+			$data ['facebook_id'] = $fbuser ['id'];
+			$data ['active'] = 1;
+			if ($user_id = $this->user_model->insert ( $data )) {
+				$user_datos = "A Travez de facebook : ". $fbuser ['name']."<br/>";
+				
+				$data_mail = array (
+						'to' => $data ['email'],
+						'subject' => str_replace ( '[SITE_TITLE]', $this->settings_lib->item ( 'site.title' ), lang ( 'us_account_reg_complete' ) ),
+						'message' => lang ( 'us_account_active_login' ) .$user_datos . lang ( 'us_account_active_login_fin' ) . lang ( 'us_epa_staff' ) 
+				);
+				$this->sendMail ( $data_mail );
+				
+				header ( 'HTTP/1.1 200 Usuario creado correctamente' );
+				$this->JSON_OUT->data = (array ("id" => $user_id));
+				$this->success();
+			} else {
+				$this->error ( 411, "Ha ocurrido un error al registrar usuario. Intente nuevamente más tarde" );
+			}
+		
+		
+	}
+
+	private function sendMail($mail) {
+		$this->load->library ( 'email' );
+		$this->load->library ( 'emailer/emailer' );
+		$this->load->model ( 'emailer/emailer_model' );
+		
+		if (! $this->emailer->send ( $mail )) {
+			$error = true;
+		}
+		
+		if ($error) {
+			$this->error ( 450, "Error al enviar email" );
+		}
+	}
 }
