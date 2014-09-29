@@ -26,6 +26,7 @@ secret : 42d757114f3ae3d6dd4bd0b68fcf335a
                 }
             );
         },function(response){
+            facebookConnectPlugin.logout();
             console.log("DATA ERROR "+JSON.stringify(response));
         });
     };
@@ -33,12 +34,11 @@ secret : 42d757114f3ae3d6dd4bd0b68fcf335a
     return {
         restrict: 'A',
         link: function(scope, element, attrs) { 
+          element.find("a").on('click',function(){
             if (!window.cordova) {
                 var appId = 1504374299806491;
                 facebookConnectPlugin.browserInit(appId);
             }
-
-          element.find("a").on('click',function(){
             facebookConnectPlugin.getLoginStatus(function(response){
                 if(response.status == 'connected'){
                         checkRegister();
