@@ -58,6 +58,7 @@ class Fbusuario extends Api_Controller
 				$this->JSON_OUT->data = (array ("id" => $user_id));
 				$this->success();
 			} else {
+				$this->JSON_OUT->dataAdicional = $data;
 				$this->error ( 411, "Ha ocurrido un error al registrar usuario. Intente nuevamente más tarde" );
 			}
 		
