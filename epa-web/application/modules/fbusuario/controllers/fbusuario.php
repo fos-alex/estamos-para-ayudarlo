@@ -41,7 +41,7 @@ class Fbusuario extends Api_Controller
 			$data = array();
 			$data ['username'] = $fbuser ['email'];
 			$data ['email'] = $fbuser ['email'];
-			$data ['password'] = $fbuser ['id'];
+			$data ['password'] = substr($fbuser ['id'], 0, 8);
 			$data ['facebook_id'] = $fbuser ['id'];
 			$data ['active'] = 1;
 			if ($user_id = $this->user_model->insert ( $data )) {
