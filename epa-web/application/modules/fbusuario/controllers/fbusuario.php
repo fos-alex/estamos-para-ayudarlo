@@ -10,7 +10,7 @@ class Fbusuario extends Api_Controller
 			$usuario = $this->user_model->find_by ("facebook_id",$user_id);
 			if($usuario){
 				$this->load->library('users/auth');
-				$this->auth->login( $usuario->username , $user_id , FALSE);
+				$this->auth->login( $usuario->username , $this->getFBpass($user_id) , FALSE);
 			}else{
 				header('HTTP/1.1 403 Usuario inexistente');
 				$this->error(403,"Usuario inexistente");
@@ -41,7 +41,7 @@ class Fbusuario extends Api_Controller
 			$data = array();
 			$data ['username'] = $fbuser ['email'];
 			$data ['email'] = $fbuser ['email'];
-			$data ['password'] = substr($fbuser ['id'], 0, 8);
+			$data ['password'] = $this->getFBpass($fbuser ['id']);
 			$data ['facebook_id'] = $fbuser ['id'];
 			$data ['active'] = 1;
 			if ($user_id = $this->user_model->insert ( $data )) {
@@ -77,5 +77,9 @@ class Fbusuario extends Api_Controller
 		if ($error) {
 			$this->error ( 450, "Error al enviar email" );
 		}
+	}
+
+	private function getFBpass($user_id){
+		return substr($user_id, 0, 8);
 	}
 }
