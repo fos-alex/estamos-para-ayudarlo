@@ -108,7 +108,7 @@ class Estadisticas extends Api_Controller
     			}
     		}
     		
-    		array_push ( $total, array('categoria'=>$categorias[$i], 'importe_por_categoria'=> $importe_por_categoria
+    		array_push ( $total, array('categoria'=>$categorias[$i], 'importe_por_categoria'=> intval($importe_por_categoria)
     						,'cantidad_comunes'=>$cant_comunes,'cantidad_cuidados'=>$cant_cuidados));
     	}
     	
