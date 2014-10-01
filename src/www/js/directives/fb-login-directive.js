@@ -56,6 +56,7 @@ secret : 42d757114f3ae3d6dd4bd0b68fcf335a
                     ["public_profile","email"], function(response){
                         checkRegister();
                     },function(failure){
+                        $ionicLoading.hide();  
                         alert("Debes autorizar la aplicacion para acceder.");
                     });
                 }
