@@ -2,7 +2,7 @@ angular.module('EPA.controllers')
 
     .controller('estadisticaCtrl', ['$scope','$state','estadisticas',
         function($scope, $state,estadisticas) {
-            $scope.mes_estadistica = "05";
+            $scope.mes_estadistica = "09";
             $scope.mostrarTotal=false;
             $scope.mostrarDetalle=false;
 
@@ -10,11 +10,13 @@ angular.module('EPA.controllers')
                 estadisticas.getMes(this.mes_estadistica).then(
                     function(response){
                         $scope.mostrarDetalle=true;
+                        $scope.estadisticas = response.data.data;
                     },
                     function(error){
 
                     }
                 );
+
             };
                 $scope.getTotal = function(){
                 estadisticas.getTotal(this.mes_estadistica).then(
