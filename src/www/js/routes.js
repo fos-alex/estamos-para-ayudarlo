@@ -144,7 +144,7 @@ angular.module('EPA')
             views: {
                 'menuContent' :{
                     templateUrl: "templates/Ajustes/gestorNotificaciones.html",
-                    controller: 'AjustesCtrl'
+                    controller: 'GestorDeNotificacionesCtrl'
                 }
             }
         })

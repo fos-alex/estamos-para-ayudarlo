@@ -31,6 +31,7 @@ angular.module('EPA.controllers')
             };
             $scope.logout= function(){
                 User.logout().then(
+
                     function(response){
                         $state.go('app.login');
                     },
