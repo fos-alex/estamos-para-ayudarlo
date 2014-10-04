@@ -10,6 +10,7 @@ angular.module('EPA.controllers')
 						var position = success.coords;
 						$scope.latitud = position.latitude;
 						$scope.longitud = position.longitude;
+						$scope.superCercanos();
 						$scope.$apply();
 
 					}, function(error) {
