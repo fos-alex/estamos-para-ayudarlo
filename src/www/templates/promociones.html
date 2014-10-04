@@ -1,15 +1,11 @@
-<ion-view title="EPA">
 
-    <h1>PATO </h1>
-    <ion-content class="has-header has-footer">
-        <div class="list" show-delete='true'>
-            <a class="item item-avatar"
-               ng-repeat="item in promociones">
-                <!--<img src="img/ionic.png">-->
-                <h2>{{item.descripcion}}</h2>
-                <p>{{item.fecha_desde}}</p>
-                <p>{{item.fecha_hasta}}</p>
-            </a>
-        </div>
-    </ion-content>
-</ion-view>
+<div class="list" show-delete='true'>
+    <a class="item item-text-wrap" ng-repeat="item in promociones">
+        <!--Acá debería filtrar el supermercado cuando este integrado el mapa-->
+        <h2>{{item.descripcion}}</h2>
+        <p></p>
+        <p> Desde: {{item.fecha_desde}}</p>
+        <p> Hasta:{{item.fecha_hasta}}</p>
+
+    </a>
+</div>

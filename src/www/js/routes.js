@@ -39,6 +39,15 @@ angular.module('EPA')
             }
         })
 
+        .state('app.estadisticas', {
+            url: "/estadisticas",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/estadisticas.html",
+                    controller: 'estadisticaCtrl'
+                }
+            }
+        })
 
         .state('app.listas', {
             url: "/listas",
@@ -125,7 +134,7 @@ angular.module('EPA')
             views: {
                 'menuContent' :{
                     templateUrl: "templates/Ajustes/gestorMapas.html",
-                    controller: 'AjustesCtrl'
+                    controller: 'GestorDeMapasCtrl'
                 }
             }
         })

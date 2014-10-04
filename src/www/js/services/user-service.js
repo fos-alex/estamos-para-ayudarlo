@@ -137,6 +137,30 @@ angular.module('EPA.services')
                 },
                 isAllowedToDo: function () {
 
+                },
+                loginUserFacebook: function(userID){
+                    var deferred = $q.defer();
+
+                    $http.get(CONFIG.WS_URL+"/app/fbusuario/"+userID,{})
+                        .success(function (result, status, headers){
+                            deferred.resolve(result);
+                        })
+                        .error(function (result, status, headers) {
+                            deferred.reject(result); 
+                        });
+                    return deferred.promise;
+                },
+                registerUserFacebook: function(userdata){
+                    var deferred = $q.defer();
+
+                    $http.post(CONFIG.WS_URL+"/app/fbusuario/",userdata)
+                        .success(function (result, status, headers){
+                            deferred.resolve(result);
+                        })
+                        .error(function (result, status, headers) {
+                            deferred.reject(result);  
+                        });
+                    return deferred.promise;
                 }
             };
         }])

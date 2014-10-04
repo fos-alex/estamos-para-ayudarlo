@@ -1,5 +1,36 @@
-<ion-view title="Resultado de geo">
-  <ion-content class="has-header">
-      {{localization}}
-  </ion-content>
-</ion-view>
+<ion-view title="EPA"> <!-- HEADER --> <ion-header-bar
+	class="bar-positive centrado" animation="slide-left-right-ios7">
+<a class="tab-item backHeader" href="#/app/menu"> <i
+	class="ion-arrow-left-c footerIconos"></i>
+</a>
+<h1 class="title centrado">Supermercados cercanos</h1>
+<img class="logoHeader" src="./img/carrito.png"> </ion-header-bar> <ion-content
+	class="loginBackground">
+<div style="margin-top: 10%;">
+
+	<label class="item item-input"> <span class="input-label">Latitud</span>
+		<input type="number" placeholder={{latitud}}
+		ng-model="posicion.latitud" ng_required>
+	</label> <label class="item item-input"> <span class="input-label">Longitud</span>
+		<input type="number" placeholder={{longitud}}
+		ng-model="posicion.longitud" ng_required>
+	</label>
+
+	<div class="row centrado">
+		<div class="col centrado">
+			<button class="button button-positive button button-medium"
+				data-ng-click="superCercanos()">Consultar Supermercados
+				Cercanos</button>
+		</div>
+	</div>
+
+	<div class="list" show-delete='true'>
+
+		<a class="item item-text-wrap" ng-repeat="item in supermercados">
+			<h2>{{item.super}}</h2>
+			<p></p>
+			<p>Direccion: {{item.direccion}}</p>
+			<p>Distancia en metros: {{item.distancia_en_metros}}</p>
+		</a>
+	</div>
+</ion-content> </ion-view>

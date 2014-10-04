@@ -1,15 +1,27 @@
 angular.module('EPA.controllers')
 
-.controller('GeolocalizationCtrl', ['$scope', function($scope) {
-    alert('pido geo');
-    navigator.geolocation.getCurrentPosition(function (success) {
-        var position = success.coords;
-        $scope.localization = 'Latitud: '+position.latitude+'. Longitud: '+position.longitude;
-        $scope.$apply();
-        alert('success '+success);
+.controller(
+		'GeolocalizationCtrl',
+		[
+				'$scope',
+				'superCercanos',
+				function($scope, superCercanos) {
+					navigator.geolocation.getCurrentPosition(function(success) {
+						var position = success.coords;
+						$scope.latitud = position.latitude;
+						$scope.longitud = position.longitude;
+						$scope.$apply();
 
-    }, function (error) {
-        alert('error '+error);
+					}, function(error) {
+						alert('error ' + error);
 
-    });
-}]);
+					});
+					$scope.superCercanos = function() {
+						superCercanos.notificar_cercania(this.latitud,
+								this.longitud).then(function(response) {
+									$scope.supermercados=response.data.data,
+							$scope.mostrarDetalle = true;
+						}, function(error) {
+						});
+					};
+				} ]);

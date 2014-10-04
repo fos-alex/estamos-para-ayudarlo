@@ -1,0 +1,87 @@
+<ion-view title="Estadisticas">
+    <!-- HEADER -->
+    <ion-header-bar class="bar-positive centrado" animation="nav-title-slide-ios7">
+        <!-- ver porque no funciona el boton para atras -->
+        <a class="tab-item backHeader" href="#/app/menu" style="z-index: 5000">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado">Estadisticas</h1>
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+
+    <ion-content class="padding-estadisticas">
+        <div id="loginContainer" style="margin-top:5%;">
+            <div class="list">
+                <label class="item item-input item-select">
+                    <div class="input-label" >
+                        Mes
+                    </div>
+                    <select ng-model="mes_estadistica">
+                        <option value="01">Enero</option>
+                        <option value="02">Febrero</option>
+                        <option value="03">Marzo</option>
+                        <option value="04">Abril</option>
+                        <option value="05">Mayo</option>
+                        <option value="06">Junio</option>
+                        <option value="07">Julio</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Septiembre</option>
+                        <option value="10">Octubre</option>
+                        <option value="11">Noviembre</option>
+                        <option value="12">Diciembre</option>
+                    </select>
+                </label>
+            </div>
+            <div class="row padding-iconos">
+                <div class="col">
+                    <div id="Total" class="cuadrado celeste" data-ng-click="getTotal()" >
+                        <a class="menu-link">
+                            <i class="ion-calculator mainMenuIcon celesteLogo"></i>
+                            <p class="menu-leyendas celeste-leyenda">Total de Consumo</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col">
+                    <div id="Detalle" class="cuadrado rojo" data-ng-click="getMes()">
+                        <a class="menu-link">
+                            <i class="ion-clipboard mainMenuIcon rojoLogo"></i>
+                            <p class="menu-leyendas rojo-leyenda" data-ng-click="detalle_Estadistica()">Detalle de consumo</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-show="mostrarDetalle">
+                <div class="item item-text-wrap" >
+                    <div class="list" show-delete='true'>
+                        <a class="item item-text-wrap" ng-repeat="item in estadisticas" >
+                            <h2>Categoría: {{item.categoria}}</h2>
+                            <p> Importe: {{item.importe_por_categoria}} </p>
+                            <p> Cantidad Productos Comprados sin Promoción:{{item.cantidad_comunes}}</p>
+                            <p> Cantidad Productos Comprados con Promoción:{{item.cantidad_cuidados}}</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card"  ng-show="mostrarTotal">
+                <div class="item item-text-wrap">
+                    <div class="row">
+                        {{info}}
+                    </div>
+                    <div class="row">
+                        {{info_2}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+    <ion-footer-bar class="bar-dark">
+        <a class="tab-item" href="#/app/menu">
+            <i class="ion-home footerIconos"></i>
+        </a>
+    </ion-footer-bar>
+
+</ion-view>
+

@@ -10,7 +10,7 @@ angular.module('EPA.services')
 
                 return {
                     get : function () {
-                        return Resource.get(undefined, key, {});
+                        return Resource.get(undefined, key, {refreshCache:true});
                     }
 
                 };
