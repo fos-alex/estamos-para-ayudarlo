@@ -47,9 +47,10 @@ angular.module('EPA.services')
                     return deferred.promise;
                 },
                 logout: function () {
+                    $http.post(CONFIG.WS_URL+"/app/logout", '');
                     isLoggedIn = false;
-                    $state.go('app.login');
                 },
+
                 registrar: function (userdata) {
 
                     var deferred = $q.defer();

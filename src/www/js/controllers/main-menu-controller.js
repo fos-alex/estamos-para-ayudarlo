@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-    .controller('MainMenuCtrl', ['$scope','$ionicPopup','$state','Promociones',
-        function($scope, $ionicPopup, $state,Promociones) {
+    .controller('MainMenuCtrl', ['$scope','$ionicPopup','$state','$ionicPopup','User', 'Promociones',
+        function($scope, $ionicPopup, $state, $ionicPopup,User, Promociones) {
             $scope.menuItems = [
                 {title: 'Scanner',         id: 1, href: "barcodescanner"  },
                 {title: 'Map',             id: 2, href: "map" },
@@ -9,7 +9,6 @@ angular.module('EPA.controllers')
                 {title: 'Geolocalization', id: 4, href: "geo" },
                 {title: 'ABM Listas',      id: 5, href: "listas" }
             ];
-
 
             $scope.showAlert = function() {
                 $scope.promociones=null;
@@ -28,11 +27,14 @@ angular.module('EPA.controllers')
                                     $state.go('app.map');
                                 }
                             }]});
-
-
                     });
-
-
             };
+            $scope.logout= function(){
+                User.logout().then(
+                    function(response){
+                        $state.go('app.login');
+                    },
+                    function(error){}
+                )};
 
         }])
