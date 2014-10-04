@@ -156,19 +156,29 @@
     };
 
     $.fn.canvasMap.drawRoute = function(positions){
-        var that = this;
-        var points = [];
+        var that = this,
+            routes = [],
+            maxTries = 3;
 
         positions = this.orderRoutes(positions);
+        debugger;
         $.each(positions, function (ix, position) {
             if (!positions[ix + 1]) {
                 return;
             }
-
-            $.fn.canvasMap.findRoute(position, positions[ix + 1]);
-
-            //points.push(position.x);
-            //points.push(position.y);
+            var lastRoute = {
+                finished: false
+            };
+            routes[ix] = [];
+            while (!lastRoute.finished && routes[ix].length < maxTries) {
+                var options = {
+                    startDirection: routes[ix].length == 1? "x" : "y"
+                };
+                lastRoute = $.fn.canvasMap.findRoute(position, positions[ix + 1], options);
+                positions[ix + 1] = lastRoute.finalPosition;
+                routes[ix].push(lastRoute);
+            }
+            debugger;
         });
         /*var line = new Kinetic.Line({
             points: points,
@@ -197,7 +207,7 @@
         var defaultOptions = {
             color: '#145fd7',
             radius: 4
-        }
+        };
         options = $.extend(defaultOptions, options);
 
         var user = new Kinetic.Circle({
@@ -213,23 +223,29 @@
         return canvas.stage.draw();
     };
 
-    $.fn.canvasMap.findRoute = function (origin, dest) {
-        var step = 15;
-        var loopCounter = 0;
-        var position = origin;
-        var lastPosition = null;
-        var axis = "x";
-        var forceMoveUp = false,
-            forceMoveDown = false;
-        var path = [];
+    $.fn.canvasMap.findRoute = function (origin, dest, options) {
+        var defaultOptions = {
+            startDirection: "x",
+            step: 15
+        };
+        options = $.extend(defaultOptions, options);
+
+        var step = options.step,
+            loopCounter = 0,
+            position = $.extend(true, {}, origin),
+            axis = options.startDirection,
+            forceMoveUp = false,
+            forceMoveDown = false,
+            path = [];
         console.log("Origin");
         console.log(origin);
-        $.fn.canvasMap.markPoint(origin, {color:"red", radius: 6});
         console.log("Destination");
         console.log(dest);
+        $.fn.canvasMap.markPoint(origin, {color:"red", radius: 6});
         $.fn.canvasMap.markPoint(dest, {color:"red", radius: 6});
         while (!$.fn.canvasMap.hasArrivedToPosition (position, dest) &&
-                (position.x != dest.x || position.y != dest.y)) {
+                (position.x != dest.x || position.y != dest.y)
+        ) {
             ++loopCounter;
             $.fn.canvasMap.markPoint(position);
             path.push($.extend(true, {}, position));
@@ -280,19 +296,24 @@
 
             if ($.fn.canvasMap.shapeInPoint(position) || position[axis] <= 0) {
                 debugger;
-                path.push($.extend(true, {}, position));
                 position[axis] -= step;
                 axis = $.fn.canvasMap.switchAxis(axis);
             }
 
             console.log(position);
-            if (loopCounter > 300) {
+            if (loopCounter > 100) {
                 console.log("break!!!");
                 break;
             }
         }
         $.fn.canvasMap.markPoint(position);
-        debugger;
+        return {
+            origin:         origin,
+            destination:    dest,
+            finalPosition:  position,
+            path:           path,
+            finished:       $.fn.canvasMap.hasArrivedToPosition(position, dest)
+        };
     };
 
     $.fn.canvasMap.hasArrivedToPosition = function (position, dest) {
@@ -310,6 +331,7 @@
             console.log(dest);
             return true;
         }
+        return false;
     };
 
     $.fn.canvasMap.switchAxis = function (axis) {
@@ -320,13 +342,13 @@
     };
 
 
-    $.fn.canvasMap.orderRoutes = function(positions){
+    $.fn.canvasMap.orderRoutes = function (positions) {
         // Asumme first position is starting point
         var orderedArray = positions.splice(0,1);
         var pivot = orderedArray[0];
         $.each(positions, function () {
-            var bestDistanceToPivot = 99999;
-            var nextPositionIndex = null;
+            var bestDistanceToPivot = 99999,
+                nextPositionIndex = null;
             $.each(positions, function (ix) {
                 if (this.x === pivot.x && this.y === pivot.y) {
                     return;
@@ -357,8 +379,6 @@
                 x: shellPos.x + shell.getWidth() / 2,
                 y: shellPos.y + shell.getHeight() / 2
             };
-
-            debugger;
         });
         return coords;
     };
@@ -377,7 +397,7 @@
         var user = this.getUserShape(position);
         canvas.layer.add(user);
         canvas.stage.draw();
-        var coords = this.getAllCoords(['Carniceria', 'Enlatados']);
+        var coords = this.getAllCoords(['Almacen', 'Bebidas', 'Lacteos', 'Limpieza']);
         var routePoints = [position].concat(coords);
         this.drawRoute(routePoints);
     };
