@@ -1,11 +1,15 @@
 
 <div class="list" show-delete='true'>
-    <a class="item item-text-wrap" ng-repeat="item in promociones">
-        <!--Acá debería filtrar el supermercado cuando este integrado el mapa-->
-        <h2>{{item.descripcion}}</h2>
-        <p></p>
-        <p> Desde: {{item.fecha_desde}}</p>
-        <p> Hasta:{{item.fecha_hasta}}</p>
+    <ion-list>
+        <a class="item item-text-wrap" ng-repeat="item in promociones">
+            <!--Acá debería filtrar el supermercado cuando este integrado el mapa-->
+            <h2>{{item.descripcion}}</h2>
+            <p></p>
+            <p> Desde: {{item.fecha_desde}}</p>
+            <p> Hasta: {{item.fecha_hasta}}</p>
 
-    </a>
+        </a>
+
+    </ion-list>
+    <ion-infinite-scroll> </ion-infinite-scroll>
 </div>

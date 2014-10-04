@@ -44,7 +44,7 @@
                 <div class="col">
                     <div id="Detalle" class="cuadrado rojo" data-ng-click="getMes()">
                         <a class="menu-link">
-                            <i class="ion-clipboard mainMenuIcon rojoLogo"></i>
+                            <i class="ion-ios7-cart mainMenuIcon rojoLogo"></i>
                             <p class="menu-leyendas rojo-leyenda" data-ng-click="detalle_Estadistica()">Detalle de consumo</p>
                         </a>
                     </div>
@@ -54,15 +54,20 @@
             <div class="card" ng-show="mostrarDetalle">
                 <div class="item item-text-wrap" >
                     <div class="list" show-delete='true'>
-                        <a class="item item-text-wrap" ng-repeat="item in estadisticas" >
-                            <h2>Categoría: {{item.categoria}}</h2>
-                            <p> Importe: {{item.importe_por_categoria}} </p>
-                            <p> Cantidad Productos Comprados sin Promoción:{{item.cantidad_comunes}}</p>
-                            <p> Cantidad Productos Comprados con Promoción:{{item.cantidad_cuidados}}</p>
-                        </a>
+                        <ion-list>
+                            <a class="item item-text-wrap" ng-repeat="item in estadisticas" >
+                                <h2>Categoría: {{item.categoria}}</h2>
+                                <p> Importe: {{item.importe_por_categoria}} </p>
+                                <p> Cantidad Productos Comprados sin Promoción:{{item.cantidad_comunes}}</p>
+                                <p> Cantidad Productos Comprados con Promoción:{{item.cantidad_cuidados}}</p>
+                            </a>
+                        </ion-list>
                     </div>
                 </div>
+
             </div>
+
+            <ion-infinite-scroll> </ion-infinite-scroll>
 
             <div class="card"  ng-show="mostrarTotal">
                 <div class="item item-text-wrap">
