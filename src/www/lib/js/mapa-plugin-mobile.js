@@ -232,6 +232,7 @@
                 (position.x != dest.x || position.y != dest.y)) {
             ++loopCounter;
             $.fn.canvasMap.markPoint(position);
+            path.push($.extend(true, {}, position));
             if (dest[axis] > origin[axis] && (dest[axis] - origin[axis]) > step  && !forceMoveUp || forceMoveDown && !forceMoveUp) {
                 debugger;
                 // Going forwards
@@ -279,7 +280,7 @@
 
             if ($.fn.canvasMap.shapeInPoint(position) || position[axis] <= 0) {
                 debugger;
-                path.push(position);
+                path.push($.extend(true, {}, position));
                 position[axis] -= step;
                 axis = $.fn.canvasMap.switchAxis(axis);
             }

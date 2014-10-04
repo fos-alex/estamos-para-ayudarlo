@@ -9,7 +9,8 @@ angular.module('EPA.controllers')
             alert(read.text);
         };
         $('#map-container').canvasMap({
-            url: "http://local.epa-web.com/app",
+            url: "http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app",
+            //url: "http://local.epa-web.com/app",
             url_mapa: '/mapas/' + $('#id_sucursal').val()
         });
 
