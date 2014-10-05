@@ -15,9 +15,7 @@ class RecuperoPassword extends Api_Controller {
 		if (!$user)
 			$this->error ( 405, "El email ingresado no esta registrado");
 		
-		//todo generar un password random
-		
-		$random_pass = '123456b';
+		$random_pass = $this->random_password(8);
 		$password = $this->auth->hash_password($random_pass);
 		$new_password['password_hash']	= $password['hash'];
 		$new_password['password_iterations']	= $password['iterations'];
@@ -74,4 +72,17 @@ class RecuperoPassword extends Api_Controller {
 		}
 		
 	}
+	
+	private function random_password( $length = 8 ) {
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$numbers = "0123456789";
+		
+		$passStr = substr( str_shuffle( $chars ), 0, $length/2 );
+		$passInt = substr( str_shuffle( $numbers ), 0, $length/2 );
+		
+		$password = $passStr.$passInt;
+		return $password;
+	}
+	
+	
 }
