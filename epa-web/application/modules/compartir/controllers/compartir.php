@@ -4,6 +4,7 @@ class compartir extends Api_Controller
 {
 
 	public function __construct(){
+        $this->load->library ( 'users/auth' );
 		parent::__construct();
 	}
 
@@ -33,12 +34,15 @@ class compartir extends Api_Controller
 			$this->error(404,"El usuario ".$usuario_datos['email']." no existe");	
 		}
 		$this->JSON_OUT->data = $this->compartirLista($id_lista,$usuario->id);
-		
-		
+
+
+        $id_usuario_creador = $this->current_user->id;
+        $usuario_creador = $this->user_model->find($id_usuario_creador);
+
 		$data_mail =  array(
 				'to' => $usuario_datos['email'],
 				'subject' => "Se ha compartido una lista con usted!",
-				'message' => "Estimado/a<br/> El usuario XXXXXXXXX ha compartido una lista con vos.<br/>Ya puedes visualizarla en tu aplicación.<br/><br/>Atte. EPA Staff"
+				'message' => "Estimado/a<br/> El usuario $usuario_creador->email ha compartido la lista '$lista->nombre' con vos.<br/>Ya puedes visualizarla en tu aplicaciï¿½n.<br/><br/>Atte. EPA Staff"
 		);
 		
 		$this->sendMail($data_mail);
