@@ -1,0 +1,42 @@
+<ion-view title="Comprar Lista {{lista.nombre}}">
+    <!-- HEADER -->
+    <ion-header-bar class="bar-positive centrado" animation="nav-title-slide-ios7">
+        <a class="tab-item backHeader" href="#/app/comprar">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado" >{{lista.nombre}}</h1>
+        <a class="tab-item backHeader nombre-lista-lapiz" >
+            <i class="icon ion-chevron-right ion-edit"></i>
+        </a>
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+    <!-- BODY -->
+    <ion-content class="has-header has-footer">
+        <div class="list"> 
+            <a class="item item-avatar"
+               ng-repeat="item in lista.productos | filter:nombreProducto">                
+                <img src="img/ionic.png">
+                <h2>{{item.nombre}}</h2>
+                <p>{{item.descripcion}}</p>
+                <div class="force-item-avatar-right">
+                    <input class="lista-cant-input text-center" type="number" disabled="true" min="0" data-ng-model="item.cantidad">
+                </div>
+            </a>
+
+        </div>
+        <div class="row"></div>
+    </ion-content>
+   <!-- FOOTER --> 
+    <ion-footer-bar class="bar-dark">    
+    <!--<div class="tabs tabs-icon-only">--> 
+    <a class="tab-item" href="#/app/menu">
+            <i class="ion-home footerIconos"></i>
+    </a>
+    <a class="tab-item" ng-click="editList();">
+        <i class="icon ion-ios7-compose footerIconos"></i>
+    </a>
+    <a class="tab-item" ng-click="comprar();">
+        <i class="icon ion-ios7-cart-outline footerIconos"></i>
+    </a>
+</ion-footer-bar>
+</ion-view>

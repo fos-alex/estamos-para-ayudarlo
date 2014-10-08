@@ -58,6 +58,26 @@ angular.module('EPA')
                 }
             }
         })
+
+            .state('app.comprar', {
+            url: "/comprar",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Comprar/index.html",
+                    controller: 'ListasCtrl'
+                }
+            }
+        })
+
+            .state('app.comprarVisualizar', {
+            url: "/comprar/visualizarLista/{idLista:[0-9]{1,20}}",
+            views: {
+                'menuContent' :{
+                    templateUrl: "templates/Comprar/visualizarLista.html",
+                    controller: 'ListaDetalleCtrl'
+                }
+            }
+        })
         
         .state('app.compartir', {
             url: "/listas/{idLista:[0-9]{1,20}}/compartir",

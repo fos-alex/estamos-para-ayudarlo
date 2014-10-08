@@ -1,0 +1,47 @@
+<ion-view title="Editar Lista">
+    <!-- HEADER -->
+    <ion-header-bar class="bar-positive centrado" animation="slide-left-right-ios7">
+        <a class="tab-item backHeader" ng-click="showConfirm()">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado">Editar Lista</h1>        
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+    <!-- BODY -->
+    <ion-content>
+        <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" placeholder="Buscar" ng-model="nombreProducto">
+        </label>
+        <div class="list" show-delete='true'>
+            <a class="item item-icon-left"
+               ng-repeat="item in itemsDisponibles | filter:nombreProducto">
+                <div class="force-item-avatar-left" ng-click="item.added = item.added? false: true;item.cantidad = (item.added? 1:0);">
+                    <i class="icon" ng-class="item.added? 'ion-ios7-checkmark-outline' :''"></i>
+                    <h2>{{item.nombre}}</h2>
+                    <p>{{item.descripcion}}</p>
+                </div>
+                <div class="force-item-avatar-right">
+                    <i class="ion-arrow-up-b lista-cant-icon" data-ng-click="item.cantidad = (item.cantidad > 0)? item.cantidad + 1: 1"></i>
+                    <input class="lista-cant-input text-center" type="number" min="1"  data-ng-model="item.cantidad">
+                    <i class="ion-arrow-down-b lista-cant-icon" data-ng-click="item.cantidad = (item.cantidad  > 0)? item.cantidad - 1: 0"></i>
+                </div>
+            </a>
+        </div>
+                
+    </ion-content>
+    <!-- FOOTER-->
+    <ion-footer-bar class="bar-dark">     
+        <a class="tab-item" href="#/app/menu">
+                <i class="ion-home footerIconos"></i>
+        </a>
+        <a class="tab-item" ng-click="acceptList();">
+            <i class="icon ion-checkmark-circled footerIconos"></i> 
+        </a>
+    </ion-footer-bar>
+    <!-- <div class="tabs tabs-icon-only">
+        <a class="tab-item">
+            <i class="icon ion-checkmark-round" ng-click="acceptList();"></i>
+        </a>
+    </div>-->
+</ion-view>

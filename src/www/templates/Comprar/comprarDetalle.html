@@ -1,0 +1,68 @@
+<ion-view title="Lista {{lista.title}}">
+    <!-- HEADER -->
+    <ion-header-bar class="bar-positive centrado" animation="nav-title-slide-ios7">
+        <a class="tab-item backHeader" ng-click="showConfirm()">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado" >
+            <input class="nombre-lista-input" type="text" onClick="this.select();" ng-model="lista.nombre" value="{{createdList.nombre}}" />
+        </h1> <!-- traer el nombre de la lista -->
+        <a class="tab-item backHeader nombre-lista-lapiz" >
+            <i class="icon ion-chevron-right ion-edit"></i>
+        </a>
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+    <!-- BODY -->
+    <ion-content class="has-header has-footer">
+        <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" placeholder="Buscar" ng-model="nombreProducto">
+        </label>
+        <div class="list" show-delete='true'> 
+            <a class="item item-avatar"
+               ng-repeat="item in lista.productos | filter:nombreProducto">                
+                <img src="img/ionic.png">
+                <h2>{{item.nombre}}</h2>
+                <p>{{item.descripcion}}</p>
+                <div class="force-item-avatar-right">
+                    <i class="icon ion-arrow-up-b lista-cant-icon" data-ng-click="item.cantidad = (item.cantidad > 0)? item.cantidad + 1: 1"></i>
+                    <input class="lista-cant-input text-center" type="number" min="0" data-ng-model="item.cantidad">
+                    <i class="icon ion-arrow-down-b lista-cant-icon" data-ng-click="item.cantidad = (item.cantidad  > 0)? item.cantidad - 1: 0"></i>
+                </div>
+            </a>
+
+        </div>
+        <div class="row"></div>
+        <div class="row">
+            <div class="col">
+                
+                <div class="card" ng-show="!tienePermiso">
+                    <div class="item item-text-wrap celeste">
+                      En estos momentos no puedes editar la lista porque está siendo editada por el usuario {{lista.edita}}. Sólo disponible para lectura.
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </ion-content>
+   <!-- FOOTER --> 
+    <ion-footer-bar class="bar-dark">    
+    <!--<div class="tabs tabs-icon-only">--> 
+    <a class="tab-item" href="#/app/menu">
+            <i class="ion-home footerIconos"></i>
+    </a>
+    <a class="tab-item" ng-show="tienePermiso" ng-click="editList();">
+        <i class="icon ion-ios7-compose footerIconos"></i>
+         <!--<i class="icon ion-plus-circled footerIconos"></i>-->
+    </a>
+   <!--  <a class="tab-item">
+        <i class="icon ion-minus-circled footerIconos"></i>
+    </a> -->
+    <a class="tab-item" ng-show="tienePermiso" ng-click="acceptList();">
+        <i class="icon ion-checkmark-circled footerIconos"></i> 
+    </a>
+    <a class="tab-item" href="#/app/listas/{{lista.id}}/compartir">
+        <i class="icon ion-person-add footerIconos"></i> 
+    </a>
+    <!--</div>--> 
+</ion-footer-bar>
+</ion-view>
