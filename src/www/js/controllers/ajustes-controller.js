@@ -2,24 +2,24 @@ angular.module('EPA.controllers')
 
 .controller('AjustesCtrl', ['$scope','$ionicLoading', function($scope,$ionicLoading) {
 
-      
+
             $scope.detectarVoz = function() {
               var maxMatches = 5;
               var language = "es-AR";
               $ionicLoading.show({
                 template: 'Espere el tono y hable...'
-              }); 
+              });
               window.plugins.speechrecognizer.start(resultCallback, errorCallback, maxMatches, language);
             };
 
             function resultCallback (result){
-                $ionicLoading.hide();  
+                $ionicLoading.hide();
                 console.log(result);
                 alert(result.results[0][0].transcript);
             }
 
             function errorCallback(error){
-                $ionicLoading.hide();  
+                $ionicLoading.hide();
                 console.log(error);
             }
 
@@ -33,12 +33,20 @@ angular.module('EPA.controllers')
             };
 }])
 
-.controller('GestorDeMapasCtrl', ['$scope', function($scope) {
-    $scope.barrios = [
-        "Villa Crespo",
-        "Palermo",
-        "New York"
-    ]
+.controller('GestorDeMapasCtrl', ['$scope','buscarSucursales', function($scope,buscarSucursales) {
+
+    $scope.buscarSucursales = function () {
+        buscarSucursales.obtener_sucursales(this.barrio).then(
+            function (response) {
+                $scope.sucursales = response.data.data;
+            },
+            function (error) {
+
+            }
+        );
+
+    };
+
 }])
 
 .controller('GestorDeNotificacionesCtrl', ['$scope','$ionicPopup','$state', 'Promociones',function($scope,$ionicPopup,$state, Promociones) {
