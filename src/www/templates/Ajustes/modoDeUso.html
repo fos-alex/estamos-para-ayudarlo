@@ -13,13 +13,27 @@
           <li class="item item-toggle">
              Modo de uso por Voz
              <label class="toggle toggle-calm">
-               <input type="checkbox">
+               <input type="checkbox" ng-model="modoaudio">
                <div class="track">
                  <div class="handle"></div>
                </div>
              </label>
           </li>
-        </ul>        
+
+          <li ng-show="modoaudio">
+            <a href="" data-ng-click="detectarVoz()" class="item item-icon-left">
+            <i class="icon ion-mic-a"></i>
+            Probar detector
+            </a>
+          </li>
+          <li ng-show="modoaudio">
+            <a href="" data-ng-click="reproducirVoz()" class="item item-icon-left">
+            <i class="icon ion-radio-waves"></i>
+            Probar audio
+            </a>
+          </li>
+        </ul>  
+
     </ion-content>
     <!-- FOOTER --> 
 <ion-footer-bar class="bar-dark">    
