@@ -23,12 +23,23 @@ class Gestormapas extends Api_Controller
         $this->load->model ( 'supermercados/supermercados_model', null, true );
 
         $barrio = str_replace('_',' ',$barrio);
+        $sucursales = array();
 
-        $sucursales = $this->supermercados_model
-            ->select ( 's.id, supermercados.nombre as supermercado, s.direccion as direccion' )
-            ->join ( 'sucursales s', 's.id_supermercado = supermercados.id' )
-            ->like('s.direccion', $barrio)
-            ->find_all();
+        if ($barrio !== 'undefined')
+        {
+            $sucursales = $this->supermercados_model
+                ->select ( 's.id, supermercados.nombre as supermercado, s.direccion as direccion' )
+                ->join ( 'sucursales s', 's.id_supermercado = supermercados.id' )
+                ->like('s.direccion', $barrio)
+                ->find_all();
+        }
+        else
+        {
+            $sucursales = $this->supermercados_model
+                ->select ( 's.id, supermercados.nombre as supermercado, s.direccion as direccion' )
+                ->join ( 'sucursales s', 's.id_supermercado = supermercados.id' )
+                ->find_all();
+        }
 
 
         return $sucursales;
