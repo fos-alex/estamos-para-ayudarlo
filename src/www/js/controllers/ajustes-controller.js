@@ -44,7 +44,17 @@ angular.module('EPA.controllers')
 
             }
         );
+    };
 
+    $scope.descargarMapa = function () {
+        buscarSucursales.obtener_mapa(this.item.id).then(
+            function (response) {
+                $scope.mapas = response.data.data;
+            },
+            function (error) {
+
+            }
+        );
     };
 
 }])

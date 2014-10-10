@@ -27,11 +27,19 @@
 
             <div class="col centrado">
                 <button class="button button-positive loginButton button-small" data-ng-click="buscarSucursales()">
-                    Buscar
+                    Buscar Mapas
                 </button>
             </div>
 
-            <!-- TO-DO: Un listado de los mapas disponibles por barrio con botón de descargar -->
+            <div class="list" show-delete='true'>
+                <a class="item item-text-wrap" ng-repeat="item in sucursales">
+                    <strong>{{item.supermercado}}</strong>
+                    <p>Direccion: {{item.direccion}}</p>
+                    <button class="button button-positive button-small" data-ng-click="descargarMapa()">
+                        Descargar
+                    </button>
+                </a>
+            </div>
 
         </div>
     </ion-content>
