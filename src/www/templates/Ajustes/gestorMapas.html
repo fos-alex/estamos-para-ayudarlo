@@ -1,0 +1,52 @@
+<ion-view title="Gestor de Mapas">
+    <ion-header-bar class="bar-positive centrado" animation="nav-title-slide-ios7">
+        <a class="tab-item backHeader" href="#/app/ajustes">
+            <i class="ion-arrow-left-c footerIconos"></i>
+        </a>
+        <h1 class="title centrado">Gestor de Mapas</h1>
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+    <!-- BODY -->
+    <ion-content  has-header="true" has-footer="true">
+        <div class="list">
+
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Barrio
+                </div>
+                <select ng-model="barrio">
+                    <option value="Villa_Soldati">Villa Soldati</option>
+                    <option value="San_Nicolas">San Nicolas</option>
+                    <option value="Boedo">Boedo</option>
+                    <option value="Floresta">Floresta</option>
+                    <option value="Almagro">Almagro</option>
+                    <option value="Palermo">Palermo</option>
+                    <option value="Villa_Crespo">Villa Crespo</option>
+                </select>
+            </label>
+
+            <div class="col centrado">
+                <button class="button button-positive loginButton button-small" data-ng-click="buscarSucursales()">
+                    Buscar Mapas
+                </button>
+            </div>
+
+            <div class="list" show-delete='true'>
+                <a class="item item-text-wrap" ng-repeat="item in sucursales">
+                    <strong>{{item.supermercado}}</strong>
+                    <p>Direccion: {{item.direccion}}</p>
+                    <button class="button button-positive button-small" data-ng-click="descargarMapa()">
+                        Descargar
+                    </button>
+                </a>
+            </div>
+
+        </div>
+    </ion-content>
+    <!-- FOOTER -->
+    <ion-footer-bar class="bar-dark">
+        <a class="tab-item" href="#/app/menu">
+            <i class="ion-home footerIconos"></i>
+        </a>
+    </ion-footer-bar>
+</ion-view>

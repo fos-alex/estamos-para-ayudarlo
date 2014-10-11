@@ -1,5 +1,18 @@
-<ion-view title="Resultado de geo">
-  <ion-content class="has-header">
-      {{localization}}
-  </ion-content>
-</ion-view>
+<ion-view title="EPA"> <!-- HEADER --> <ion-header-bar
+	class="bar-positive centrado" animation="slide-left-right-ios7">
+<a class="tab-item backHeader" href="#/app/menu"> <i
+	class="ion-arrow-left-c footerIconos"></i>
+</a>
+<h1 class="title centrado">Supermercados cercanos</h1>
+<img class="logoHeader" src="./img/carrito.png"> </ion-header-bar> 
+
+<ion-content>
+	<div class="list" show-delete='true'>
+		<a class="item item-text-wrap" ng-repeat="item in supermercados">
+			<h2>{{item.super}}</h2>
+			<p></p>
+			<p>Direccion: {{item.direccion}}</p>
+			<p>Distancia en metros: {{item.distancia_en_metros}}</p>
+		</a>
+	</div>
+</ion-content> </ion-view>

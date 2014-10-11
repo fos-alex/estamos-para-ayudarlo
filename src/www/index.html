@@ -25,6 +25,7 @@
       <script src="barcodescanner.js"></script>
       <script src="phonegap-nfc.js"></script>
       <script src="geolocation.js"></script>
+      <script src="tts.js"></script>
 
      <!-- other js -->
       <script src="lib/js/raphael/raphael-min.js"></script>
@@ -47,6 +48,10 @@
       <script src="js/services/user-service.js"></script>
       <script src="js/services/camera-service.js"></script>
       <script src="js/services/capture-service.js"></script>
+      <script src="js/services/promociones-service.js"></script>
+      <script src="js/services/estadisticas-service.js"></script>
+      <script src="js/services/geo-service.js"></script>
+      <script src="js/services/ajustes-service.js"></script>
       <!-- Controllers -->
       <script src="js/controllers/app-controller.js"></script>
       <script src="js/controllers/barcode-controller.js"></script>
@@ -62,12 +67,20 @@
       <script src="js/controllers/registrar-controller.js"></script>
       <script src="js/controllers/Listas/compartir-controller.js"></script>
       <script src="js/controllers/recupero-clave-controller.js"></script>
+      <script src="js/controllers/consultar-controller.js"></script>
+      <script src="js/controllers/ajustes-controller.js"></script>
+      <script src="js/controllers/estadisticas-controller.js"></script>
       <!-- Directives -->
       <script src="js/directives/map-directive.js"></script>
+      <script src="js/directives/fb-login-directive.js"></script>
 
   </head>
 
   <body ng-app="EPA" class= 'indexBackground'>
     <ion-nav-view></ion-nav-view>
+    
+    <div id="fb-root"></div>
+    <script type="text/javascript" src="js/facebookConnectPlugin.js"></script>
+
   </body>
 </html>

@@ -1,0 +1,77 @@
+<ion-view>
+    <!-- HEADER -->
+    <ion-header-bar class="bar-positive centrado" animation="nav-title-slide-ios7">
+            <a class="tab-item backHeader" ng-click="showConfirm()">
+                <i class="ion-arrow-left-c footerIconos"></i>
+            </a>
+            <h1 class="title centrado" >
+                <input class="nombre-lista-input" type="text" onClick="this.select();" ng-model="createdList.nombre" value="{{createdList.nombre}}" />
+            </h1> <!-- traer el nombre de la lista -->
+            <a class="tab-item backHeader nombre-lista-lapiz" >
+                <i class="icon ion-chevron-right ion-edit"></i>
+            </a>
+        <img class="logoHeader" src="./img/carrito.png">
+    </ion-header-bar>
+<!--    HEADER VIEJO:
+    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+        <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
+        <h1 class="title" ng-click="editTitle();">{{createdList.nombre}}&nbsp;&nbsp;
+            <i class="icon ion-chevron-right ion-edit"></i>
+        </h1>
+    </ion-nav-bar>-->
+    <!-- BODY -->
+    <ion-content class="has-header">
+
+        <div class="list">
+            <a class="item item-avatar item-icon-right"
+               ng-repeat="item in createdList.productos | filter:nombreProducto"
+               ng-click="item.added = item.added? false: true">
+                <img src="img/ionic.png">
+                <h2>{{item.nombre}}</h2>
+                <p>{{item.descripcion}}</p>
+                <i class="icon ion-ios7-close-outline" ng-click="deleteItem($index);"></i>
+            </a>
+        </div>
+
+    <div class="row" ng-show="editresponse.notifyShow">
+        <div class="col">
+            <div class="notify" ng-class="editresponse.type">
+                <i class="icon ion-close-circled"></i>
+                <span id="notifyTextNuevoItem" class="notifyText">
+                    {{editresponse.message}}
+                </span>
+            </div>
+        </div>
+    </div>
+<!--    <script id="not-saved-modal.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar>
+                <h1 class="title">My Modal title</h1>
+            </ion-header-bar>
+            <ion-content>
+                Hello!
+            </ion-content>
+        </ion-modal-view>
+    </script>-->
+    </ion-content>
+
+<!-- FOOTER-->
+<ion-footer-bar class="bar-dark">     
+    <a class="tab-item" href="#/app/menu">
+            <i class="ion-home footerIconos"></i>
+    </a>
+    <a class="tab-item" href="" ng-click="newItem();">
+        <i class="icon ion-ios7-compose footerIconos"></i>
+    <!--</a>
+    <a class="tab-item">
+        <i class="icon ion-minus-circled footerIconos"></i> <!-- la idea es que al dar click muestre los simbolos - al lado de cada item de la lista -->
+    </a>
+    <a class="tab-item" ng-click="deleteAllItems();">
+        <i class="icon ion-trash-a footerIconos"></i>
+    </a>
+    <a class="tab-item" ng-click="saveList();">
+        <i class="icon ion-checkmark-circled footerIconos"></i> 
+    </a>
+</ion-footer-bar>
+
+</ion-view>

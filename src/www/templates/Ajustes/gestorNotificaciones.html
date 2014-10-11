@@ -1,0 +1,45 @@
+<ion-view title="Gestor Notificaciones"> <ion-header-bar
+	class="bar-positive centrado" animation="nav-title-slide-ios7">
+<a class="tab-item backHeader" href="#/app/ajustes"> <i
+	class="ion-arrow-left-c footerIconos"></i>
+</a>
+<h1 class="title centrado">Gestor Notificaciones</h1>
+<img class="logoHeader" src="./img/carrito.png"> </ion-header-bar> <!-- BODY --> <ion-content
+	has-header="true" has-footer="true">
+<ul class="list">
+
+	<li class="item item-toggle">Notificación de Promociones <label
+		class="toggle toggle-calm"> <input type="checkbox">
+			<div class="track">
+				<div class="handle"></div>
+			</div>
+	</label>
+	</li>
+
+	<li class="item item-toggle">Notificación de Cercanía a
+		Supermercado <label class="toggle toggle-calm"> <input
+			type="checkbox">
+			<div class="track">
+				<div class="handle"></div>
+			</div>
+	</label>
+	</li>
+
+</ul>
+
+<div class="list">
+	<a class="item item-icon-left" href="#/app/geo" data-ng-click="superCercanos()"> <i
+		class="icon ion-android-earth"></i> Ver supermercados Cercanos
+	</a>
+    <a class="item item-icon-left" data-ng-click="showAlert()">
+        <i class="icon ion-android-information"> </i>Ver Promociones Vigentes
+    </a>
+</div>
+
+
+</ion-content> <!-- FOOTER --> <ion-footer-bar class="bar-dark"> <a
+	class="tab-item" href="#/app/menu"> <i
+	class="ion-home footerIconos"></i>
+</a> <a class="tab-item" ng-click=""> <i
+	class="icon ion-checkmark-circled footerIconos"></i>
+</a> </ion-footer-bar> </ion-view>

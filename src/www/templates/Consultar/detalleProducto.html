@@ -1,22 +1,38 @@
 <ion-view title="Producto {{producto.nombre}}">
     <!-- HEADER -->
     <ion-header-bar class="bar-positive centrado" animation="nav-title-slide-ios7">
-        <a class="tab-item backHeader" href="#/app/menu"> <!-- luego completo con la ruta -->
+        <a class="tab-item backHeader" href="#/app/map">
             <i class="ion-arrow-left-c footerIconos"></i>
         </a>
-        <h1 class="title centrado" > {{producto.nombre}} </h1>
+        <h1 class="title centrado" > Producto {{producto.nombre}} </h1>
         <img class="logoHeader" src="./img/carrito.png">
     </ion-header-bar>
     <!-- BODY -->
     <ion-content class="has-header has-footer">
         <div> 
+        <div class="list card">
 
+          <div class="item item-avatar consultar-tabla">
+            <img src="./img/carrito.png">
+            <h2><strong>Nombre: </strong>{{producto.nombre}}</h2>
+            <p><strong>Descripción: </strong>{{producto.descripcion}}</p>
+            <p><strong>Precio: </strong>${{producto.precio}}</p>
+          </div>
+
+          <div class="item item-body consultar-tabla">
+            <img src="{{producto.imagen}}" class="consultar-imagen centrado">
+            <p><strong>Información Adicional: </strong>{{producto.info}}</p>
+          </div>
+        </div>
         </div>
     </ion-content>
    <!-- FOOTER --> 
     <ion-footer-bar class="bar-dark">    
     <a class="tab-item" href="#/app/menu">
             <i class="ion-home footerIconos"></i>
+    </a>
+    <a class="tab-item" href="#/app/map">
+            <i class="ion-location footerIconos"></i>
     </a>
 </ion-footer-bar>
 </ion-view>
