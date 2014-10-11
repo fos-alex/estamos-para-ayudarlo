@@ -11,15 +11,17 @@ angular.module('EPA.controllers')
         
         $scope.scan = function () {
             QRReader.read(function (err, response) {
-                $scope.$parent.producto = response[0];
+                alert(JSON.stringify(response));
+                alert(response.id);
+                $scope.$parent.producto = response;
                 return $location.path('/app/consultar/' + $scope.$parent.producto.id);
             });
-        };        
-        
+        };
+
         $('#map-container').canvasMap({
             url: "http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app",
             //url: "http://local.epa-web.com/app",
             url_mapa: '/mapas/' + $('#id_sucursal').val()
         });
 
-}])
+}]);
