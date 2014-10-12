@@ -33,7 +33,9 @@ angular.module('EPA.controllers')
             };
 }])
 
-.controller('GestorDeMapasCtrl', ['$scope','buscarSucursales', function($scope,buscarSucursales) {
+.controller('GestorDeMapasCtrl', ['$scope','buscarSucursales','Session', function($scope,buscarSucursales,Session) {
+
+    Session.set('mapasDescargados', {});
 
     $scope.buscarSucursales = function () {
         buscarSucursales.obtener_sucursales(this.barrio).then(
@@ -50,6 +52,7 @@ angular.module('EPA.controllers')
         buscarSucursales.obtener_mapa(this.item.id).then(
             function (response) {
                 $scope.mapas = response.data.data;
+                Session.set('mapasDescargados', $scope.mapas);
             },
             function (error) {
 
