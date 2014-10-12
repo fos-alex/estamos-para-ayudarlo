@@ -44,7 +44,7 @@
             // Adjust position to entrance's center
             entrancePosition.x -= 10;
             entrancePosition.y += 30;
-            that.drawPathFromCategories(['Almacen', 'Panificados'], entrancePosition);
+            that.drawPathFromCategories(['Almacen', 'Bebidas', 'Lacteos'], entrancePosition);
         });
     };
 
@@ -249,6 +249,7 @@
             axis = options.startDirection,
             forceMoveUp = false,
             forceMoveDown = false,
+            forcedCount = 0,
             path = [],
             pathLength = 0;
         console.log("Origin");
@@ -263,7 +264,7 @@
             ++loopCounter;
             $.fn.canvasMap.markPoint(position, {name: options.routeName});
             path.push($.extend(true, {}, position));
-            if (dest[axis] > position[axis] && (dest[axis] - position[axis]) > step  && !forceMoveUp || forceMoveDown && !forceMoveUp) {
+            if (!forceMoveUp && (dest[axis] > position[axis] && Math.abs(dest[axis] - position[axis]) >= step  || forceMoveDown)) {
                 //debugger;
                 // Going forwards
                 if (step < 0) {
@@ -280,7 +281,7 @@
                     }
                 }
 
-            } else if (dest[axis] < position[axis] && (position[axis] - dest[axis]) > step && !forceMoveDown || forceMoveUp && !forceMoveDown) {
+            } else if (!forceMoveDown && (dest[axis] < position[axis] && Math.abs(dest[axis] - position[axis]) >= step || forceMoveUp)) {
                 //debugger;
                 // Going backwards
                 if (step > 0) {
@@ -298,7 +299,8 @@
                 }
             } else {
                 //debugger;
-                if (dest[axis] != position[axis]) {
+                if (Math.abs(dest[axis] - position[axis]) >= step) {
+
                     if (dest[axis] < origin[axis]) {
                         forceMoveUp = axis;
                     } else {
@@ -310,7 +312,7 @@
                 continue;
             }
 
-            if ($.fn.canvasMap.shapeInPoint(position) || position[axis] <= 0) {
+            if ($.fn.canvasMap.shapeInPoint(position) && !$.fn.canvasMap.hasArrivedToPosition(position, dest) || position[axis] <= 0) {
                 //debugger;
                 position[axis] -= step * 2;
                 pathLength -= Math.abs(step * 2);
