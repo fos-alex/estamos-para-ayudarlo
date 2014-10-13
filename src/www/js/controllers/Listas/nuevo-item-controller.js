@@ -32,7 +32,7 @@ angular.module('EPA.controllers')
                 }
             });
         };
-
+      
         Producto.get("", {refreshCache: true}).then(function(response) {
             $scope.itemsDisponibles = response;
             angular.forEach($scope.itemsDisponibles, function (itemDisponible, key) {

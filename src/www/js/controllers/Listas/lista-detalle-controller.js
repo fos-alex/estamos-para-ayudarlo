@@ -56,12 +56,12 @@ angular.module('EPA.controllers')
         $scope.comprar = function () {
             $scope.rubros = [];
             $scope.rubroslista = [];
-                        debugger;
             for(var i=0; i< $scope.lista.productos.length ;i++) {
                 if ($scope.rubros.indexOf($scope.lista.productos[i].id_categoria) === -1) {
                         $scope.rubros[i] = $scope.lista.productos[i].id_categoria;
                     }                
-            }         
+            }
+            // FALTA MANDARLE ESTE LISTADO AL MAPA Y REDIRIGIR AL USUARIO AL MAPA CON EL RECORRIDO
         };        
         
     }
