@@ -46,5 +46,21 @@ angular.module('EPA.controllers')
             // Lista nueva no creada. Redirecciono para que cargue items
             $state.go('app.nuevoItemLista');
         }
-    }
+        
+        /*COMPRA ON DEMAND*/
+
+        $scope.agregarProducto = function () {
+            //REALIZAR SCAN DE PRODUCTO
+            //AGREGAR EL PRODUCTO ESCANEADO A LA LISTA
+            // ENVIAR AL MAPA LA POSICION ACTUAL Y LISTA CON LA CATEGORIA ACTUAL
+        }
+
+        $scope.muestraSuma = false;
+        $scope.suma = function () {
+            $scope.muestraSuma = true;
+            $scope.totalSuma = 200;
+            //Del listado de productos, retorna la suma de sus precios
+        }
+
+}
 ]);

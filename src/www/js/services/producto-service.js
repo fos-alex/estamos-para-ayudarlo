@@ -20,6 +20,6 @@ angular.module('EPA.services')
                 },
                 delete: function (producto, options) {
                     return Resource.delete(producto, key, options);
-                }
+            }
             }
         }]);

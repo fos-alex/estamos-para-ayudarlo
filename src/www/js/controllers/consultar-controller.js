@@ -9,7 +9,7 @@ angular.module('EPA.controllers')
  //           return $location.path('/app/consultar/' + $scope.producto.id);
  //       });
  //   };
-
+        $scope.producto = angular.copy($scope.$parent.producto);
 //
 
 //        Producto.get($stateParams.idProducto, {}).then(function(response) {
