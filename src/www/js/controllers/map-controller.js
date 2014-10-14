@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('MapCtrl', ['$scope','$location', 'QRReader',
-    function($scope,$location,QRReader) {
+.controller('MapCtrl', ['$scope', '$state', 'QRReader',
+    function($scope, $state, QRReader) {
         $scope.squares = [];
 
 //        $scope.activateCamera = function () {
@@ -14,7 +14,8 @@ angular.module('EPA.controllers')
                 alert(JSON.stringify(response));
                 alert(response.id);
                 $scope.$parent.producto = response;
-                return $location.path('/app/consultar/' + $scope.$parent.producto.id);
+                return $state.go('app.consultarProducto', {idProducto: $scope.$parent.producto.id});
+                //return $location.path('/app/consultar/' + $scope.$parent.producto.id);
             });
         };
 
