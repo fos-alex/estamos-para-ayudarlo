@@ -11,11 +11,11 @@
         opts = {};
 
 
-    $.fn.canvasMap = function (options) {
+    $.fn.canvasMap = function (options, callback) {
         opts = $.fn.canvasMap.options = $.extend( {}, $.fn.canvasMap.defaults, options );
 
-        return this.each(function() {
-            $.fn.canvasMap.init($(this));
+        this.each(function() {
+            $.fn.canvasMap.init($(this), callback);
         });
     };
 
@@ -23,7 +23,7 @@
         url: 'http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app'
     };
 
-    $.fn.canvasMap.init = function (element) {
+    $.fn.canvasMap.init = function (element, callback) {
         var that = this;
         $('body').css({
             margin: '0px',
@@ -38,21 +38,24 @@
             '</div>'
         );
 
-        this.loadMap(function () {
-            // Position user at exit
-            var entrancePosition = canvas.stage.find('.exit')[0].getPosition();
+        this.loadMap(callback);
+    };
+
+    $.fn.canvasMap.createRoute = function(categories, position) {
+        if (!position) {
+            // Position user at entrance by default
+            position = canvas.stage.find('.exit')[0].getPosition();
             // Adjust position to entrance's center
-            entrancePosition.x -= 10;
-            entrancePosition.y += 30;
-            that.drawPathFromCategories(['Almacen', 'Bebidas', 'Lacteos'], entrancePosition);
-        });
+            position.x -= 10;
+            position.y += 30;
+        }
+        return $.fn.canvasMap.drawPathFromCategories(categories, position);
     };
 
     $.fn.canvasMap.removeElement = function () {
         var element = canvas.selectedElement;
         element.remove();
         canvas.stage.draw();
-
     };
 
     $.fn.canvasMap.createId = function (length){
@@ -79,7 +82,9 @@
             canvas.stage.draw();
             canvas.layer = canvas.stage.getLayers()[0];
             that.loadImages(canvas.layer);
-            callback();
+            if (callback) {
+                callback();
+            }
         });
     };
 
@@ -158,7 +163,7 @@
     $.fn.canvasMap.drawRoute = function(positions){
         var that = this,
             routes = [],
-            maxTries = 4;
+            maxTries = 5;
 
         positions = this.orderRoutes(positions);
         $.each(positions, function (ix, position) {
@@ -173,8 +178,11 @@
                 var options = {
                     routeName:  "route" + ix + "-" + position.x + position.y + positions[ix + 1].x + positions[ix + 1].y,
                     startDirection: routes[ix].length % 2? "x" : "y",
-                    preferTurn: routes[ix].length % 4 >= 2? "left" : "right"
+                    preferTurn: [routes[ix].length % 4 >= 2? "up" : "down"]
                 };
+                if (routes[ix].length == 0) {
+                    options.preferTurn = [];
+                }
                 debugger;
                 lastRoute = $.fn.canvasMap.findRoute(position, positions[ix + 1], options);
                 routes[ix].push(lastRoute);
@@ -238,7 +246,7 @@
         var defaultOptions = {
             routeName:           "routeName",
             startDirection: "x",
-            preferTurn:     "right",
+            preferTurn:     [],
             step: 15
         };
         options = $.extend(defaultOptions, options);
@@ -274,7 +282,7 @@
                 pathLength += Math.abs(step);
                 if (forceMoveDown) {
                     var tmpposition = $.extend(true, {}, position);
-                    tmpposition[$.fn.canvasMap.switchAxis(forceMoveDown)] += step;
+                    tmpposition[$.fn.canvasMap.switchAxis(forceMoveDown)] += step * 2;
                     if (!$.fn.canvasMap.shapeInPoint(tmpposition)) {
                         forceMoveDown = false;
                         axis = $.fn.canvasMap.switchAxis(axis);
@@ -291,7 +299,7 @@
                 pathLength += Math.abs(step);
                 if (forceMoveUp) {
                     var tmpposition = $.extend(true, {}, position);
-                    tmpposition[$.fn.canvasMap.switchAxis(forceMoveUp)] += step;
+                    tmpposition[$.fn.canvasMap.switchAxis(forceMoveUp)] += step  * 2;
                     if (!$.fn.canvasMap.shapeInPoint(tmpposition)) {
                         forceMoveUp = false;
                         axis = $.fn.canvasMap.switchAxis(axis);
@@ -300,7 +308,6 @@
             } else {
                 //debugger;
                 if (Math.abs(dest[axis] - position[axis]) >= step) {
-
                     if (dest[axis] < origin[axis]) {
                         forceMoveUp = axis;
                     } else {
@@ -317,10 +324,19 @@
                 position[axis] -= step * 2;
                 pathLength -= Math.abs(step * 2);
                 axis = $.fn.canvasMap.switchAxis(axis);
+                if (options.preferTurn.length > 0) {
+                    var turn = options.preferTurn.pop();
+                    if (turn === "up") {
+                        forceMoveUp = axis;
+                    } else {
+                        forceMoveDown = axis;
+                    }
+                }
+
             }
 
             console.log(position);
-            if (loopCounter > 100) {
+            if (loopCounter > 70) {
                 console.log("break!!!");
                 break;
             }
