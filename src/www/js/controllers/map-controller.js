@@ -19,10 +19,6 @@ angular.module('EPA.controllers')
             });
         };
 
-        $('#map-container').canvasMap({
-            url: "http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app",
-            //url: "http://local.epa-web.com/app",
-            url_mapa: '/mapas/' + $('#id_sucursal').val()
-        });
+        $scope.categories = ['Panificados'];
 
 }]);
