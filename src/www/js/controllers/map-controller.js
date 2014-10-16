@@ -11,8 +11,8 @@ angular.module('EPA.controllers')
         
         $scope.scan = function () {
             QRReader.read(function (err, response) {
-                alert(JSON.stringify(response));
-                alert(response.id);
+                //alert(JSON.stringify(response));
+                //alert(response.id);
                 $scope.$parent.producto = response;
                 return $state.go('app.consultarProducto', {idProducto: $scope.$parent.producto.id});
                 //return $location.path('/app/consultar/' + $scope.$parent.producto.id);
