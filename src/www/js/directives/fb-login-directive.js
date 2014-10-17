@@ -1,5 +1,4 @@
-angular.module('EPA.directives', [
-])
+angular.module('EPA.directives')
 
 /*appId : 1504374299806491
 secret : 42d757114f3ae3d6dd4bd0b68fcf335a

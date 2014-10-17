@@ -19,6 +19,14 @@ angular.module('EPA.controllers')
             });
         };
 
-        $scope.categories = ['Panificados'];
+        $scope.map = {
+            categories:     ['Panificados'],
+            idSucursal:     1,
+            refresh:        true
+        } ;
+
+        $scope.cambiarCat = function () {
+            $scope.map.categories = ['Lacteos'];
+        };
 
 }]);
