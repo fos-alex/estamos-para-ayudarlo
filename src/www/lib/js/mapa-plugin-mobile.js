@@ -437,7 +437,11 @@
             if (!this.categoria || this.categoria.nombre != name) {
                 return;
             }
-            var shell = canvas.layer.find('#'+this.id)[0].parent.children[0];
+            var shell = canvas.layer.find('#'+this.id);
+            if (!shell || !shell.length > 0) {
+                return;
+            }
+            shell = shell[0].parent.children[0];
             var shellPos = shell.getAbsolutePosition();
             coords = {
                 x: shellPos.x + shell.getWidth() / 2,
