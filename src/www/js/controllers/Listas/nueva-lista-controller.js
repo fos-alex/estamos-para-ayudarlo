@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader',
-    function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader) {
+.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle',
+    function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle) {
         $scope.createdList = Session.get('createdList') || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Lista";
 
@@ -49,35 +49,43 @@ angular.module('EPA.controllers')
         
         /*COMPRA ON DEMAND*/
 
-        $scope.agregarProducto = function () {
-                        //REALIZAR SCAN DE PRODUCTO
-
+        $scope.leerQr = function(){
+        //REALIZAR SCAN DE PRODUCTO
 //            QRReader.read(function (err, response) {
 //                $scope.id_producto = response.producto.id;
 //            });
 
-//          CONSULTAR INFO DE PRODUCTO : id, descripcion, categoria y precio
-//          to-do servicio
-            //$scope.productoNuevo = {id, descripcion, categoria, precio};
-            $scope.productoNuevo = {'id':'1', 'descripcion':'coca', 'categoria':'4', 'precio':'20'};
+            $scope.id_producto = 100;
+            $scope.buscarProducto($scope.id_producto);
+        }
 
-            //AGREGAR EL PRODUCTO ESCANEADO A LA LISTA
+        $scope.buscarProducto = function(id){
+            ProductoDetalle.get(id).then(
+                function(response){
+                    $scope.productoNuevo = response.data.data;
+                    $scope.agregarProducto($scope.productoNuevo);
+                },
+                function(error){
+                }
+            );
+        }
 
-            if ($scope.createdList.productos != "object" || $scope.createdList.productos.length == 0){
+        $scope.agregarProducto= function(productoNuevo){
+            //AGREGO PRODUCTO A LA LISTA DE COMPRAS ON DEMAND
+            if ($scope.createdList.productos !== "object" || $scope.createdList.productos.length === 0){
                 this.createdList = angular.extend(this.createdList, {
                     productos: []
                 });
-                this.createdList.productos.push($scope.productoNuevo);
+                this.createdList.productos.push(productoNuevo);
                 Session.set('createdList', this.createdList);
             } else {
-                $scope.createdList.productos.push($scope.productoNuevo);
+                $scope.createdList.productos.push(productoNuevo);
             }
             Lista.save(this.createdList);
-            
             // ENVIAR AL MAPA LA POSICION ACTUAL Y LISTA CON LA CATEGORIA ACTUAL
             // to-do
         }
-
+        
         $scope.muestraSuma = false;
         $scope.suma = function () {
             $scope.muestraSuma = true;
@@ -89,6 +97,6 @@ angular.module('EPA.controllers')
             }
             $scope.totalSuma = total;
         }
-
+        
 }
 ]);
