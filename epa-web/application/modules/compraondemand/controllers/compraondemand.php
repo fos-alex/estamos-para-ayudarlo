@@ -32,9 +32,8 @@ class Compraondemand extends Api_Controller
         if ($this->esPrecioCuidado($id))
         {
             $info_producto = $this->precioscuidados_model
-                ->select('precioscuidados.id, producto, marca, precio, c.nombre as categoria')
+                ->select('precioscuidados.id, producto, marca, precio, p.id_categoria')
                 ->join('productos p', 'precioscuidados.producto = p.nombre')
-                ->join('categorias c', 'p.id_categoria = c.id')
                 ->find($id);
 
             if ($info_producto)
@@ -48,9 +47,8 @@ class Compraondemand extends Api_Controller
         else
         {
             $info_producto = $this->productosdetalle_model
-                ->select('productosdetalle.id, marca, productosdetalle.descripcion, presentacion, precio, c.nombre as categoria, p.nombre as generico')
+                ->select('productosdetalle.id, marca, productosdetalle.descripcion, presentacion, precio, p.id_categoria, p.nombre as generico')
                 ->join('productos p', 'productosdetalle.id_producto = p.id')
-                ->join('categorias c', 'p.id_categoria = c.id')
                 ->find($id);
 
             if ($info_producto)
@@ -66,6 +64,8 @@ class Compraondemand extends Api_Controller
 
         if (!$info_producto)
             $this->error(405, "No existe un producto con ese id");
+        else
+        	$info_producto->precio = (double)$info_producto->precio;
 
         return $info_producto;
     }
