@@ -130,7 +130,7 @@
             }
             var mapa;
             if (mapa = response.data.mapaJSON) {
-                canvas.objects = response.data.objects;
+                canvas.objects = $.extend(canvas.objects, response.data.objects);
                 canvas.stage = Kinetic.Node.create(mapa, 'internal-map-container');
                 canvas.stage.draw();
                 canvas.layer = canvas.stage.getLayers()[0];
@@ -213,7 +213,7 @@
     $.fn.canvasMap.loadImages = function(layer){
         var stage = layer.getStage();
         var that = this;
-        var images = stage.find('.image');
+        var images = stage.find('Image');
         $.each(images, function () {
             that.createImage(stage, this);
         });
@@ -301,7 +301,7 @@
         var newGroup = new Kinetic.Group({
             x: data.x,
             id: this.createId(),
-            name: 'exit',
+            name: data.exit?'exit':'entrance',
             y: data.y,
             draggable: data.draggable
         });
@@ -318,11 +318,6 @@
             // @TODO Fix Path
             info.image = 'http://localhost/EPA-WEB/epa-web/public/assets/images/salida.png';
         }
-        canvas.objects.shells[newGroup.getId()] = {
-            id: newGroup.getId(),
-            type: info.text,
-            description: info.description
-        };
         canvas.layer.add(newGroup);
 
         var imageObj = new Image();
@@ -474,7 +469,8 @@
         canvas.stage.draw();
     };
 
-    $.fn.canvasMap.addRect = function(data){
+    $.fn.canvasMap.addRect = function(data) {
+        var that = this;
         var categoria = categorias? categorias[$("#map-categorias-select").val()]: {color: 'black', nombre: 'N/A'};
         var defaultData = {
             x: 0,
@@ -497,14 +493,8 @@
             draggable: data.draggable
         });
 
-        canvas.objects.shells[newGroup.getId()] = {
-            id: newGroup.getId(),
-            type: 'Góndola',
-            description: 'Góndola de ' + categoria.nombre
-        };
-        canvas.layer.add(newGroup);
-
         var rect = new Kinetic.Rect({
+            id: this.createId(),
             x: data.x,
             y: data.y,
             width: data.width,
@@ -513,15 +503,50 @@
             stroke: data.stroke,
             strokeWidth: data.strokeWidth
         });
+        var rectangleData = {
+            id: rect.getId(),
+            type: 'Góndola',
+            description: 'Góndola de ' + categoria.nombre,
+            categoria: categoria,
+            image: 'http://localhost/EPA-WEB/epa-web/public/assets/images/categorias/' + categoria.nombre.toLowerCase().replace(/\s+/g, '') + '.png'
+        };
+        canvas.layer.add(newGroup);
+
+        var imageObj = new Image();
+        imageObj.src = rectangleData.image;
 
         newGroup.add(rect);
+        canvas.objects.shells[rect.getId()] = rectangleData;
+
         if (canvas.editable) {
             newGroup.draggable(true);
-            this.addAnchors(newGroup, data);
+            that.addAnchors(newGroup, data);
         }
-        this.addGroupBindings(newGroup);
+        that.addGroupBindings(newGroup);
 
-        canvas.stage.draw();
+        canvas.layer.add(newGroup);
+
+        imageObj.onload = function () {
+            var img = new Kinetic.Image({
+                x: data.x + data.width * 0.25,
+                y: data.y + data.height * 0.75 * 0.25,
+                id: that.createId(),
+                width: data.width * 0.5,
+                height: data.height * 0.75,
+                name: data.name,
+                image: imageObj
+            });
+
+            canvas.objects.images[img.getId()] = {
+                id: img.getId(),
+                url: imageObj.src,
+                type: 'categoria'
+            };
+
+            newGroup.add(img);
+
+            canvas.stage.draw();
+        };
     };
 
     $.fn.canvasMap.selectElement = function(element){
