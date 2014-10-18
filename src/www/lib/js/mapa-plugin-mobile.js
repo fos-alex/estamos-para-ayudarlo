@@ -41,10 +41,16 @@
         this.loadMap(callback);
     };
 
-    $.fn.canvasMap.createRoute = function(categories, position) {
+    $.fn.canvasMap.createRoute = function(categories, position, options) {
+        var defaultOptions = {
+            finishInExit:    true
+        }
+        options = $.extend(defaultOptions, options);
+
+
         if (!position || position === "entrance") {
             // Position user at entrance by default
-            position = canvas.stage.find('.exit')[0].getPosition();
+            position = canvas.stage.find('.entrance')[0].getPosition();
             // Adjust position to entrance's center
             position.x -= 10;
             position.y += 30;
@@ -52,7 +58,15 @@
             return false;
         }
 
-        return $.fn.canvasMap.drawPathFromCategories(categories, position);
+        var finalPosition;
+        if (options.finishInExit) {
+            finalPosition = canvas.stage.find('.exit')[0].getPosition();
+            // Adjust position to exit's center
+            finalPosition.x -= 10;
+            finalPosition.y += 30;
+        }
+
+        return $.fn.canvasMap.drawPathFromCategories(categories, position, finalPosition);
     };
 
     $.fn.canvasMap.removeElement = function () {
@@ -94,7 +108,7 @@
     $.fn.canvasMap.loadImages = function(layer){
         var stage = layer.getStage();
         var that = this;
-        var images = stage.find('.image');
+        var images = stage.find('Image');
         $.each(images, function () {
             that.createImage(stage, this);
         });
@@ -187,12 +201,9 @@
                 }
                 lastRoute = $.fn.canvasMap.findRoute(position, positions[ix + 1], options);
                 routes[ix].push(lastRoute);
-                if (!lastRoute.finished) {
-                    $.fn.canvasMap.deleteRoute(lastRoute.routeName);
-                }
             }
             canvas.objects.routes.push(lastRoute);
-            $.fn.canvasMap.drawRouteInLines(lastRoute.path);
+            $.fn.canvasMap.drawRouteInLines(lastRoute);
             positions[ix + 1] = lastRoute.finalPosition;
         });
     };
@@ -200,7 +211,7 @@
     $.fn.canvasMap.drawRouteInLines = function (route) {
         var linePoints = [],
             that = this;
-        $.each(route, function (ix, el) {
+        $.each(route.path, function (ix, el) {
             var prevEl = route[ix - 1];
             var nextEl = route[ix + 1];
             if (!prevEl || !nextEl || el.y === prevEl.y && el.y !== nextEl.y || el.x === prevEl.x && el.x !== nextEl.x ) {
@@ -219,7 +230,7 @@
                 lineCap: 'round',
                 lineJoin: 'round',
                 id: that.createId(),
-                name: 'route'
+                name: route.routeName
             }));
         });
         canvas.stage.draw();
@@ -276,14 +287,13 @@
             axis = options.startDirection,
             forceMoveUp = false,
             forceMoveDown = false,
-            forcedCount = 0,
             path = [],
             pathLength = 0;
         console.log("Origin");
         console.log(origin);
         console.log("Destination");
         console.log(dest);
-        $.fn.canvasMap.markPoint(origin, {color:"red", radius: 6, name: options.routeName});
+        //$.fn.canvasMap.markPoint(origin, {color:"red", radius: 6, name: options.routeName});
         $.fn.canvasMap.markPoint(dest, {color:"red", radius: 6, name: options.routeName});
         while (!$.fn.canvasMap.hasArrivedToPosition (position, dest) &&
                 (position.x != dest.x || position.y != dest.y)
@@ -342,6 +352,7 @@
                 //debugger;
                 position[axis] -= step * 2;
                 pathLength -= Math.abs(step * 2);
+                path.pop();
                 axis = $.fn.canvasMap.switchAxis(axis);
                 if (options.preferTurn.length > 0) {
                     var turn = options.preferTurn.pop();
@@ -353,14 +364,11 @@
                 }
 
             }
-
-            console.log(position);
-            if (loopCounter > 70) {
+            if (loopCounter > 100) {
                 console.log("break!!!");
                 break;
             }
         }
-        $.fn.canvasMap.markPoint(position, {name: options.routeName});
         return {
             routeName:      options.routeName,
             origin:         origin,
@@ -470,7 +478,7 @@
         }
     };
 
-    $.fn.canvasMap.drawPathFromCategories = function(categories, initialPosition) {
+    $.fn.canvasMap.drawPathFromCategories = function(categories, initialPosition, finalPosition) {
         // Delete existing routes if any
         $.fn.canvasMap.deleteExistingRoutes();
 
@@ -480,6 +488,7 @@
         // Get categories coordinates and sort them
         var coords = this.getAllCoords(categories);
         var routePoints = [initialPosition].concat(coords);
+        routePoints.push(finalPosition);
         // Draw route to different coordinates
         this.drawRoute(routePoints);
     };

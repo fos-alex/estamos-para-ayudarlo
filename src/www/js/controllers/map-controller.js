@@ -21,8 +21,8 @@ angular.module('EPA.controllers')
 
         $scope.map = {
             config: {
-                categories:     ['Panificados'],
-                idSucursal:     1,
+                categories:     ['Almacen'],
+                idSucursal:     4,
                 position:       "entrance"
             },
             refresh:        true
