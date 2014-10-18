@@ -20,13 +20,17 @@ angular.module('EPA.controllers')
         };
 
         $scope.map = {
-            categories:     ['Panificados'],
-            idSucursal:     1,
+            config: {
+                categories:     ['Panificados'],
+                idSucursal:     1,
+                position:       "entrance"
+            },
             refresh:        true
-        } ;
+        };
 
         $scope.cambiarCat = function () {
-            $scope.map.categories = ['Lacteos'];
+            $scope.map.config.categories = ['Panificados', 'Lacteos'];
+            $scope.map.refresh = true;
         };
 
 }]);

@@ -2,7 +2,8 @@
     var canvas = {
         objects: {
             products: {},
-            shells: {}
+            shells: {},
+            routes: []
         },
         stage: {},
         layer: {}
@@ -24,7 +25,6 @@
     };
 
     $.fn.canvasMap.init = function (element, callback) {
-        var that = this;
         $('body').css({
             margin: '0px',
             padding: '0px'
@@ -42,13 +42,16 @@
     };
 
     $.fn.canvasMap.createRoute = function(categories, position) {
-        if (!position) {
+        if (!position || position === "entrance") {
             // Position user at entrance by default
             position = canvas.stage.find('.exit')[0].getPosition();
             // Adjust position to entrance's center
             position.x -= 10;
             position.y += 30;
+        } else if (position  && !(position.x && position.y)) {
+            return false;
         }
+
         return $.fn.canvasMap.drawPathFromCategories(categories, position);
     };
 
@@ -77,7 +80,7 @@
                 return that.newMap();
             }
             var mapa = response.data.mapaJSON;
-            canvas.objects = response.data.objects;
+            canvas.objects = $.extend(canvas.objects, response.data.objects);
             canvas.stage = Kinetic.Node.create(mapa, 'internal-map-container');
             canvas.stage.draw();
             canvas.layer = canvas.stage.getLayers()[0];
@@ -161,8 +164,7 @@
     };
 
     $.fn.canvasMap.drawRoute = function(positions){
-        var that = this,
-            routes = [],
+        var routes = [],
             maxTries = 5;
 
         positions = this.orderRoutes(positions);
@@ -183,27 +185,44 @@
                 if (routes[ix].length == 0) {
                     options.preferTurn = [];
                 }
-                debugger;
                 lastRoute = $.fn.canvasMap.findRoute(position, positions[ix + 1], options);
                 routes[ix].push(lastRoute);
                 if (!lastRoute.finished) {
                     $.fn.canvasMap.deleteRoute(lastRoute.routeName);
                 }
             }
+            canvas.objects.routes.push(lastRoute);
+            $.fn.canvasMap.drawRouteInLines(lastRoute.path);
             positions[ix + 1] = lastRoute.finalPosition;
-            debugger;
         });
-        /*var line = new Kinetic.Line({
-            points: points,
-            stroke: 'red',
-            strokeWidth: 10,
-            lineCap: 'round',
-            lineJoin: 'round',
-            id: that.createId(),
-            name: 'route'
+    };
+
+    $.fn.canvasMap.drawRouteInLines = function (route) {
+        var linePoints = [],
+            that = this;
+        $.each(route, function (ix, el) {
+            var prevEl = route[ix - 1];
+            var nextEl = route[ix + 1];
+            if (!prevEl || !nextEl || el.y === prevEl.y && el.y !== nextEl.y || el.x === prevEl.x && el.x !== nextEl.x ) {
+              linePoints.push(el);
+            }
         });
-        canvas.layer.add(line);
-        canvas.stage.draw();*/
+        $.each(linePoints, function (ix) {
+            var prevPoint = linePoints[ix - 1];
+            if (!prevPoint) {
+                return;
+            }
+            canvas.layer.add(new Kinetic.Line({
+                points: [prevPoint.x, prevPoint.y, this.x, this.y],
+                stroke: 'red',
+                strokeWidth: 10,
+                lineCap: 'round',
+                lineJoin: 'round',
+                id: that.createId(),
+                name: 'route'
+            }));
+        });
+        canvas.stage.draw();
     };
 
     $.fn.canvasMap.shapeInPoint = function (point) {
@@ -270,7 +289,7 @@
                 (position.x != dest.x || position.y != dest.y)
         ) {
             ++loopCounter;
-            $.fn.canvasMap.markPoint(position, {name: options.routeName});
+            //$.fn.canvasMap.markPoint(position, {name: options.routeName});
             path.push($.extend(true, {}, position));
             if (!forceMoveUp && (dest[axis] > position[axis] && Math.abs(dest[axis] - position[axis]) >= step  || forceMoveDown)) {
                 //debugger;
@@ -421,6 +440,7 @@
     };
 
     $.fn.canvasMap.getAllCoords = function (shells) {
+        // Get position of different categories in an array
         var that = this;
         var response = [];
         $.each(shells, function() {
@@ -430,16 +450,37 @@
     };
 
     $.fn.canvasMap.positionUser = function(position) {
+        // Delete existing user shape and create new one in position
         this.removeShape('.user');
         var user = this.getUserShape(position);
         canvas.layer.add(user);
         canvas.stage.draw();
     };
 
+    $.fn.canvasMap.deleteExistingRoutes = function (routes) {
+        if (!routes) {
+            routes = canvas.objects.routes;
+        }
+        // Iterate through routes and delete each one
+        if (routes.length > 0) {
+            $.each(routes, function () {
+                $.fn.canvasMap.deleteRoute(this.routeName);
+            });
+            routes = [];
+        }
+    };
+
     $.fn.canvasMap.drawPathFromCategories = function(categories, initialPosition) {
+        // Delete existing routes if any
+        $.fn.canvasMap.deleteExistingRoutes();
+
+        // Move user to position
         $.fn.canvasMap.positionUser(initialPosition);
+
+        // Get categories coordinates and sort them
         var coords = this.getAllCoords(categories);
         var routePoints = [initialPosition].concat(coords);
+        // Draw route to different coordinates
         this.drawRoute(routePoints);
     };
 

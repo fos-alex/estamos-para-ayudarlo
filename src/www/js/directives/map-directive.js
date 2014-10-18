@@ -5,23 +5,23 @@ angular.module('EPA.directives', [
     return {
         restrict: 'E',
         scope :{
-            config: '@'
+            config: '=',
+            refresh: '='
         },
         link: function(scope, element, attrs) {
-
-            var config = JSON.parse(attrs.config);
             angular.element(element).canvasMap({
                 url: "http://ec2-54-187-58-168.us-west-2.compute.amazonaws.com/app",
                 //url: "http://local.epa-web.com/app",
-                url_mapa: '/mapas/' + config.idSucursal
+                url_mapa: '/mapas/' + scope.config.idSucursal
             }, function () {
-                scope.$watch("config.refresh",function(newValue,oldValue) {
+                scope.$watch("refresh",function(newValue,oldValue) {
                     if (newValue != oldValue && newValue) {
-                        $.fn.canvasMap.createRoute(config.categories);
-                        config.refresh = false;
+                        $.fn.canvasMap.createRoute(scope.config.categories, scope.config.position);
+                        scope.refresh = false;
                     }
                 });
-                config.refresh = true;
+                $.fn.canvasMap.createRoute(scope.config.categories);
+                scope.refresh = false;
             });
         }
     };
