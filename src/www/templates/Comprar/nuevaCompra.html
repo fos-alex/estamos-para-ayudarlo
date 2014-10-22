@@ -13,20 +13,18 @@
         <img class="logoHeader" src="./img/carrito.png">
     </ion-header-bar>
     <ion-content class="has-header">
-
-        <div class="list">
-            <a class="item item-avatar item-icon-right"
-               ng-repeat="item in createdList.productos | filter:nombreProducto"
-               ng-click="item.added = item.added? false: true">
-                <img src="img/ionic.png">
-                <h2>{{item.nombre}}</h2>
-                <p>{{item.descripcion}}</p>
-                <i class="icon ion-ios7-close-outline" ng-click="deleteItem($index);"></i>
-            </a>
+        <div class="row">
+            <div class="list">
+                <a class="item item-avatar item-icon-right"
+                   ng-repeat="item in createdList.productos | filter:nombreProducto"
+                   ng-click="item.added = item.added? false: true">
+                    <img src="img/ionic.png">
+                    <h2>{{item.nombre}}</h2>
+                    <p>{{item.descripcion}}</p>
+                    <i class="icon ion-ios7-close-outline" ng-click="deleteItem($index);"></i>
+                </a>
+            </div>
         </div>
-    </ion-content>
-
-    <div class="row"></div>
     <div class="row"></div>
     <div class="row">
         <div class="col">
@@ -37,7 +35,10 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
+    <div class="row"></div>
+    </ion-content>
+
 <!-- FOOTER-->
 <ion-footer-bar class="bar-dark">     
     <a class="tab-item" href="#/app/menu">
@@ -46,7 +47,7 @@
     <a class="tab-item" href="#/app/map">
             <i class="icon ion-location footerIconos"></i>
     </a>
-    <a class="tab-item" ng-click="agregarProducto();">
+    <a class="tab-item" ng-click="leerQr();">
         <i class="icon ion-ios7-plus-outline footerIconos"></i>
     </a>
     <a class="tab-item" ng-click="suma();">

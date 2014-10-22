@@ -10,8 +10,8 @@
     
     <!-- BODY -->
   <ion-content class="has-header">
-      <ion-scroll direction="xy">
-          <canvas-map></canvas-map>
+      <ion-scroll zooming="true" direction="xy" >
+          <canvas-map config="map.config" refresh="map.refresh"></canvas-map>
       </ion-scroll>
   </ion-content>
 
@@ -23,7 +23,8 @@
         <a class="tab-item" data-ng-click="scan()">
             <i class="icon ion-ios7-circle-filled footerIconos"></i>
         </a>
-        <a class="tab-item" href="#/app/comprar">
+        <a class="tab-item" data-ng-click="cambiarCat()">
+        <!--<a class="tab-item"  href="#/app/comprar">-->
             <i class="icon ion-ios7-cart footerIconos"></i>
         </a>
         <a class="tab-item" href="#/app/ajustes">
