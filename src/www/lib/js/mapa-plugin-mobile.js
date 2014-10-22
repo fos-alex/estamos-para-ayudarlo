@@ -117,12 +117,16 @@
 
     $.fn.canvasMap.createImage = function(stage, image){
         var url = canvas.objects.images[image.getId()]['url'];
+        var splittedUrl = url.split("/");
+        var imageName = splittedUrl[splittedUrl.length - 1];
+        imageName = "./img/" + imageName;
+
         var oImage = new Image();
         oImage.onload = function () {
             image.image(oImage);
             stage.draw();
         };
-        oImage.src = url;
+        oImage.src = imageName;
     };
 
 
