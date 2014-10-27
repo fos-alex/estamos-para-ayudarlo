@@ -7,8 +7,9 @@ angular.module('EPA.services')
             var map = {};
 
             return {
-                load: function (categorias) {
+                load: function (categorias, posicion) {
                     map.categorias = categorias;
+                    map.posicion = posicion;
                     return this;
                 },
                 getCategorias: function () {
@@ -16,6 +17,13 @@ angular.module('EPA.services')
                 },
                 setCategorias: function (categorias) {
                     map.categorias = categorias;
+                    return this;
+                },
+                getPosicion: function () {
+                    return map.posicion;
+                },
+                setPosicion: function (posicion) {
+                    map.posicion = posicion;
                     return this;
                 }
             };

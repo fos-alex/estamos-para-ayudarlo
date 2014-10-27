@@ -24,6 +24,11 @@ angular.module('EPA.controllers')
             $scope.map.refresh = true;
         });
 
+        $scope.$watch(function() {return Map.getPosicion();}, function (newVal) {
+            $scope.map.config.position= newVal;
+            $scope.map.refresh = true;
+        });
+
         $scope.map = {
             config: {
                 categories:     [],
