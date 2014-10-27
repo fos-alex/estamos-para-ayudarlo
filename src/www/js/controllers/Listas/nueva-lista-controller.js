@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle',
-    function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle) {
+.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map',
+    function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map) {
         $scope.createdList = Session.get('createdList') || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Lista";
 
@@ -53,10 +53,14 @@ angular.module('EPA.controllers')
         //REALIZAR SCAN DE PRODUCTO
 //            QRReader.read(function (err, response) {
 //                $scope.id_producto = response.producto.id;
+//                $scope.categoriaActual = response.producto.id;
 //            });
 
-            $scope.id_producto = 100;
-            $scope.buscarProducto($scope.id_producto);
+            $scope.id_producto_detalle = 100;
+            $scope.id_producto = 60;
+            $scope.buscarProducto($scope.id_producto_detalle);
+            $scope.categoria_actual = 'Almacen';
+
         }
 
         $scope.buscarProducto = function(id){
@@ -68,11 +72,11 @@ angular.module('EPA.controllers')
                 function(error){
                 }
             );
-        }
+        };
 
         $scope.agregarProducto= function(productoNuevo){
             //AGREGO PRODUCTO A LA LISTA DE COMPRAS ON DEMAND
-            if ($scope.createdList.productos !== "object" || $scope.createdList.productos.length === 0){
+            if (typeof $scope.createdList.productos !== "object" || $scope.createdList.productos.length === 0){
                 this.createdList = angular.extend(this.createdList, {
                     productos: []
                 });
@@ -81,10 +85,18 @@ angular.module('EPA.controllers')
             } else {
                 $scope.createdList.productos.push(productoNuevo);
             }
+            Lista.save(this.createdList); //@TODO: SAVE DE LISTA DETALLE
+        };
+        
+        $scope.aumentarCantidad = function (producto){
+            producto.cantidad = (producto.cantidad > 0)? producto.cantidad + 1: 1
             Lista.save(this.createdList);
-            // ENVIAR AL MAPA LA POSICION ACTUAL Y LISTA CON LA CATEGORIA ACTUAL
-            // to-do
-        }
+        };
+        
+        $scope.disminuirCantidad = function (producto){
+            producto.cantidad = (producto.cantidad > 0)? producto.cantidad - 1: 1
+            Lista.save(this.createdList);
+        };
         
         $scope.muestraSuma = false;
         $scope.suma = function () {
@@ -93,10 +105,23 @@ angular.module('EPA.controllers')
             var total = 0;
             for(var i = 0; i < $scope.createdList.productos.length; i++){
                 var item = $scope.createdList.productos[i];
-                total = total + item.precio; //ver tema cantidad
+                debugger;
+                total += item.precio * item.cantidad;
             }
             $scope.totalSuma = total;
-        }
+        };
+        
+      $scope.calcularRecorrido = function(){
+            $scope.rubros = [];
+            $scope.rubroslista = [];
+            for(var i=0; i< this.createdList.productos.length ;i++) {
+                if ($scope.rubros.indexOf(this.createdList.productos[i].id_categoria) === -1) {
+                        $scope.rubros[i] = this.createdList.productos[i].id_categoria;
+                    }                
+            }        
+            Map.load($scope.rubros, $scope.categoriaActual);
+            $state.go('app.map');
+      }; 
         
 }
 ]);
