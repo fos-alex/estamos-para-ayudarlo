@@ -493,6 +493,10 @@
         // Move user to position
         $.fn.canvasMap.positionUser(initialPosition);
 
+        if (!categories || categories.length === 0) {
+            return false;
+        }
+
         // Get categories coordinates and sort them
         var coords = this.getAllCoords(categories);
         var routePoints = [initialPosition].concat(coords);
