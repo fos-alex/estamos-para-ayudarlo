@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams','$ionicPopup' , 'Lista', 'Session', 'User',
-    function($scope, $state, $stateParams,$ionicPopup , Lista , Session, User) {
+.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams','$ionicPopup' , 'Lista', 'Session', 'User','Map', 
+    function($scope, $state, $stateParams,$ionicPopup , Lista , Session, User, Map) {
 
         if (User.currentUser() != null){
            $scope.currentUser = User.currentUser().username;
@@ -60,7 +60,10 @@ angular.module('EPA.controllers')
                 if ($scope.rubros.indexOf($scope.lista.productos[i].id_categoria) === -1) {
                         $scope.rubros[i] = $scope.lista.productos[i].id_categoria;
                     }                
-            }
+            }         
+            debugger;
+            Map.load($scope.rubros);
+            $state.go('app.map');
             // FALTA MANDARLE ESTE LISTADO AL MAPA Y REDIRIGIR AL USUARIO AL MAPA CON EL RECORRIDO
         };        
         
