@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('MapCtrl', ['$scope', '$state', 'QRReader',
-    function($scope, $state, QRReader) {
+.controller('MapCtrl', ['$scope', '$state', 'QRReader', 'Map',
+    function($scope, $state, QRReader, Map) {
         $scope.squares = [];
 
 //        $scope.activateCamera = function () {
@@ -21,7 +21,7 @@ angular.module('EPA.controllers')
 
         $scope.map = {
             config: {
-                categories:     ['Almacen'],
+                categories:     Map.getCategorias(),
                 idSucursal:     4,
                 position:       "entrance"
             },

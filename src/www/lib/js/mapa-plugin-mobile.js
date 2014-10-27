@@ -281,7 +281,7 @@
             routeName:           "routeName",
             startDirection: "x",
             preferTurn:     [],
-            step: 15
+            step: 25
         };
         options = $.extend(defaultOptions, options);
 
