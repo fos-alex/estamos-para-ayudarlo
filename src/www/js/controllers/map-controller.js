@@ -19,13 +19,18 @@ angular.module('EPA.controllers')
             });
         };
 
+        $scope.$watch(function() {return Map.getCategorias();}, function (newVal) {
+            $scope.map.config.categories = newVal;
+            $scope.map.refresh = true;
+        });
+
         $scope.map = {
             config: {
-                categories:     Map.getCategorias(),
+                categories:     [],
                 idSucursal:     4,
                 position:       "entrance"
             },
-            refresh:        true
+            refresh:        false
         };
 
         $scope.cambiarCat = function () {
