@@ -23,6 +23,8 @@ secret : 42d757114f3ae3d6dd4bd0b68fcf335a
                     $state.go('app.listas');
                 }else if(/estadistica/.test(texto)){
                     $state.go('app.estadisticas');
+                }else if(/mapa/.test(texto)){
+                    $state.go('app.map');
                 }else{
 
                 }
