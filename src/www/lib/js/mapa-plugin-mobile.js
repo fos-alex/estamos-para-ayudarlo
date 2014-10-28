@@ -281,7 +281,7 @@
             routeName:           "routeName",
             startDirection: "x",
             preferTurn:     [],
-            step: 15
+            step: 25
         };
         options = $.extend(defaultOptions, options);
 
@@ -492,6 +492,10 @@
 
         // Move user to position
         $.fn.canvasMap.positionUser(initialPosition);
+
+        if (!categories || categories.length === 0) {
+            return false;
+        }
 
         // Get categories coordinates and sort them
         var coords = this.getAllCoords(categories);

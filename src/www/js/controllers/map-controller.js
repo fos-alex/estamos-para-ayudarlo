@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('MapCtrl', ['$scope', '$state', 'QRReader',
-    function($scope, $state, QRReader) {
+.controller('MapCtrl', ['$scope', '$state', 'QRReader', 'Map',
+    function($scope, $state, QRReader, Map) {
         $scope.squares = [];
 
 //        $scope.activateCamera = function () {
@@ -19,13 +19,23 @@ angular.module('EPA.controllers')
             });
         };
 
+        $scope.$watch(function() {return Map.getCategorias();}, function (newVal) {
+            $scope.map.config.categories = newVal;
+            $scope.map.refresh = true;
+        });
+
+        $scope.$watch(function() {return Map.getPosicion();}, function (newVal) {
+            $scope.map.config.position= newVal;
+            $scope.map.refresh = true;
+        });
+
         $scope.map = {
             config: {
-                categories:     ['Almacen'],
+                categories:     [],
                 idSucursal:     4,
                 position:       "entrance"
             },
-            refresh:        true
+            refresh:        false
         };
 
         $scope.cambiarCat = function () {
