@@ -27,13 +27,14 @@ class Compraondemand extends Api_Controller
 
         $info_producto = array();
 
-        //id, descripcion, categoria y precio
+        //id, descripcion, categoria, precio, id_producto
 
         if ($this->esPrecioCuidado($id))
         {
             $info_producto = $this->precioscuidados_model
-                ->select('precioscuidados.id, producto, marca, precio, p.id_categoria')
+                ->select('precioscuidados.id, producto, marca, precio, c.nombre as categoria, p.id as id_generico')
                 ->join('productos p', 'precioscuidados.producto = p.nombre')
+                ->join('categorias c', 'p.id_categoria = c.id')
                 ->find($id);
 
             if ($info_producto)
@@ -47,8 +48,9 @@ class Compraondemand extends Api_Controller
         else
         {
             $info_producto = $this->productosdetalle_model
-                ->select('productosdetalle.id, marca, productosdetalle.descripcion, presentacion, precio, p.id_categoria, p.nombre as generico')
+                ->select('productosdetalle.id, marca, productosdetalle.descripcion, presentacion, precio, c.nombre as categoria, p.nombre as generico, p.id as id_generico')
                 ->join('productos p', 'productosdetalle.id_producto = p.id')
+                ->join('categorias c', 'p.id_categoria = c.id')
                 ->find($id);
 
             if ($info_producto)
