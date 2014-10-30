@@ -37,7 +37,15 @@ class productos extends Api_Controller {
 	}
 	public function de_lista($id_lista) {
 		$this->load->model ( 'productos_lista_model', null, true );
-		$productos = $this->productos_lista_model->join ( 'productos p', 'id_producto = p.id' )->find_all_by ( 'id_lista', $id_lista );
+		$this->load->model('categorias/categorias_model', null, true);
+		
+		$productos = $this->productos_lista_model
+					->select('id_producto,id_lista,cantidad,p.id,p.nombre,p.id_categoria,c.nombre as categoria')
+					->join ( 'productos p', 'id_producto = p.id' )
+					->join('categorias c', 'p.id_categoria = c.id')
+					->find_all_by ( 'id_lista', $id_lista );
+		
+		
 		if (! empty ( $productos )) {
 			foreach ( $productos as $key => $value ) {
 				$value->cantidad = ( int ) $value->cantidad;

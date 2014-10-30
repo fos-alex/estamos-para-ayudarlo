@@ -72,17 +72,13 @@ class Lista extends Api_Controller
 
 			$id_usuario = $this->current_user->id;
 			
-			$listas = $this->usuario_lista_model->join('lista l', 'id_lista = l.id')->find_all_by('id_usuario',$id_usuario);
-				
+			$listas = $this->usuario_lista_model
+					->select('l.*')
+					->join('lista l', 'id_lista = l.id')
+					->find_all_by('id_usuario',$id_usuario);
+			
 			if($listas){
 				foreach ($listas as $key => $lista) {
-					//Ver con pablo como sacar estas cosas para no mandar data de mas!!!!!!!
-// 					$lista = (array)$lista;
-// 					unset($lista['permisos']);
-// 					unset($lista['id_usuario']);
-// 					unset($lista['id_lista']);
-// 					$lista = (object)$lista;
-					
 					$lista->productos = Modules::run('productos/de_lista',$lista->id);
 				}
 			}
