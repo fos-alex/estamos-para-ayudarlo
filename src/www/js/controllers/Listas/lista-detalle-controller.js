@@ -26,7 +26,6 @@ angular.module('EPA.controllers')
         };
 
         $scope.showConfirm = function() {
-            debugger;
             if (Session.get('createdList').id === $scope.lista.id) {
                 $ionicPopup.confirm({
                     title: 'Confirmación?',
@@ -57,8 +56,8 @@ angular.module('EPA.controllers')
             $scope.rubros = [];
             $scope.rubroslista = [];
             for(var i=0; i< $scope.lista.productos.length ;i++) {
-                if ($scope.rubros.indexOf($scope.lista.productos[i].id_categoria) === -1) {
-                        $scope.rubros[i] = $scope.lista.productos[i].id_categoria;
+                if ($scope.rubros.indexOf($scope.lista.productos[i].categoria) === -1) {
+                        $scope.rubros[i] = $scope.lista.productos[i].categoria;
                     }                
             }        
             Map.load($scope.rubros);

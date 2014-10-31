@@ -3,7 +3,7 @@ angular.module('EPA.controllers')
 .controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map',
     function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map) {
         $scope.createdList = Session.get('createdList') || {};
-        $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Lista";
+        $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Compra";
 
         $scope.deleteItem = function (index) {
             $scope.createdList.productos.splice(index, 1);
@@ -51,15 +51,14 @@ angular.module('EPA.controllers')
 
         $scope.leerQr = function(){
         //REALIZAR SCAN DE PRODUCTO
-//            QRReader.read(function (err, response) {
-//                $scope.id_producto = response.producto.id;
-//                $scope.categoriaActual = response.producto.id;
-//            });
+            QRReader.read(function (err, response) {
+                $scope.id_producto = response.id;
+                $scope.categoriaActual = response.categoria;
+            });
+//            $scope.id_producto = 100;
+//            $scope.categoria_actual = 'Almacen';
+            $scope.buscarProducto($scope.id_producto);
 
-            $scope.id_producto_detalle = 100;
-            $scope.id_producto = 60;
-            $scope.buscarProducto($scope.id_producto_detalle);
-            $scope.categoria_actual = 'Almacen';
 
         }
 
@@ -80,6 +79,8 @@ angular.module('EPA.controllers')
                 this.createdList = angular.extend(this.createdList, {
                     productos: []
                 });
+                productoNuevo.id = productoNuevo.id_generico; //cuando lo guardo como lista de compra, seteo el id generico como id...
+                productoNuevo.cantidad = 1;
                 this.createdList.productos.push(productoNuevo);
                 Session.set('createdList', this.createdList);
             } else {
@@ -105,7 +106,6 @@ angular.module('EPA.controllers')
             var total = 0;
             for(var i = 0; i < $scope.createdList.productos.length; i++){
                 var item = $scope.createdList.productos[i];
-                debugger;
                 total += item.precio * item.cantidad;
             }
             $scope.totalSuma = total;

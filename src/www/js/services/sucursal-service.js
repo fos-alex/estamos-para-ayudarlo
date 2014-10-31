@@ -1,12 +1,18 @@
 angular.module('EPA.services')
 
-.factory('ProductoDetalle',
-    ['$http', 'CONFIG',
-        function productoDetalleFactory ($http, CONFIG)
-        {
-            return {
-                get : function (idProducto) {
-                    return $http.get(CONFIG.WS_URL + "/app/compraondemand/" + idProducto);
-                }
-            }
-        }]);
+.factory(
+		'Sucursal',['$http','CONFIG',
+			function sucursalFactory($http, CONFIG) {
+				return {
+					sucursalActual : function(latitud, longitud) {
+						var posicion = {
+							latitud : latitud,
+							longitud : longitud
+						};
+
+						return $http.post(CONFIG.WS_URL
+								+ "/app/sucursalactual", posicion);
+					}
+				};
+			}
+		]);
