@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams','$ionicPopup' , 'Lista', 'Session', 'User',
-    function($scope, $state, $stateParams,$ionicPopup , Lista , Session, User) {
+.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams','$ionicPopup' , 'Lista', 'Session', 'User','Map', 
+    function($scope, $state, $stateParams,$ionicPopup , Lista , Session, User, Map) {
 
         if (User.currentUser() != null){
            $scope.currentUser = User.currentUser().username;
@@ -26,7 +26,6 @@ angular.module('EPA.controllers')
         };
 
         $scope.showConfirm = function() {
-            debugger;
             if (Session.get('createdList').id === $scope.lista.id) {
                 $ionicPopup.confirm({
                     title: 'Confirmación?',
@@ -57,10 +56,12 @@ angular.module('EPA.controllers')
             $scope.rubros = [];
             $scope.rubroslista = [];
             for(var i=0; i< $scope.lista.productos.length ;i++) {
-                if ($scope.rubros.indexOf($scope.lista.productos[i].id_categoria) === -1) {
-                        $scope.rubros[i] = $scope.lista.productos[i].id_categoria;
+                if ($scope.rubros.indexOf($scope.lista.productos[i].categoria) === -1) {
+                        $scope.rubros[i] = $scope.lista.productos[i].categoria;
                     }                
-            }
+            }        
+            Map.load($scope.rubros);
+            $state.go('app.map');
             // FALTA MANDARLE ESTE LISTADO AL MAPA Y REDIRIGIR AL USUARIO AL MAPA CON EL RECORRIDO
         };        
         

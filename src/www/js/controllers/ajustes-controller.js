@@ -1,36 +1,17 @@
 angular.module('EPA.controllers')
 
-.controller('AjustesCtrl', ['$scope','$ionicLoading', function($scope,$ionicLoading) {
+.controller('AjustesCtrl', ['$scope','$ionicLoading','$state','ModoAudio', function($scope,$ionicLoading,$state,ModoAudio) {
+    $scope.modoaudio = {enable: ModoAudio.status() };
+    
+    $scope.saveConfig = function(){
+        if($scope.modoaudio.enable){
+            ModoAudio.enable();   
+        }else{
+            ModoAudio.disable();
+        }    
+        $state.go('app.ajustes');
+    };
 
-
-            $scope.detectarVoz = function() {
-              var maxMatches = 5;
-              var language = "es-AR";
-              $ionicLoading.show({
-                template: 'Espere el tono y hable...'
-              });
-              window.plugins.speechrecognizer.start(resultCallback, errorCallback, maxMatches, language);
-            };
-
-            function resultCallback (result){
-                $ionicLoading.hide();
-                console.log(result);
-                alert(result.results[0][0].transcript);
-            }
-
-            function errorCallback(error){
-                $ionicLoading.hide();
-                console.log(error);
-            }
-
-            $scope.reproducirVoz = function() {
-                navigator.tts.startup(function(){
-                    var language = "es-AR";
-                    navigator.tts.setLanguage(language, function(){
-                        navigator.tts.speak("Hola, que tal", function(){},function(){});
-                    },function(error){alert("ERROR SETLANGUAGE "+error)});
-                },function(error){alert("ERROR STARTUP "+error)});
-            };
 }])
 
 .controller('GestorDeMapasCtrl', ['$scope','buscarSucursales','Session', function($scope,buscarSucursales,Session) {

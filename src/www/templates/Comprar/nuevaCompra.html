@@ -13,18 +13,20 @@
         <img class="logoHeader" src="./img/carrito.png">
     </ion-header-bar>
     <ion-content class="has-header">
-        <div class="row">
-            <div class="list">
-                <a class="item item-avatar item-icon-right"
-                   ng-repeat="item in createdList.productos | filter:nombreProducto"
-                   ng-click="item.added = item.added? false: true">
-                    <img src="img/ionic.png">
-                    <h2>{{item.nombre}}</h2>
-                    <p>{{item.descripcion}}</p>
-                    <i class="icon ion-ios7-close-outline" ng-click="deleteItem($index);"></i>
-                </a>
-            </div>
+        <div class="list" show-delete='true'> 
+            <a class="item item-avatar"
+               ng-repeat="item in createdList.productos | filter:nombreProducto">               
+                <img src="img/ionic.png">
+                <h2>{{item.nombre}}</h2>
+                <p>{{item.descripcion}}</p>
+                <div class="force-item-avatar-right">
+                    <i class="icon ion-arrow-up-b lista-cant-icon" data-ng-click="aumentarCantidad(item)"></i>
+                    <input class="lista-cant-input text-center" type="number" min="1" data-ng-model="item.cantidad">
+                    <i class="icon ion-arrow-down-b lista-cant-icon" data-ng-click="disminuirCantidad(item)"></i>
+                </div>
+            </a>
         </div>
+
     <div class="row"></div>
     <div class="row">
         <div class="col">

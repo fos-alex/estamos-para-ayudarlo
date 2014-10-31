@@ -117,12 +117,16 @@
 
     $.fn.canvasMap.createImage = function(stage, image){
         var url = canvas.objects.images[image.getId()]['url'];
+        var splittedUrl = url.split("/");
+        var imageName = splittedUrl[splittedUrl.length - 1];
+        imageName = "./img/" + imageName;
+
         var oImage = new Image();
         oImage.onload = function () {
             image.image(oImage);
             stage.draw();
         };
-        oImage.src = url;
+        oImage.src = imageName;
     };
 
 
@@ -277,7 +281,7 @@
             routeName:           "routeName",
             startDirection: "x",
             preferTurn:     [],
-            step: 15
+            step: 25
         };
         options = $.extend(defaultOptions, options);
 
@@ -488,6 +492,10 @@
 
         // Move user to position
         $.fn.canvasMap.positionUser(initialPosition);
+
+        if (!categories || categories.length === 0) {
+            return false;
+        }
 
         // Get categories coordinates and sort them
         var coords = this.getAllCoords(categories);
