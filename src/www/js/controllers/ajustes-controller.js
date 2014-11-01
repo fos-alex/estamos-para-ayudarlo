@@ -1,11 +1,12 @@
 angular.module('EPA.controllers')
 
-.controller('AjustesCtrl', ['$scope','$ionicLoading','$state','ModoAudio', function($scope,$ionicLoading,$state,ModoAudio) {
+.controller('AjustesCtrl', ['$scope','$ionicLoading','$state','ModoAudio','Texto', function($scope,$ionicLoading,$state,ModoAudio,Texto) {
     $scope.modoaudio = {enable: ModoAudio.status() };
     
     $scope.saveConfig = function(){
         if($scope.modoaudio.enable){
-            ModoAudio.enable();   
+            ModoAudio.enable();
+            Texto.reproducir('Modo de voz activado');   
         }else{
             ModoAudio.disable();
         }    

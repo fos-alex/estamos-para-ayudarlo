@@ -48,7 +48,7 @@ secret : 42d757114f3ae3d6dd4bd0b68fcf335a
                 facebookConnectPlugin.browserInit(appId);
             }
             facebookConnectPlugin.getLoginStatus(function(response){
-                if(response.status == 'connected'){
+                if(response && response.status == 'connected'){
                         checkRegister();
                 }else{
                   facebookConnectPlugin.login(
