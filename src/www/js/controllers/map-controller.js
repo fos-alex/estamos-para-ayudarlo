@@ -33,17 +33,10 @@ angular.module('EPA.controllers')
             }
         });
 
-        $scope.map = {
-            config: {
-                categories:     ['Almacen', 'Bebidas', 'Panificados'],
-                idSucursal:     4,
-                position:       "entrance"
-            },
-            refresh:        true
-        };
+        $scope.map = Map.getConfig();
 
         $scope.cambiarCat = function () {
-            $scope.map.config.categories = ['Panificados', 'Lacteos'];
+            Map.setCategorias(['Panificados', 'Lacteos']);
             $scope.map.refresh = true;
         };
 

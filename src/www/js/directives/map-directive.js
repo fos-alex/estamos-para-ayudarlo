@@ -20,7 +20,7 @@ angular.module('EPA.directives', [
                         scope.refresh = false;
                     }
                 });
-                $.fn.canvasMap.createRoute(scope.config.categories);
+                $.fn.canvasMap.createRoute(scope.config.categories, scope.config.position);
                 scope.refresh = false;
             });
         }
