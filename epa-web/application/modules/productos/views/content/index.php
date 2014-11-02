@@ -1,6 +1,6 @@
 <?php
 
-$num_columns	= 4;
+$num_columns	= 3;
 $can_delete	= $this->auth->has_permission('Productos.Content.Delete');
 $can_edit		= $this->auth->has_permission('Productos.Content.Edit');
 $has_records	= isset($records) && is_array($records) && count($records);
@@ -15,10 +15,8 @@ $has_records	= isset($records) && is_array($records) && count($records);
 					<?php if ($can_delete && $has_records) : ?>
 					<th class="column-check"><input class="check-all" type="checkbox" /></th>
 					<?php endif;?>
-					
-					<th>id_categoria</th>
 					<th>Nombre</th>
-					<th>Descripcion</th>
+					<th>Categoria</th>
 				</tr>
 			</thead>
 			<?php if ($has_records) : ?>
@@ -49,7 +47,6 @@ $has_records	= isset($records) && is_array($records) && count($records);
 					<td><?php e($record->nombre) ?></td>
 				<?php endif; ?>
 					<td><?php e($record->Categoria); ?></td>
-					<td><?php e($record->descripcion) ?></td>
 				</tr>
 				<?php
 					endforeach;

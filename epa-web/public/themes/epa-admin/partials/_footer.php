@@ -1,8 +1,6 @@
 	<footer class="container-fluid footer">
 		<p class="pull-right">
-			Executed in {elapsed_time} seconds, using {memory_usage}.
-			<br/>
-			Powered by <a href="http://cibonfire.com" target="_blank"><i class="icon-fire">&nbsp;</i>&nbsp;Bonfire</a> <?php echo BONFIRE_VERSION ?>
+		Creado por <a href="http://mobi-help.com" target="_blank">Mobi Help!</a>
 		</p>
 	</footer>
 

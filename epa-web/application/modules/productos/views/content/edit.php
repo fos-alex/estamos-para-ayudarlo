@@ -52,7 +52,7 @@ $id = isset($productos['id']) ? $productos['id'] : '';
 				<?php echo anchor(SITE_AREA .'/content/productos', lang('productos_cancel'), 'class="btn btn-warning"'); ?>
 				
 			<?php if ($this->auth->has_permission('Productos.Content.Delete')) : ?>
-				or
+				<?php echo lang('bf_or'); ?>
 				<button type="submit" name="delete" class="btn btn-danger" id="delete-me" onclick="return confirm('<?php e(js_escape(lang('productos_delete_confirm'))); ?>'); ">
 					<span class="icon-trash icon-white"></span>&nbsp;<?php echo lang('productos_delete_record'); ?>
 				</button>
