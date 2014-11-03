@@ -19,12 +19,45 @@ angular.module('EPA.services')
                     map.categorias = categorias;
                     return this;
                 },
+                removeCategoria: function (categoria) {
+                    var categorias = this.getCategorias();
+                    var inCategorias = categorias.indexOf(categoria);
+                    if (inCategorias !== -1) {
+                        delete categorias[inCategorias];
+                    }
+                    return this;
+                },
                 getPosicion: function () {
                     return map.posicion;
                 },
                 setPosicion: function (posicion) {
+                    this.removeCategoria(posicion);
                     map.posicion = posicion;
                     return this;
+                },
+                getSucursal: function () {
+                    return map.idSucursal;
+                },
+                setSucursal: function (idSucursal) {
+                    map.idSucursal = idSucursal;
+                    return this;
+                },
+                refresh: function (refresh) {
+                    if (refresh === null) {
+                        refresh = true;
+                    }
+                    map.refresh = refresh;
+                    return this;
+                },
+                getConfig: function () {
+                    return {
+                        config: {
+                            categories:         this.getCategorias() || [],
+                                idSucursal:     this.getSucursal() || 4,
+                                position:       this.getPosicion() || "entrance"
+                        },
+                        refresh:        map.refresh || true
+                    };
                 }
             };
         }])

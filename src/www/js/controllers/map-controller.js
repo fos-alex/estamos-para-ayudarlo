@@ -20,26 +20,23 @@ angular.module('EPA.controllers')
         };
 
         $scope.$watch(function() {return Map.getCategorias();}, function (newVal) {
-            $scope.map.config.categories = newVal;
-            $scope.map.refresh = true;
+            if (newVal && newVal instanceof Array) {
+                $scope.map.config.categories = newVal;
+                $scope.map.refresh = true;
+            }
         });
 
         $scope.$watch(function() {return Map.getPosicion();}, function (newVal) {
-            $scope.map.config.position= newVal;
-            $scope.map.refresh = true;
+            if (newVal) {
+                $scope.map.config.position= newVal;
+                $scope.map.refresh = true;
+            }
         });
 
-        $scope.map = {
-            config: {
-                categories:     [],
-                idSucursal:     4,
-                position:       "entrance"
-            },
-            refresh:        false
-        };
+        $scope.map = Map.getConfig();
 
         $scope.cambiarCat = function () {
-            $scope.map.config.categories = ['Panificados', 'Lacteos'];
+            Map.setCategorias(['Panificados', 'Lacteos']);
             $scope.map.refresh = true;
         };
 
