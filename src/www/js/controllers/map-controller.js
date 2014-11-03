@@ -19,16 +19,10 @@ angular.module('EPA.controllers')
             });
         };
 
-        $scope.$watch(function() {return Map.getCategorias();}, function (newVal) {
-            if (newVal && newVal instanceof Array) {
-                $scope.map.config.categories = newVal;
-                $scope.map.refresh = true;
-            }
-        });
-
-        $scope.$watch(function() {return Map.getPosicion();}, function (newVal) {
+        $scope.$watch(function() {return Map.getRefresh();}, function (newVal) {
             if (newVal) {
-                $scope.map.config.position= newVal;
+                $scope.map.config.categories = Map.getCategorias();
+                $scope.map.config.position = Map.getPosicion();
                 $scope.map.refresh = true;
             }
         });
@@ -37,7 +31,7 @@ angular.module('EPA.controllers')
 
         $scope.cambiarCat = function () {
             Map.setCategorias(['Panificados', 'Lacteos']);
-            $scope.map.refresh = true;
+            Map.refresh();
         };
 
     /*Sucursal Actual*/

@@ -21,6 +21,9 @@ angular.module('EPA.services')
                 },
                 removeCategoria: function (categoria) {
                     var categorias = this.getCategorias();
+                    if (!categorias || categorias.length === 0) {
+                        return this;
+                    }
                     var inCategorias = categorias.indexOf(categoria);
                     if (inCategorias !== -1) {
                         delete categorias[inCategorias];
@@ -42,19 +45,19 @@ angular.module('EPA.services')
                     map.idSucursal = idSucursal;
                     return this;
                 },
-                refresh: function (refresh) {
-                    if (refresh === null) {
-                        refresh = true;
-                    }
-                    map.refresh = refresh;
+                refresh: function () {
+                    map.refresh = true;
                     return this;
+                },
+                getRefresh: function () {
+                    return map.refresh;
                 },
                 getConfig: function () {
                     return {
                         config: {
                             categories:         this.getCategorias() || [],
-                                idSucursal:     this.getSucursal() || 4,
-                                position:       this.getPosicion() || "entrance"
+                            idSucursal:     this.getSucursal() || 4,
+                            position:       this.getPosicion() || "entrance"
                         },
                         refresh:        map.refresh || true
                     };
