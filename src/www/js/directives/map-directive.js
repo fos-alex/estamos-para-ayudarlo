@@ -14,8 +14,8 @@ angular.module('EPA.directives', [
                 //url: "http://local.epa-web.com/app",
                 url_mapa: '/mapas/' + scope.config.idSucursal
             }, function () {
-                scope.$watch("refresh",function(newValue,oldValue) {
-                    if (newValue != oldValue && newValue) {
+                scope.$watch("refresh",function(newValue, oldValue) {
+                    if (newValue) {
                         $.fn.canvasMap.createRoute(scope.config.categories, scope.config.position);
                         scope.refresh = false;
                     }
