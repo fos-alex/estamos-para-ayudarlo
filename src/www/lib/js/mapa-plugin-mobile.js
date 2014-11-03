@@ -455,6 +455,9 @@
         var that = this;
         var response = [];
         $.each(shells, function() {
+            if (!(this instanceof String)) { 
+                return;
+            }
             response.push(that.getCoords(this));
         });
         return response;
