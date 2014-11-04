@@ -9,7 +9,7 @@
 <ul class="list">
 
 	<li class="item item-toggle">Notificación de Promociones <label
-		class="toggle toggle-calm"> <input type="checkbox">
+		class="toggle toggle-calm"> <input type="checkbox" ng-model="notificacion_promo.enable">
 			<div class="track">
 				<div class="handle"></div>
 			</div>
@@ -18,7 +18,7 @@
 
 	<li class="item item-toggle">Notificación de Cercanía a
 		Supermercado <label class="toggle toggle-calm"> <input
-			type="checkbox">
+			type="checkbox" ng-model="notificacion_cerca.enable">
 			<div class="track">
 				<div class="handle"></div>
 			</div>
@@ -40,6 +40,6 @@
 </ion-content> <!-- FOOTER --> <ion-footer-bar class="bar-dark"> <a
 	class="tab-item" href="#/app/menu"> <i
 	class="ion-home footerIconos"></i>
-</a> <a class="tab-item" ng-click=""> <i
+</a> <a class="tab-item" ng-click="saveConfig()"> <i
 	class="icon ion-checkmark-circled footerIconos"></i>
 </a> </ion-footer-bar> </ion-view>

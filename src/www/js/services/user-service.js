@@ -136,6 +136,12 @@ angular.module('EPA.services')
                 isLoggedIn: function () {
                     return isLoggedIn;
                 },
+                get: function () {
+                    return $http.get(CONFIG.WS_URL+"/app/usuario/",{});
+                },
+                set: function (userdata) {
+                    currentUser = userdata;
+                },
                 currentUser: function () {
                     return currentUser;
                 },

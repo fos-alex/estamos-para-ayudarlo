@@ -44,7 +44,24 @@ angular.module('EPA.controllers')
 
 }])
 
-.controller('GestorDeNotificacionesCtrl', ['$scope','$ionicPopup','$state', 'Promociones',function($scope,$ionicPopup,$state, Promociones) {
+.controller('GestorDeNotificacionesCtrl', ['$scope','$ionicPopup','$state', 'Promociones','Notificaciones',function($scope,$ionicPopup,$state, Promociones, Notificaciones) {
+    $scope.notificacion_promo = {enable: Notificaciones.status_promos() };
+    $scope.notificacion_cerca = {enable: Notificaciones.status_cerca() };
+
+    $scope.saveConfig = function(){
+        if($scope.notificacion_promo.enable){
+            Notificaciones.enable_promos();
+        }else{
+            Notificaciones.disable_promos();
+        }    
+        if($scope.notificacion_cerca.enable){
+            Notificaciones.enable_cerca();
+        }else{
+            Notificaciones.disable_cerca();
+        }    
+        $state.go('app.ajustes');
+    };
+
     $scope.showAlert = function() {
         $scope.promociones=null;
         Promociones.get().then(

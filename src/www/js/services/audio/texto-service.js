@@ -1,8 +1,6 @@
 angular.module('EPA.services')
 
-    .factory(
-        'Texto', ['$q','CONFIG',
-            function ajustesFactory($q,CONFIG) {
+    .factory('Texto', ['$q','CONFIG',function($q,CONFIG) {
                 var language = "es-AR";
                 return {
                     reproducir_disabled: function (texto) {

@@ -1,8 +1,6 @@
 angular.module('EPA.services')
 
-    .factory(
-        'Voz', ['$q','CONFIG',
-            function ajustesFactory($q,CONFIG) {
+    .factory('Voz', ['$q','CONFIG', function($q,CONFIG) {
                 var maxMatches = 5;
                 var language = "es-AR";
                 return {
