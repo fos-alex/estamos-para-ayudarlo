@@ -116,7 +116,7 @@ if ($db_required != '')
 }
 
 $mb_index .= "
-		Template::set('toolbar_title', 'Manage ".$module_name."');
+		Template::set('toolbar_title', 'Administrar ".$module_name."');
 		Template::render();
 	}
 
