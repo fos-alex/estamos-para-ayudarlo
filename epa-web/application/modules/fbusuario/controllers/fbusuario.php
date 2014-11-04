@@ -11,6 +11,8 @@ class Fbusuario extends Api_Controller
 			if($usuario){
 				$this->load->library('users/auth');
 				$this->auth->login( $usuario->username , $this->getFBpass($user_id) , FALSE);
+				$this->JSON_OUT->data = $usuario;
+				$this->success();
 			}else{
 				header('HTTP/1.1 403 Usuario inexistente');
 				$this->error(403,"Usuario inexistente");
