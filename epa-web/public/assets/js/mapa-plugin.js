@@ -310,13 +310,13 @@
         var info = {
             text: 'Entrada',
             description: 'Por aquí entrarán los usuarios.',
-            image: 'http://localhost/EPA-WEB/epa-web/public/assets/images/entrada.png'
+            image: $.fn.canvasMap.defaults.url + '/../assets/images/entrada.png'
         };
         if (data.exit) {
             info.text = 'Salida';
             info.description = 'Por aquí saldrán los usuarios.';
             // @TODO Fix Path
-            info.image = 'http://localhost/EPA-WEB/epa-web/public/assets/images/salida.png';
+            info.image = $.fn.canvasMap.defaults.url + '/../assets/images/salida.png';
         }
         canvas.layer.add(newGroup);
 
