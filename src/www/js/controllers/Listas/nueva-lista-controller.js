@@ -115,12 +115,12 @@ angular.module('EPA.controllers')
             $scope.rubros = [];
             $scope.rubroslista = [];
             for(var i=0; i< this.createdList.productos.length ;i++) {
-                if ($scope.rubros.length = 1){
+                if ($scope.rubros.length === 1){
                     $scope.rubros[i]= this.createdList.productos[i].categoria;                     
                 }else{
                     if ($scope.rubros.indexOf(this.createdList.productos[i].categoria) === -1) {
-                            $scope.rubros[i] = this.createdList.productos[i].categoria;
-                        }
+                        $scope.rubros[i] = this.createdList.productos[i].categoria;
+                    }
                 }        
             }   
             debugger;
