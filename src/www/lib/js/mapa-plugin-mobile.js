@@ -55,7 +55,10 @@
             position.x -= 10;
             position.y += 30;
         } else if (position  && !(position.x && position.y)) {
-            return false;
+            position = $.fn.canvasMap.getCoords(position);
+            if (!position || !position.x || !position.y) {
+                return false;
+            }
         }
 
         var finalPosition;
@@ -458,6 +461,9 @@
             if (!(this instanceof String)) { 
                 return;
             }
+            if ($.inArray(this, shells)) {
+                return;
+            }
             response.push(that.getCoords(this));
         });
         return response;
@@ -494,7 +500,8 @@
         if (!categories || categories.length === 0) {
             return false;
         }
-
+        // Dedupe categories
+        categories = $.unique(categories);
         // Get categories coordinates and sort them
         var coords = this.getAllCoords(categories);
         // Order routes
