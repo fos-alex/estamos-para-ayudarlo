@@ -461,9 +461,6 @@
             if (!(this instanceof String)) { 
                 return;
             }
-            if ($.inArray(this, shells)) {
-                return;
-            }
             response.push(that.getCoords(this));
         });
         return response;
