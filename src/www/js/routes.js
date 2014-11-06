@@ -113,7 +113,21 @@ angular.module('EPA')
             views: {
                 'menuContent' :{
                     templateUrl: "templates/Listas/listaDetalle.html",
-                    controller: 'ListaDetalleCtrl'
+                    controller: 'ListaDetalleCtrl',
+                    resolve: {
+                        User:function(User){
+                            if(User.currentUser()){
+                                return User;
+                            }else{
+                                return User.get().then(function(result){
+                                    var userdata = {username: result.data.data.username};
+                                    User.set(userdata);
+                                    return User;
+                                });    
+                            }
+                            
+                        }
+                    }
                 }
             }
         })

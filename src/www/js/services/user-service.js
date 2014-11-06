@@ -136,6 +136,12 @@ angular.module('EPA.services')
                 isLoggedIn: function () {
                     return isLoggedIn;
                 },
+                get: function () {
+                    return $http.get(CONFIG.WS_URL+"/app/usuario/",{});
+                },
+                set: function (userdata) {
+                    currentUser = userdata;
+                },
                 currentUser: function () {
                     return currentUser;
                 },
@@ -147,6 +153,7 @@ angular.module('EPA.services')
 
                     $http.get(CONFIG.WS_URL+"/app/fbusuario/"+userID,{})
                         .success(function (result, status, headers){
+                            currentUser = result.data.username;
                             deferred.resolve(result);
                         })
                         .error(function (result, status, headers) {

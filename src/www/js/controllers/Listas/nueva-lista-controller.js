@@ -8,7 +8,7 @@ angular.module('EPA.controllers')
         $scope.deleteItem = function (index) {
             $scope.createdList.productos.splice(index, 1);
             Session.set('createdList', this.createdList);
-        }
+        };
 
         $scope.showConfirm = function() {
             var confirmPopup = $ionicPopup.confirm({
@@ -26,7 +26,7 @@ angular.module('EPA.controllers')
         $scope.deleteAllItems = function () {
             $scope.createdList = {};
             Session.set('createdList', this.createdList);
-        }
+        };
 
         $scope.saveList = function () {
             Lista.save(this.createdList).then(function () {
@@ -49,26 +49,20 @@ angular.module('EPA.controllers')
         
         /*COMPRA ON DEMAND*/
 
-        $scope.leerQr = function(){
+        $scope.leerQr = function() {
         //REALIZAR SCAN DE PRODUCTO
             QRReader.read(function (err, response) {
                 $scope.id_producto = response.id;
                 $scope.categoriaActual = response.categoria;
+                $scope.buscarProducto($scope.id_producto);
             });
-//            $scope.id_producto = 100;
-//            $scope.categoria_actual = 'Almacen';
-            $scope.buscarProducto($scope.id_producto);
+        };
 
-
-        }
-
-        $scope.buscarProducto = function(id){
+        $scope.buscarProducto = function(id) {
             ProductoDetalle.get(id).then(
                 function(response){
                     $scope.productoNuevo = response.data.data;
                     $scope.agregarProducto($scope.productoNuevo);
-                },
-                function(error){
                 }
             );
         };
@@ -115,10 +109,15 @@ angular.module('EPA.controllers')
             $scope.rubros = [];
             $scope.rubroslista = [];
             for(var i=0; i< this.createdList.productos.length ;i++) {
-                if ($scope.rubros.indexOf(this.createdList.productos[i].id_categoria) === -1) {
-                        $scope.rubros[i] = this.createdList.productos[i].id_categoria;
-                    }                
-            }        
+                if ($scope.rubros.length === 1){
+                    $scope.rubros[i]= this.createdList.productos[i].categoria;                     
+                }else{
+                    if ($scope.rubros.indexOf(this.createdList.productos[i].categoria) === -1) {
+                        $scope.rubros[i] = this.createdList.productos[i].categoria;
+                    }
+                }        
+            }   
+            debugger;
             Map.load($scope.rubros, $scope.categoriaActual);
             $state.go('app.map');
       }; 

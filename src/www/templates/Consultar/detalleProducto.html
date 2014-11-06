@@ -20,7 +20,7 @@
           </div>
 
           <div class="item item-body consultar-tabla">
-            <img src="{{producto.imagen}}" class="consultar-imagen centrado">
+            <img ng-src="{{producto.imagen}}" class="consultar-imagen centrado">
             <p><strong>Información Adicional: </strong>{{producto.info}}</p>
           </div>
         </div>
@@ -31,7 +31,7 @@
     <a class="tab-item" href="#/app/menu">
             <i class="ion-home footerIconos"></i>
     </a>
-    <a class="tab-item" href="#/app/map">
+    <a class="tab-item" href="" data-ng-click="recalcularCamino(producto.categoria)">
             <i class="ion-location footerIconos"></i>
     </a>
 </ion-footer-bar>

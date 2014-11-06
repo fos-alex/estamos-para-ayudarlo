@@ -55,7 +55,10 @@
             position.x -= 10;
             position.y += 30;
         } else if (position  && !(position.x && position.y)) {
-            return false;
+            position = $.fn.canvasMap.getCoords(position);
+            if (!position || !position.x || !position.y) {
+                return false;
+            }
         }
 
         var finalPosition;
@@ -185,7 +188,6 @@
         var routes = [],
             maxTries = 5;
 
-        positions = this.orderRoutes(positions);
         $.each(positions, function (ix, position) {
             if (!positions[ix + 1]) {
                 return;
@@ -293,10 +295,6 @@
             forceMoveDown = false,
             path = [],
             pathLength = 0;
-        console.log("Origin");
-        console.log(origin);
-        console.log("Destination");
-        console.log(dest);
         //$.fn.canvasMap.markPoint(origin, {color:"red", radius: 6, name: options.routeName});
         $.fn.canvasMap.markPoint(dest, {color:"red", radius: 6, name: options.routeName});
         while (!$.fn.canvasMap.hasArrivedToPosition (position, dest) &&
@@ -368,7 +366,7 @@
                 }
 
             }
-            if (loopCounter > 100) {
+            if (loopCounter > 60) {
                 console.log("break!!!");
                 break;
             }
@@ -460,6 +458,12 @@
         var that = this;
         var response = [];
         $.each(shells, function() {
+            if (!(this instanceof String)) { 
+                return;
+            }
+            if ($.inArray(this, shells)) {
+                return;
+            }
             response.push(that.getCoords(this));
         });
         return response;
@@ -496,10 +500,15 @@
         if (!categories || categories.length === 0) {
             return false;
         }
-
+        // Dedupe categories
+        categories = $.unique(categories);
         // Get categories coordinates and sort them
         var coords = this.getAllCoords(categories);
+        // Order routes
+        coords = this.orderRoutes(coords);
+        // Add initial position
         var routePoints = [initialPosition].concat(coords);
+        // Add final position
         routePoints.push(finalPosition);
         // Draw route to different coordinates
         this.drawRoute(routePoints);

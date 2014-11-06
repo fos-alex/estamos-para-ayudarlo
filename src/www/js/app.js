@@ -12,7 +12,7 @@ angular.module('EPA', [
   $httpProvider.defaults.withCredentials = true;
 })
 .run(function($ionicPlatform,$rootScope,$cookies) {
-  $rootScope.modoaudio = eval($cookies.modoaudio);
+  $rootScope.configuracion = angular.fromJson($cookies.configuracion) || {};
   $ionicPlatform.ready(function() {
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
