@@ -10,6 +10,7 @@ angular.module('EPA.controllers')
                 estadisticas.getMes(this.mes_estadistica).then(
                     function(response){
                         $scope.mostrarDetalle=true;
+                        $scope.mostrarTotal=false;
                         $scope.estadisticas = response.data.data;
                     },
                     function(error){
@@ -22,6 +23,7 @@ angular.module('EPA.controllers')
                 estadisticas.getTotal(this.mes_estadistica).then(
                      function(response){
                          $scope.mostrarTotal=true;
+                         $scope.mostrarDetalle=false;
                          $scope.info= 'La cantidad de compras realizadas fue de: '+ response.data.data.cantidad_compras
                          $scope.info_2= 'El total consumido fue de: $ '+ parseInt(response.data.data.total_por_mes);
                      },
