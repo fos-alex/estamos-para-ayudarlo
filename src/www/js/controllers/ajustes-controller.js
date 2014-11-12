@@ -23,9 +23,6 @@ angular.module('EPA.controllers')
         buscarSucursales.obtener_sucursales(this.barrio).then(
             function (response) {
                 $scope.sucursales = response.data.data;
-            },
-            function (error) {
-
             }
         );
     };
@@ -35,9 +32,6 @@ angular.module('EPA.controllers')
             function (response) {
                 $scope.mapas = response.data.data;
                 Session.set('mapasDescargados', $scope.mapas);
-            },
-            function (error) {
-
             }
         );
     };
@@ -45,19 +39,19 @@ angular.module('EPA.controllers')
 }])
 
 .controller('GestorDeNotificacionesCtrl', ['$scope','$ionicPopup','$state', 'Promociones','Notificaciones',function($scope,$ionicPopup,$state, Promociones, Notificaciones) {
-    $scope.notificacion_promo = {enable: Notificaciones.status_promos() };
-    $scope.notificacion_cerca = {enable: Notificaciones.status_cerca() };
+    $scope.notificacion_promo = {enable: Notificaciones.statusPromos() };
+    $scope.notificacion_cerca = {enable: Notificaciones.statusCerca() };
 
     $scope.saveConfig = function(){
         if($scope.notificacion_promo.enable){
-            Notificaciones.enable_promos();
+            Notificaciones.enablePromos();
         }else{
-            Notificaciones.disable_promos();
+            Notificaciones.disablePromos();
         }    
         if($scope.notificacion_cerca.enable){
-            Notificaciones.enable_cerca();
+            Notificaciones.enableCerca();
         }else{
-            Notificaciones.disable_cerca();
+            Notificaciones.disableCerca();
         }    
         $state.go('app.ajustes');
     };

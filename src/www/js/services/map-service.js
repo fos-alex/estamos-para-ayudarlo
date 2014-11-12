@@ -56,7 +56,7 @@ angular.module('EPA.services')
                     return {
                         config: {
                             categories:         this.getCategorias() || [],
-                            idSucursal:     this.getSucursal() || 4,
+                            idSucursal:     this.getSucursal() || null,
                             position:       this.getPosicion() || "entrance"
                         },
                         refresh:        map.refresh || true

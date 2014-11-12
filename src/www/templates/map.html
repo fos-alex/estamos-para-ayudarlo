@@ -11,7 +11,7 @@
     <!-- BODY -->
   <ion-content class="has-header">
       <ion-scroll zooming="true" direction="xy">
-          <canvas-map config="map.config" refresh="map.refresh"></canvas-map>
+          <canvas-map ng-if="map.config.idSucursal" config="map.config" refresh="map.refresh"></canvas-map>
       </ion-scroll>
   </ion-content>
 

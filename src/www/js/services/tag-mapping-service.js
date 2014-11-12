@@ -11,7 +11,8 @@ angular.module('EPA.services')
                 d: "descripcion",
                 p: "precio",
                 c: "categoria",
-                i: "imagen"
+                i: "imagen",
+                s: "id_sucursal"
             };
 
             return {

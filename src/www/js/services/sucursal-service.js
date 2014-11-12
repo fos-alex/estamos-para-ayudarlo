@@ -4,6 +4,7 @@ angular.module('EPA.services')
 		'Sucursal',['$http','CONFIG',
 			function sucursalFactory($http, CONFIG) {
 				return {
+                    idSucursal: null,
 					sucursalActual : function(latitud, longitud) {
 						var posicion = {
 							latitud : latitud,
