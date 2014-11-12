@@ -15,7 +15,7 @@ angular.module('EPA.services')
                         scan: function(cb) {
                             var response = {"codigo":0,"mensaje":"Operacion Satisfactoria","text":""};
                             //response.text = JSON.stringify({"id":"1","nombre":"Coca","descripcion":"Gaseosa de primera linea!","precio":"20","imagen":"./img/coke.jpg","info":"http://www.coca-cola.com.ar/"});
-                            response.text = JSON.stringify({id:100,idg:63,n:"DULCE DE LECHE COTO",d:"Dulce de leche de primera calidad",p:18.07,c:"Lacteos",i:"./img/ddl.jpg"});
+                            response.text = JSON.stringify({id:100,idg:63,s:4,n:"DULCE DE LECHE COTO",d:"Dulce de leche de primera calidad",p:18.07,c:"Lacteos",i:"./img/ddl.jpg"});
                             cb(response);
                         }
                     }

@@ -1,21 +1,38 @@
 angular.module('EPA.controllers')
 
-.controller('MapCtrl', ['$scope', '$state', '$ionicPopup', 'QRReader', 'Map', 'Sucursal', 'Notificaciones', 'Promociones',
+.controller('MapCtrl', [
+            '$scope', '$state', '$ionicPopup', 'QRReader', 'Map', 'Sucursal', 'Notificaciones', 'Promociones',
     function($scope, $state, $ionicPopup, QRReader, Map, Sucursal, Notificaciones, Promociones) {
         $scope.squares = [];
 
-//        $scope.activateCamera = function () {
-//            var read = QRReader.read();
-//            alert(read.text);
-//        };
+        $scope.map = Map.getConfig();
+        if (Sucursal.idSucursal) {
+            $scope.map.config.idSucursal = Sucursal.idSucursal;
+        } else {
+            $ionicPopup.show({
+                templateUrl: 'templates/descargar-mapa.html',
+                scope: $scope,
+                title: 'Descargar mapa',
+                buttons:[{
+                    text: 'OK',
+                    type: 'button-primary',
+                    onTap: function(e) {
+                        QRReader.read(function (err, response) {
+                            if (!response.id_sucursal) {
+                                alert("El QR escaneado no tiene la sucursal. Escanee otro.");
+                            }
+                            $scope.map.config.idSucursal = response.id_sucursal;
+                        });
+                        return true;
+                    }
+                }]
+            });
+        }
 
         $scope.scan = function () {
             QRReader.read(function (err, response) {
-                //alert(JSON.stringify(response));
-                //alert(response.id);
                 $scope.$parent.producto = response;
                 return $state.go('app.consultarProducto', {idProducto: $scope.$parent.producto.id});
-                //return $location.path('/app/consultar/' + $scope.$parent.producto.id);
             });
         };
 
@@ -35,7 +52,8 @@ angular.module('EPA.controllers')
                         buttons:[{
                             text: 'OK',
                             type: 'button-primary'
-                        }]});
+                        }]
+                    });
                 }
             );
         };
@@ -48,19 +66,6 @@ angular.module('EPA.controllers')
                 $scope.map.refresh = true;
             }
         });
-
-        if (!Sucursal.idSucursal) {
-            $scope.map = Map.getConfig();
-        } else {
-            $ionicPopup.show({
-                templateUrl: 'templates/descargar-mapa.html',
-                scope: $scope,
-                title: 'Descargar mapa',
-                buttons:[{
-                    text: 'OK',
-                    type: 'button-primary'
-                }]});
-        }
 
         $scope.cambiarCat = function () {
             Map.setCategorias(['Panificados', 'Lacteos']);
