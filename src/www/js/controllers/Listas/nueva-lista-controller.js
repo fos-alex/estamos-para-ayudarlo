@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map',
-    function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map) {
+.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map', 'Producto',
+    function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map, Producto) {
         $scope.createdList = Session.get('createdList') || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Compra";
 
@@ -53,12 +53,27 @@ angular.module('EPA.controllers')
         //REALIZAR SCAN DE PRODUCTO
             QRReader.read(function (err, response) {
                 $scope.id_producto = response.id;
+                $scope.id_generico = response.id_generico;
                 $scope.categoriaActual = response.categoria;
-                $scope.buscarProducto($scope.id_producto);
+                $scope.buscarProducto($scope.id_producto, $scope.id_generico);
             });
         };
 
-        $scope.buscarProducto = function(id) {
+//        $scope.estaEnLista = function(id_generico){
+//            for(var i=0; i< $scope.lista.productos.length ;i++) {
+//                if ($scope.rubros.indexOf($scope.lista.productos[i].categoria) === -1) {
+//                        $scope.rubros[i] = $scope.lista.productos[i].categoria;
+//                    }                
+//            }            
+//            
+//        };
+
+        $scope.buscarProducto = function(id, id_generico) {
+            Producto.get(id_generico).then(
+                function(response){
+                    $scope.productoNuevoGenerico = response.data.data;
+                }
+            );
             ProductoDetalle.get(id).then(
                 function(response){
                     $scope.productoNuevo = response.data.data;
@@ -69,6 +84,10 @@ angular.module('EPA.controllers')
 
         $scope.agregarProducto= function(productoNuevo){
             //AGREGO PRODUCTO A LA LISTA DE COMPRAS ON DEMAND
+//            if (Lista.listaVigente !== null){
+//                this.createdList = Lista.listaVigente;
+//            };
+            
             if (typeof $scope.createdList.productos !== "object" || $scope.createdList.productos.length === 0){
                 this.createdList = angular.extend(this.createdList, {
                     productos: []
