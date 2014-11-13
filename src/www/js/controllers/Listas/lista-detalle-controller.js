@@ -5,16 +5,16 @@ angular.module('EPA.controllers')
 
         if (User.currentUser() != null){
            $scope.currentUser = User.currentUser().username;
-        };
+        }
         $scope.tienePermiso = true;
 
         Lista.get($stateParams.idLista, {}).then(function(response) {
             $scope.lista = response;
             
-            if ($scope.lista.bloqueada === '1'){
-                if($scope.currentUser === $scope.lista.edita){
+            if ($scope.lista.bloqueada === '1') {
+                if ($scope.currentUser === $scope.lista.edita) {
                     $scope.tienePermiso = true;
-                }else{
+                } else {
                     $scope.tienePermiso = false;
                 };
             };
@@ -59,7 +59,8 @@ angular.module('EPA.controllers')
                 if ($scope.rubros.indexOf($scope.lista.productos[i].categoria) === -1) {
                         $scope.rubros[i] = $scope.lista.productos[i].categoria;
                     }                
-            }        
+            }
+            Lista.listaVigente = $scope.lista;
             Map.load($scope.rubros);
             $state.go('app.map');
             // FALTA MANDARLE ESTE LISTADO AL MAPA Y REDIRIGIR AL USUARIO AL MAPA CON EL RECORRIDO

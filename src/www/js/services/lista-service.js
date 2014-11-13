@@ -29,6 +29,7 @@ angular.module('EPA.services')
                     return $http.post(CONFIG.WS_URL + '/app/compartir/' + lista, {
                         email: mail
                     });
-                }
+                },
+                listaVigente: null
             };
         }]);

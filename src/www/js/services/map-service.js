@@ -12,6 +12,10 @@ angular.module('EPA.services')
                     map.posicion = posicion;
                     return this;
                 },
+                addCategoria: function (categoria) {
+                    map.categorias.push(categoria);
+                    return this;
+                },
                 getCategorias: function () {
                     return map.categorias;
                 },
