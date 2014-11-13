@@ -16,7 +16,11 @@
             
         <ion-item ng-repeat="lista in listas" href="#/app/comprar/visualizarLista/{{lista.id}}" class="listaItem">
             <h2 class="listaItem">{{lista.nombre || 'Lista Sin Nombre'}}</h2>
-        </ion-item>            
+            <div class="force-item-avatar-right" ng-show="lista.id === listaVigente.id">
+                <i class="icon ion-alert rojoLogo"></i>
+                Lista vigente
+            </div>
+        </ion-item>
 
         <div class="item item-divider">
             Comprar On-Demand
