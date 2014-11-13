@@ -306,7 +306,6 @@
             draggable: data.draggable
         });
 
-        // @TODO Fix Path
         var info = {
             text: 'Entrada',
             description: 'Por aquí entrarán los usuarios.',
@@ -315,7 +314,6 @@
         if (data.exit) {
             info.text = 'Salida';
             info.description = 'Por aquí saldrán los usuarios.';
-            // @TODO Fix Path
             info.image = $.fn.canvasMap.defaults.url + '/../assets/images/salida.png';
         }
         canvas.layer.add(newGroup);
@@ -480,7 +478,8 @@
             name: 'shape',
             stroke: categoria.color,
             strokeWidth: 5,
-            draggable: false
+            draggable: false,
+            fill: categoria.color
         };
 
         data = _.extend(defaultData, data);
@@ -501,7 +500,8 @@
             height: data.height,
             name: data.name,
             stroke: data.stroke,
-            strokeWidth: data.strokeWidth
+            strokeWidth: data.strokeWidth,
+            fill: data.fill
         });
         var rectangleData = {
             id: rect.getId(),
