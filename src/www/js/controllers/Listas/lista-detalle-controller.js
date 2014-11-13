@@ -5,7 +5,7 @@ angular.module('EPA.controllers')
 
         if (User.currentUser() != null){
            $scope.currentUser = User.currentUser().username;
-        };
+        }
         $scope.tienePermiso = true;
 
         Lista.get($stateParams.idLista, {}).then(function(response) {

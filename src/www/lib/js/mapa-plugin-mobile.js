@@ -102,23 +102,23 @@
             canvas.stage.draw();
             canvas.layer = canvas.stage.getLayers()[0];
             that.loadImages(canvas.layer);
-            if (callback) {
-                callback();
-            }
+            if (callback) callback();
         });
     };
 
-    $.fn.canvasMap.loadImages = function(layer){
+    $.fn.canvasMap.loadImages = function(layer) {
         var stage = layer.getStage();
-        var that = this;
         var images = stage.find('Image');
-        $.each(images, function () {
-            that.createImage(stage, this);
-        });
+        for(var i in images) {
+            if (typeof images[i] !== "object") {
+                continue;
+            }
+            this.createImage(stage, images[i]);
+        }
         stage.draw();
     };
 
-    $.fn.canvasMap.createImage = function(stage, image){
+    $.fn.canvasMap.createImage = function(stage, image) {
         var url = canvas.objects.images[image.getId()]['url'];
         var splittedUrl = url.split("/");
         var imageName = splittedUrl[splittedUrl.length - 1];
@@ -150,17 +150,20 @@
             shape = [shape[0]];
         }
 
-        $.each(shape, function() {
-            var id = this.getId();
+        for(var i in shape) {
+            if (typeof shape[i] !== "object") {
+                continue;
+            }
+            var id = shape[i].getId();
             if (id) {
                 for (var collection in canvas.objects) {
-                    if (collection[id]) {
-                        delete collection[id];
+                    if (canvas.objects[collection][id]) {
+                        delete canvas.objects[collection][id];
                     }
                 }
             }
             shape.remove();
-        });
+        }
     };
 
     $.fn.canvasMap.getUserShape = function(position){
@@ -244,11 +247,16 @@
 
     $.fn.canvasMap.shapeInPoint = function (point) {
         var shapeInPoint = false;
-        $.each(canvas.stage.find('.shape'), function () {
-            if (this.intersects(point)) {
-                shapeInPoint = true;
+        var shapes = canvas.stage.find('.shape');
+        for(var i in shapes) {
+            if (typeof shapes[i] !== "object") {
+                continue;
             }
-        });
+            if (shapes[i].intersects(point)) {
+                shapeInPoint = true;
+                break;
+            }
+        }
         return shapeInPoint;
     };
 
@@ -480,9 +488,9 @@
         }
         // Iterate through routes and delete each one
         if (routes.length > 0) {
-            $.each(routes, function () {
-                $.fn.canvasMap.deleteRoute(this.routeName);
-            });
+            for(var i in routes) {
+                $.fn.canvasMap.deleteRoute(routes[i]['routeName']);
+            }
             routes = [];
         }
     };
