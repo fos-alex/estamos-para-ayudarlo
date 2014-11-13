@@ -105,14 +105,17 @@ angular.module('EPA.controllers')
                 $scope.buscarProducto(producto.id, function (producto) {
                     producto.comprado = true;
                     $scope.listaVigente.productos.push(producto);
+                    Map.addCategoria(producto.categoria);
+                    Map.setPosicion(producto.categoria);
+                    Map.refresh();
                 });
             }
         };
         
-        $scope.buscarProducto = function(id) {
+        $scope.buscarProducto = function(id, callback) {
             ProductoDetalle.get(id).then(
                 function(response){
-                    $scope.productoNuevo = response.data.data;
+                    callback(response.data.data);
                 }
             );
         };
