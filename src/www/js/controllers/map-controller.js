@@ -20,7 +20,7 @@ angular.module('EPA.controllers')
                             if (!response.id_sucursal) {
                                 alert("El QR escaneado no tiene la sucursal. Escanee otro.");
                             }
-                            $scope.map.config.idSucursal = response.id_sucursal;
+                            Sucursal.idSucursal = $scope.map.config.idSucursal = response.id_sucursal;
                         });
                     }
                 }]
@@ -98,7 +98,6 @@ angular.module('EPA.controllers')
         };
         
         $scope.agregarALista = function (producto) {
-            debugger;
             if ($scope.estaEnLista(producto.id_generico)) {
                 producto = $scope.traerDeLista(producto.id_generico);
                 producto.comprado = true;
@@ -111,6 +110,15 @@ angular.module('EPA.controllers')
                     Lista.save($scope.listaVigente).then(function () {
                         Map.addCategoria(producto.categoria);
                         Map.setPosicion(producto.categoria);
+                        $ionicPopup.show({
+                            templateUrl: 'templates/producto-agregado.html',
+                            scope: $scope,
+                            title: producto.descripcion + ' agregado',
+                            buttons:[{
+                                text: 'OK',
+                                type: 'button-primary'
+                            }]
+                        });
                         Map.refresh();
                     });
                 });
