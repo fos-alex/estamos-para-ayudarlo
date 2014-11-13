@@ -98,6 +98,7 @@ angular.module('EPA.controllers')
         };
         
         $scope.agregarALista = function (producto) {
+            debugger;
             if ($scope.estaEnLista(producto.id_generico)) {
                 producto = $scope.traerDeLista(producto.id_generico);
                 producto.comprado = true;

@@ -1,8 +1,9 @@
 angular.module('EPA.controllers')
 
-.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map', 'Producto',
-    function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map, Producto) {
-        $scope.createdList = Lista.listaVigente || {};
+.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map',
+    function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map) {
+//        $scope.createdList = Lista.listaVigente || {};
+        $scope.createdList = Session.get('createdList') || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Compra";
 
         $scope.deleteItem = function (index) {
@@ -55,25 +56,11 @@ angular.module('EPA.controllers')
                 $scope.id_producto = response.id;
                 $scope.id_generico = response.id_generico;
                 $scope.categoriaActual = response.categoria;
-                $scope.buscarProducto($scope.id_producto, $scope.id_generico);
+                $scope.buscarProducto($scope.id_producto);
             });
         };
 
-//        $scope.estaEnLista = function(id_generico){
-//            for(var i=0; i< $scope.lista.productos.length ;i++) {
-//                if ($scope.rubros.indexOf($scope.lista.productos[i].categoria) === -1) {
-//                        $scope.rubros[i] = $scope.lista.productos[i].categoria;
-//                    }                
-//            }            
-//            
-//        };
-
-        $scope.buscarProducto = function(id, id_generico) {
-            Producto.get(id_generico).then(
-                function(response){
-                    $scope.productoNuevoGenerico = response.data.data;
-                }
-            );
+        $scope.buscarProducto = function(id) {
             ProductoDetalle.get(id).then(
                 function(response){
                     $scope.productoNuevo = response.data.data;
