@@ -6,7 +6,6 @@ class Estadisticas extends Api_Controller
     public function __construct()
     {
         $this->load->library('users/auth');
-
         parent::__construct();
     }
 
@@ -17,15 +16,17 @@ class Estadisticas extends Api_Controller
             
             $tipoEstadistica = $this->PARAMETROS [1];
             
+            $id_usuario = $this->current_user->id;
+            
             if ($tipoEstadistica == 0)
-            	$this->JSON_OUT->data = $this->obtenerEstadisticasPorMes($mes);
+            	$this->JSON_OUT->data = $this->obtenerEstadisticasPorMes($mes,$id_usuario);
             else
-                $this->JSON_OUT->data = $this->obtenerEstadisticaDetallada($mes);
+                $this->JSON_OUT->data = $this->obtenerEstadisticaDetallada($mes,$id_usuario);
         } else
         	$this->error ( 404, "Debe especificar un mes" );
     }
 
-    private function obtenerEstadisticasPorMes($mes)
+    private function obtenerEstadisticasPorMes($mes,$id_usuario)
     {
         $this->load->model('precioscuidados/precioscuidados_model', null, true);
         $this->load->model('productosdetalle/productosdetalle_model', null, true);
@@ -33,20 +34,20 @@ class Estadisticas extends Api_Controller
 
         $importe = $this->compra_model
             ->select_sum('importe_total')
-            ->find_all_by('month(fecha) = ' . $mes);
+            ->find_all_by(array('month(fecha)'=>$mes, 'id_usuario'=>$id_usuario));
 
         $total_por_mes;
         $importe[0]->importe_total == 0? $total_por_mes = 0 : $total_por_mes = $importe[0]->importe_total;
         
         
         $cant_compras_por_mes = $this->compra_model
-            ->count_by('month(fecha) = ' . $mes);
+            ->count_by(array('month(fecha)'=>$mes, 'id_usuario'=>$id_usuario));
 
        return array("total_por_mes"=>$total_por_mes, "cantidad_compras"=>$cant_compras_por_mes);
     }
     
     
-    private function obtenerEstadisticaDetallada($mes)
+    private function obtenerEstadisticaDetallada($mes,$id_usuario)
     {
     	$this->load->model('precioscuidados/precioscuidados_model', null, true);
     	$this->load->model('productosdetalle/productosdetalle_model', null, true);
@@ -62,7 +63,7 @@ class Estadisticas extends Api_Controller
 	    	->join ( 'categorias cat', 'p.id_categoria = cat.id' )
 	    	->join ( 'compra c', 'precios_cuidados_compra.id_compra = c.id' )
 	    	->group_by( 'cat.nombre' )
-	    	->find_all_by('month(fecha) = ' . $mes);
+	    	->find_all_by(array('month(fecha)'=>$mes, 'c.id_usuario'=>$id_usuario));
     	
     	$comunes = $this->productos_detalle_compra_model
 	    	->select ( 'cat.nombre as categoria, count(*) as cantidad, sum(pd.precio) as precio' )
@@ -71,7 +72,7 @@ class Estadisticas extends Api_Controller
 	    	->join ( 'categorias cat', 'p.id_categoria = cat.id' )
 	    	->join ( 'compra c', 'productos_detalle_compra.id_compra = c.id' )
 	    	->group_by( 'cat.nombre' )
-	    	->find_all_by('month(fecha) = ' . $mes);
+	    	->find_all_by(array('month(fecha)'=>$mes, 'c.id_usuario'=>$id_usuario));
 
     	$categorias = array();    	
 		foreach ($cuidados as $key => $cuidado)
