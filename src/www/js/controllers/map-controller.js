@@ -80,7 +80,7 @@ angular.module('EPA.controllers')
             var found = false;
             angular.forEach($scope.listaVigente.productos, function (producto) {
                 if (found) return;     
-                if (producto.id === id) {
+                if (parseInt(producto.id) === id) {
                     found = true;
                 }
             });
@@ -90,7 +90,7 @@ angular.module('EPA.controllers')
         $scope.traerDeLista = function (id){
             var productoEncontrado = null;
             angular.forEach($scope.listaVigente.productos, function (producto) {
-                if (producto.id === id) {
+                if (parseInt(producto.id) === id) {
                     productoEncontrado = producto;
                 }
             });
@@ -99,7 +99,7 @@ angular.module('EPA.controllers')
         
         $scope.agregarALista = function (producto) {
             if ($scope.estaEnLista(producto.id_generico)) {
-                producto = $scope.traerDeLista(producto.id);
+                producto = $scope.traerDeLista(producto.id_generico);
                 producto.comprado = true;
             } else {
                 $scope.buscarProducto(producto.id, function (producto) {
@@ -107,9 +107,7 @@ angular.module('EPA.controllers')
                     producto.cantidad = 1;
                     producto.id = producto.id_generico;
                     $scope.listaVigente.productos.push(producto);
-                    debugger;
                     Lista.save($scope.listaVigente).then(function () {
-                        debugger;
                         Map.addCategoria(producto.categoria);
                         Map.setPosicion(producto.categoria);
                         Map.refresh();
