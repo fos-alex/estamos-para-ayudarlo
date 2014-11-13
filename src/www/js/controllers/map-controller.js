@@ -22,7 +22,6 @@ angular.module('EPA.controllers')
                             }
                             $scope.map.config.idSucursal = response.id_sucursal;
                         });
-                        return true;
                     }
                 }]
             });
@@ -99,14 +98,15 @@ angular.module('EPA.controllers')
         };
         
         $scope.agregarALista = function (producto) {
-            if (!$scope.estaEnLista(producto.id_generico)) {
-                producto = $scope.buscarProducto(producto.id);
+            if ($scope.estaEnLista(producto.id_generico)) {
+                producto = $scope.traerDeLista(producto.id);
+                producto.comprado = true;
             } else {
-                producto = $scope.traerDeLista(producto);
+                $scope.buscarProducto(producto.id, function (producto) {
+                    producto.comprado = true;
+                    $scope.listaVigente.productos.push(producto);
+                });
             }
-            producto.comprado = true;
-
-            $scope.listaVigente.productos.push(producto);
         };
         
         $scope.buscarProducto = function(id) {

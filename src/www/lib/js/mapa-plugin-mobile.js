@@ -9,7 +9,8 @@
         layer: {}
     },
         categorias = null,
-        opts = {};
+        opts = {},
+        cache = {};
 
 
     $.fn.canvasMap = function (options, callback) {
@@ -246,11 +247,18 @@
     };
 
     $.fn.canvasMap.shapeInPoint = function (point) {
-        var shapeInPoint = false;
-        var shapes = canvas.stage.find('.shape');
+        var shapeInPoint = false,
+            shapes = null;
+
+        if (cache && cache.shapes) {
+            shapes = cache.shapes;
+        } else {
+            shapes = cache.shapes = canvas.stage.find('.shape');
+        }
+
         for(var i in shapes) {
             var shape = shapes[i];
-            if (!(shape instanceof Kinetic.Shape) || typeof shape !== "object") {
+            if (!(shape instanceof Kinetic.Rect) || typeof shape !== "object") {
                 continue;
             }
             if (shape.intersects(point)) {
@@ -496,9 +504,14 @@
         }
     };
 
+    $.fn.canvasMap.clearCache = function () {
+        cache = {};
+    };
+
     $.fn.canvasMap.drawPathFromCategories = function(categories, initialPosition, finalPosition) {
         // Delete existing routes if any
         $.fn.canvasMap.deleteExistingRoutes();
+        $.fn.canvasMap.clearCache();
 
         // Move user to position
         $.fn.canvasMap.positionUser(initialPosition);
