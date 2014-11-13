@@ -39,9 +39,11 @@ class Compraondemand extends Api_Controller
 
             if ($info_producto)
             {
-                $descripcion = $info_producto->producto . " " . $info_producto->marca;
+                $descripcion_detalle = $info_producto->producto . " " . $info_producto->marca;
+                $descripcion =  $info_producto->producto;
                 unset ( $info_producto->marca );
                 unset ( $info_producto->producto );
+                $info_producto->descripcion_detalle = $descripcion_detalle;
                 $info_producto->descripcion = $descripcion;
             }
         }
@@ -55,11 +57,13 @@ class Compraondemand extends Api_Controller
 
             if ($info_producto)
             {
-                $descripcion = $info_producto->generico . " " . $info_producto->marca . " " . $info_producto->presentacion . " " . $info_producto->descripcion;
+                $descripcion_detalle = $info_producto->generico . " " . $info_producto->marca . " " . $info_producto->presentacion . " " . $info_producto->descripcion;
+                $descripcion = $info_producto->generico;
                 unset ( $info_producto->generico );
                 unset ( $info_producto->marca );
                 unset ( $info_producto->presentacion );
                 unset ( $info_producto->descripcion );
+                $info_producto->descripcion_detalle = $descripcion_detalle;
                 $info_producto->descripcion = $descripcion;
             }
         }
