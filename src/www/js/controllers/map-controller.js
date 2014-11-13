@@ -58,7 +58,6 @@ angular.module('EPA.controllers')
                     productoEncontrado = producto;
                 }
             });
-            
            return productoEncontrado;
         };
         
@@ -68,6 +67,8 @@ angular.module('EPA.controllers')
             } else {
                 producto = $scope.traerDeLista(producto);
             }
+            producto.comprado = true;
+
             $scope.listaVigente.productos.push(producto);
         };
         
@@ -79,8 +80,7 @@ angular.module('EPA.controllers')
             );
         };
         
-        $scope.agregarProduto = function () {
-            debugger;
+        $scope.agregarProducto = function () {
             $scope.listaVigente = $scope.obtenerLista();
             $scope.leerQr($scope.agregarALista);
         };

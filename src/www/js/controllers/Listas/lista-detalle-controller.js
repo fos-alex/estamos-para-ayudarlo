@@ -11,10 +11,10 @@ angular.module('EPA.controllers')
         Lista.get($stateParams.idLista, {}).then(function(response) {
             $scope.lista = response;
             
-            if ($scope.lista.bloqueada === '1'){
-                if($scope.currentUser === $scope.lista.edita){
+            if ($scope.lista.bloqueada === '1') {
+                if ($scope.currentUser === $scope.lista.edita) {
                     $scope.tienePermiso = true;
-                }else{
+                } else {
                     $scope.tienePermiso = false;
                 };
             };

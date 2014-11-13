@@ -2,7 +2,7 @@ angular.module('EPA.controllers')
 
 .controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map', 'Producto',
     function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map, Producto) {
-        $scope.createdList = Session.get('createdList') || {};
+        $scope.createdList = Lista.listaVigente || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Compra";
 
         $scope.deleteItem = function (index) {
@@ -136,7 +136,6 @@ angular.module('EPA.controllers')
                     }
                 }        
             }   
-            debugger;
             Map.load($scope.rubros, $scope.categoriaActual);
             $state.go('app.map');
       }; 
