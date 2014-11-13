@@ -63,7 +63,7 @@ angular.module('EPA.services')
                             idSucursal:     this.getSucursal() || null,
                             position:       this.getPosicion() || "entrance"
                         },
-                        refresh:        map.refresh || true
+                        refresh:        map.refresh || false
                     };
                 }
             };

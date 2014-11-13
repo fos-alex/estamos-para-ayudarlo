@@ -180,7 +180,7 @@
             stroke: '#B8D2FF',
             fill: '#145fd7',
             strokeWidth: 2,
-            radius: 10,
+            radius: 16,
             name: 'user'
         });
 
@@ -249,10 +249,11 @@
         var shapeInPoint = false;
         var shapes = canvas.stage.find('.shape');
         for(var i in shapes) {
-            if (typeof shapes[i] !== "object") {
+            var shape = shapes[i];
+            if (!(shape instanceof Kinetic.Shape) || typeof shape !== "object") {
                 continue;
             }
-            if (shapes[i].intersects(point)) {
+            if (shape.intersects(point)) {
                 shapeInPoint = true;
                 break;
             }
