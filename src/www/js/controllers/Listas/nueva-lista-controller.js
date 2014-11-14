@@ -3,7 +3,8 @@ angular.module('EPA.controllers')
 .controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map',
     function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map) {
 //        $scope.createdList = Lista.listaVigente || {};
-        $scope.createdList = Session.get('createdList') || {};
+        debugger;
+       $scope.createdList = Session.get('createdList') || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Compra";
 
         $scope.deleteItem = function (index) {
@@ -84,6 +85,8 @@ angular.module('EPA.controllers')
                 this.createdList.productos.push(productoNuevo);
                 Session.set('createdList', this.createdList);
             } else {
+                productoNuevo.id = productoNuevo.id_generico; //cuando lo guardo como lista de compra, seteo el id generico como id...
+                productoNuevo.cantidad = 1;                
                 $scope.createdList.productos.push(productoNuevo);
             }
             Lista.save(this.createdList); //@TODO: SAVE DE LISTA DETALLE
