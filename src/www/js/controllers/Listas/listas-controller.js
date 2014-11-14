@@ -1,19 +1,18 @@
 angular.module('EPA.controllers')
 
-.controller('ListasCtrl', ['$scope', '$stateParams', 'Lista', 'Session',
-    function($scope, $stateParams, Lista, Session) {
+.controller('ListasCtrl', ['$scope', '$stateParams', 'Lista',
+    function($scope, $stateParams, Lista) {
         $scope.shouldShowDelete = false;
 
-        Session.set('createdList', {});
+        $scope.listaVigente = Lista.listaVigente;
         Lista.get("", {refreshCache: true}).then(function(response) {
-            if(response){
+            if (response) {
                 $scope.listas = response.sort(function(a,b){
                     return (b.id - a.id)
                 });
             };
         });
 
-        
         $scope.deleteResponse = {
             message: "",
             notifyShow: false,
@@ -34,4 +33,5 @@ angular.module('EPA.controllers')
                 $scope.deleteResponse.message = response.mensaje;
             });
         };
+
 }])

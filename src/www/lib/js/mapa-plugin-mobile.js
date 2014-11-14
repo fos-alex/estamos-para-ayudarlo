@@ -9,7 +9,8 @@
         layer: {}
     },
         categorias = null,
-        opts = {};
+        opts = {},
+        cache = {};
 
 
     $.fn.canvasMap = function (options, callback) {
@@ -102,23 +103,23 @@
             canvas.stage.draw();
             canvas.layer = canvas.stage.getLayers()[0];
             that.loadImages(canvas.layer);
-            if (callback) {
-                callback();
-            }
+            if (callback) callback();
         });
     };
 
-    $.fn.canvasMap.loadImages = function(layer){
+    $.fn.canvasMap.loadImages = function(layer) {
         var stage = layer.getStage();
-        var that = this;
         var images = stage.find('Image');
-        $.each(images, function () {
-            that.createImage(stage, this);
-        });
+        for(var i in images) {
+            if (typeof images[i] !== "object") {
+                continue;
+            }
+            this.createImage(stage, images[i]);
+        }
         stage.draw();
     };
 
-    $.fn.canvasMap.createImage = function(stage, image){
+    $.fn.canvasMap.createImage = function(stage, image) {
         var url = canvas.objects.images[image.getId()]['url'];
         var splittedUrl = url.split("/");
         var imageName = splittedUrl[splittedUrl.length - 1];
@@ -150,17 +151,20 @@
             shape = [shape[0]];
         }
 
-        $.each(shape, function() {
-            var id = this.getId();
+        for(var i in shape) {
+            if (typeof shape[i] !== "object") {
+                continue;
+            }
+            var id = shape[i].getId();
             if (id) {
                 for (var collection in canvas.objects) {
-                    if (collection[id]) {
-                        delete collection[id];
+                    if (canvas.objects[collection][id]) {
+                        delete canvas.objects[collection][id];
                     }
                 }
             }
             shape.remove();
-        });
+        }
     };
 
     $.fn.canvasMap.getUserShape = function(position){
@@ -177,7 +181,7 @@
             stroke: '#B8D2FF',
             fill: '#145fd7',
             strokeWidth: 2,
-            radius: 10,
+            radius: 16,
             name: 'user'
         });
 
@@ -243,12 +247,25 @@
     };
 
     $.fn.canvasMap.shapeInPoint = function (point) {
-        var shapeInPoint = false;
-        $.each(canvas.stage.find('.shape'), function () {
-            if (this.intersects(point)) {
-                shapeInPoint = true;
+        var shapeInPoint = false,
+            shapes = null;
+
+        if (cache && cache.shapes) {
+            shapes = cache.shapes;
+        } else {
+            shapes = cache.shapes = canvas.stage.find('.shape');
+        }
+
+        for(var i in shapes) {
+            var shape = shapes[i];
+            if (!(shape instanceof Kinetic.Rect) || typeof shape !== "object") {
+                continue;
             }
-        });
+            if (shape.intersects(point)) {
+                shapeInPoint = true;
+                break;
+            }
+        }
         return shapeInPoint;
     };
 
@@ -480,16 +497,21 @@
         }
         // Iterate through routes and delete each one
         if (routes.length > 0) {
-            $.each(routes, function () {
-                $.fn.canvasMap.deleteRoute(this.routeName);
-            });
+            for(var i in routes) {
+                $.fn.canvasMap.deleteRoute(routes[i]['routeName']);
+            }
             routes = [];
         }
+    };
+
+    $.fn.canvasMap.clearCache = function () {
+        cache = {};
     };
 
     $.fn.canvasMap.drawPathFromCategories = function(categories, initialPosition, finalPosition) {
         // Delete existing routes if any
         $.fn.canvasMap.deleteExistingRoutes();
+        $.fn.canvasMap.clearCache();
 
         // Move user to position
         $.fn.canvasMap.positionUser(initialPosition);

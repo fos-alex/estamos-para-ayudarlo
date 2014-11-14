@@ -4,26 +4,26 @@ angular.module('EPA.services')
         'Notificaciones', ['$q','CONFIG','$rootScope','$cookies','$filter',
             function($q,CONFIG,$rootScope,$cookies,$filter) {
                 return {
-                    enable_promos: function(){
+                    enablePromos: function(){
                         $rootScope.configuracion.notificacion_promo = true;
                         $cookies.configuracion = $filter('json')($rootScope.configuracion);
                     },
-                    disable_promos: function(){
+                    disablePromos: function(){
                         $rootScope.configuracion.notificacion_promo = false;
                         $cookies.configuracion = $filter('json')($rootScope.configuracion);
                     },
-                    status_promos: function(){
+                    statusPromos: function(){
                         return $rootScope.configuracion.notificacion_promo || false;
                     },
-                    enable_cerca: function(){
+                    enableCerca: function(){
                         $rootScope.configuracion.notificacion_cerca = true;
                         $cookies.configuracion = $filter('json')($rootScope.configuracion);
                     },
-                    disable_cerca: function(){
+                    disableCerca: function(){
                         $rootScope.configuracion.notificacion_cerca = false;
                         $cookies.configuracion = $filter('json')($rootScope.configuracion);
                     },
-                    status_cerca: function(){
+                    statusCerca: function(){
                         return $rootScope.configuracion.notificacion_cerca || false;
                     }
 

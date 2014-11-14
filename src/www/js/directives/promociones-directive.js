@@ -6,7 +6,7 @@ angular.module('EPA.directives')
 	return {
         restrict: 'A',
         link: function(scope, element, attrs){ 
-        	if(Notificaciones.status_promos()){
+        	if(Notificaciones.statusPromos()){
 	        	Promociones.get().then(function(response) {
 	                scope.promociones = response;
 	                $ionicPopup.show({
