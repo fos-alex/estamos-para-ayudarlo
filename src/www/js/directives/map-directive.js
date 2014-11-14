@@ -14,6 +14,9 @@ angular.module('EPA.directives', [
                 if (config.position !== configActual.position) {
                     return true;
                 }
+                if (!config.categories || !configActual.categories) {
+                    return true;
+                }
                 if (config.categories.toString() !== configActual.categories.toString()) {
                     return true;
                 }
