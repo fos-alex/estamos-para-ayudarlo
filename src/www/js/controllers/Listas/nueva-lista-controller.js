@@ -3,13 +3,11 @@ angular.module('EPA.controllers')
 .controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map',
     function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map) {
 //        $scope.createdList = Lista.listaVigente || {};
-        debugger;
-       $scope.createdList = Session.get('createdList') || {};
+        $scope.createdList = {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Compra";
 
         $scope.deleteItem = function (index) {
             $scope.createdList.productos.splice(index, 1);
-            Session.set('createdList', this.createdList);
         };
 
         $scope.showConfirm = function() {
@@ -27,7 +25,6 @@ angular.module('EPA.controllers')
 
         $scope.deleteAllItems = function () {
             $scope.createdList = {};
-            Session.set('createdList', this.createdList);
         };
 
         $scope.saveList = function () {
@@ -40,7 +37,6 @@ angular.module('EPA.controllers')
         }
 
         $scope.newItem = function () {
-            Session.set('createdList', $scope.createdList);
             $state.go('app.nuevoItemLista');
         }
 
@@ -83,7 +79,6 @@ angular.module('EPA.controllers')
                 productoNuevo.id = productoNuevo.id_generico; //cuando lo guardo como lista de compra, seteo el id generico como id...
                 productoNuevo.cantidad = 1;
                 this.createdList.productos.push(productoNuevo);
-                Session.set('createdList', this.createdList);
             } else {
                 productoNuevo.id = productoNuevo.id_generico; //cuando lo guardo como lista de compra, seteo el id generico como id...
                 productoNuevo.cantidad = 1;                

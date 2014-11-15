@@ -2,12 +2,11 @@ angular.module('EPA.controllers')
 
 .controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista',
     function($scope, $state, $location, $ionicPopup, Session, Lista) {
-        $scope.createdList = Session.get('createdList') || {};
+        $scope.createdList = {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Lista";
 
         $scope.deleteItem = function (index) {
             $scope.createdList.productos.splice(index, 1);
-            Session.set('createdList', this.createdList);
         }
 
         $scope.showConfirm = function() {
@@ -38,7 +37,6 @@ angular.module('EPA.controllers')
         }
 
         $scope.newItem = function () {
-            Session.set('createdList', $scope.createdList);
             $state.go('app.nuevoItemLista');
         }
 
