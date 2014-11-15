@@ -4,7 +4,7 @@ angular.module('EPA.services')
                 var maxMatches = 5;
                 var language = "es-AR";
                 return {
-                    capturar_disabled: function () {
+                    capturar: function () {
                         var deferred = $q.defer();
                         var txt = window.prompt('asds');
                         if(txt){
@@ -14,7 +14,7 @@ angular.module('EPA.services')
                         }
                         return deferred.promise;
                     },                    
-                    capturar: function(){
+                    capturar_disabled: function(){
                         var deferred = $q.defer();
                         var resultCallback = function(result){
                             var txt = result.results[0][0].transcript;

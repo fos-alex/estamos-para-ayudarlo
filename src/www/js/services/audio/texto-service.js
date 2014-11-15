@@ -3,7 +3,7 @@ angular.module('EPA.services')
     .factory('Texto', ['$q','CONFIG',function($q,CONFIG) {
                 var language = "es-AR";
                 return {
-                    reproducir_disabled: function (texto) {
+                    reproducir: function (texto) {
                         var deferred = $q.defer();
                         setTimeout(function(){
                             alert(texto);
@@ -11,7 +11,7 @@ angular.module('EPA.services')
                         },2000);
                         return deferred.promise;
                     },
-                    reproducir: function(texto){
+                    reproducir_disabled: function(texto){
                         var deferred = $q.defer();
                         navigator.tts.startup(function(){
                             navigator.tts.setLanguage(language, function(){

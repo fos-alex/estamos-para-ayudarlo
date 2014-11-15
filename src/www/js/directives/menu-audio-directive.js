@@ -57,7 +57,7 @@ angular.module('EPA.directives')
             scope.$watch(attrs.menuAudioConfig,function(value){
                 scopeActual = scope;
                 config = value || config;    
-                config.callback = config.ruta && convertirRuta || scope[config.callback];
+                config.callback = config.ruta && convertirRuta || config.callback;
                 if(ModoAudio.status()){
                     Texto.reproducir('Presione la pantalla');
                     button.addClass('active');
