@@ -1,8 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('MapCtrl', [
-            '$scope', '$state', '$ionicPopup', 'QRReader', 'Map', 'Sucursal', 'Notificaciones', 'Promociones',
-    function($scope, $state, $ionicPopup, QRReader, Map, Sucursal, Notificaciones, Promociones) {
+.controller('MapCtrl', ['$scope', '$state', '$ionicPopup', 'QRReader', 'Map', 'Sucursal', 'Notificaciones', 'Promociones', 'Lista', 'Producto', 'ProductoDetalle', 
+    function($scope, $state, $ionicPopup, QRReader, Map, Sucursal, Notificaciones, Promociones, Lista, Producto, ProductoDetalle) {
         $scope.squares = [];
 
         $scope.map = Map.getConfig();
@@ -24,9 +23,8 @@ angular.module('EPA.controllers')
                             if (!response.id_sucursal) {
                                 alert("El QR escaneado no tiene la sucursal. Escanee otro.");
                             }
-                            $scope.map.config.idSucursal = response.id_sucursal;
+                            Sucursal.idSucursal = $scope.map.config.idSucursal = response.id_sucursal;
                         });
-                        return true;
                     }
                 }]
             });
@@ -74,6 +72,86 @@ angular.module('EPA.controllers')
             Map.setCategorias(['Panificados', 'Lacteos']);
             Map.refresh();
         };
+
+        $scope.leerQr = function(callback) {
+            QRReader.read(function (err, response) {
+                callback(response);
+            });
+        };
+        
+        $scope.estaEnLista = function (id){
+            var found = false;
+            angular.forEach($scope.listaVigente.productos, function (producto) {
+                if (found) return;     
+                if (parseInt(producto.id) === id) {
+                    found = true;
+                }
+            });
+            return found;
+        };
+        
+        $scope.traerDeLista = function (id){
+            var productoEncontrado = null;
+            angular.forEach($scope.listaVigente.productos, function (producto) {
+                if (parseInt(producto.id) === id) {
+                    productoEncontrado = producto;
+                }
+            });
+           return productoEncontrado;
+        };
+        
+        $scope.agregarALista = function (producto) {
+            if ($scope.estaEnLista(producto.id_generico)) {
+                producto = $scope.traerDeLista(producto.id_generico);
+                producto.comprado = true;
+            } else {
+                $scope.buscarProducto(producto.id, function (producto) {
+                    producto.comprado = true;
+                    producto.cantidad = 1;
+                    producto.id = producto.id_generico;
+                    $scope.listaVigente.productos.push(producto);
+                    Lista.save($scope.listaVigente).then(function () {
+                        Map.addCategoria(producto.categoria);
+                        Map.setPosicion(producto.categoria);
+                        $ionicPopup.show({
+                            templateUrl: 'templates/producto-agregado.html',
+                            scope: $scope,
+                            title: producto.descripcion + ' agregado',
+                            buttons:[{
+                                text: 'OK',
+                                type: 'button-primary'
+                            }]
+                        });
+                        Map.refresh();
+                    });
+                });
+            }
+        };
+        
+        $scope.buscarProducto = function(id, callback) {
+            ProductoDetalle.get(id).then(
+                function(response){
+                    callback(response.data.data);
+                }
+            );
+        };
+        
+        $scope.agregarProducto = function () {
+            $scope.listaVigente = $scope.obtenerLista();
+            $scope.leerQr($scope.agregarALista);
+        };
+
+        $scope.obtenerLista = function(){
+            if (!Lista.listaVigente){
+                Lista.listaVigente = {
+                    productos: []
+                };
+            }
+            return Lista.listaVigente;
+        };
+//        $scope.buscarProducto = function () {
+//
+//        };
 
     /*Sucursal Actual*/
 //    LO DEJO COMENTADO PARA NO ROMPER NADA
