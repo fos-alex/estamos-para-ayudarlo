@@ -53,6 +53,10 @@ angular.module('EPA.services')
                     map.refresh = true;
                     return this;
                 },
+                restartRefresh: function () {
+                    map.refresh = false;
+                    return this;
+                },
                 getRefresh: function () {
                     return map.refresh;
                 },

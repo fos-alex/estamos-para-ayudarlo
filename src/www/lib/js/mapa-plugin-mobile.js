@@ -89,6 +89,11 @@
         return text;
     };
 
+    $.fn.canvasMap.cambiarSucursal = function (url, callback) {
+        opts.url_mapa = url.url_mapa;
+        $.fn.canvasMap.loadMap(callback);
+    };
+
     $.fn.canvasMap.loadMap = function (callback){
         var that = this;
         $.getJSON(opts.url + opts.url_mapa, function (response) {

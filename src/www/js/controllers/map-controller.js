@@ -28,7 +28,9 @@ angular.module('EPA.controllers')
         }
 
         $scope.cambiarSucursal = function (idSucursal) {
-            Sucursal.idSucursal = $scope.map.config.idSucursal = idSucursal;
+            Sucursal.idSucursal = idSucursal;
+            Map.setSucursal(idSucursal);
+            Map.refresh();
         };
 
         $scope.esSucursal = function (data) {
@@ -38,10 +40,11 @@ angular.module('EPA.controllers')
         $scope.scan = function () {
             QRReader.read(function (err, response) {
                 if ($scope.esSucursal(response)) {
+                    alert("Cambio de sucursal a " + response.id_sucursal);
                     // Data para cambiar de sucursal
-                    return $scope.cambiarSucursal(response.id_sucursal);
+                    $scope.cambiarSucursal(response.id_sucursal);
+                    return Map.refresh();
                 }
-
                 // Data de producto
                 $scope.$parent.producto = response;
                 return $state.go('app.consultarProducto', {idProducto: $scope.$parent.producto.id});
@@ -73,9 +76,11 @@ angular.module('EPA.controllers')
 
         $scope.$watch(function() {return Map.getRefresh();}, function (newVal) {
             if (newVal) {
+                $scope.map.config.idSucursal = Map.getSucursal();
                 $scope.map.config.categories = Map.getCategorias();
                 $scope.map.config.position = Map.getPosicion();
                 $scope.map.refresh = true;
+                Map.restartRefresh();
             }
         });
 
