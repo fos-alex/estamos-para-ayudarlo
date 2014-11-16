@@ -1,18 +1,19 @@
-<ion-view title="EPA"> <!-- HEADER --> <ion-header-bar
+<!-- <ion-view title="EPA"> HEADER <ion-header-bar
 	class="bar-positive centrado" animation="slide-left-right-ios7">
 <a class="tab-item backHeader" href="#/app/menu"> <i
 	class="ion-arrow-left-c footerIconos"></i>
 </a>
 <h1 class="title centrado">Supermercados cercanos</h1>
-<img class="logoHeader" src="./img/carrito.png"> </ion-header-bar> 
+<img class="logoHeader" src="./img/carrito.png"> </ion-header-bar>  -->
 
-<ion-content>
+
 	<div class="list" show-delete='true'>
+	<ion-scroll direction="y">
 		<a class="item item-text-wrap" ng-repeat="item in supermercados">
 			<h2>{{item.super}}</h2>
 			<p></p>
 			<p>Direccion: {{item.direccion}}</p>
 			<p>Distancia en metros: {{item.distancia_en_metros}}</p>
 		</a>
+	</ion-scroll>
 	</div>
-</ion-content> </ion-view>

@@ -38,7 +38,7 @@ angular.module('EPA.controllers')
 
 }])
 
-.controller('GestorDeNotificacionesCtrl', ['$scope','$ionicPopup','$state', 'Promociones','Notificaciones',function($scope,$ionicPopup,$state, Promociones, Notificaciones) {
+.controller('GestorDeNotificacionesCtrl', ['$scope','$ionicPopup','$state', 'Promociones','Notificaciones','superCercanos',function($scope,$ionicPopup,$state, Promociones, Notificaciones,superCercanos) {
     $scope.notificacion_promo = {enable: Notificaciones.statusPromos() };
     $scope.notificacion_cerca = {enable: Notificaciones.statusCerca() };
 
@@ -71,5 +71,41 @@ angular.module('EPA.controllers')
                         type: 'button-primary'
                     }]});
             });
-    };
+    },    
+    
+    
+    $scope.superCercanos2 = function() {
+		navigator.geolocation.getCurrentPosition(function(success) {
+			var position = success.coords;
+			$scope.latitud = position.latitude;
+			$scope.longitud = position.longitude;
+			$scope.superCercanos();
+			$scope.$apply();
+
+		}, function(error) {
+			alert('error ' + error);
+
+		});
+		
+		$scope.superCercanos = function() {
+			$scope.supermercados= null;
+			
+			superCercanos.notificar_cercania(this.latitud,
+					this.longitud).then(
+
+	            function(response) {
+	            	$scope.supermercados=response.data.data;
+	                $ionicPopup.show({
+	                    templateUrl: 'templates/geolocalization.html',
+	                    scope: $scope,
+	                    title: 'Supermercados Cercanos',
+	                    buttons:[{
+	                        text: 'OK',
+	                        type: 'button-primary'
+	                    }]});
+	            });
+	    };
+		
+	};
+    
 }]);

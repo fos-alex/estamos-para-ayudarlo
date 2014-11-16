@@ -4,8 +4,8 @@ angular.module('EPA.controllers')
 		'GeolocalizationCtrl',
 		[
 				'$scope',
-				'superCercanos',
-				function($scope, superCercanos) {
+				'superCercanos','$ionicPopup',
+				function($scope, superCercanos,$ionicPopup) {
 					navigator.geolocation.getCurrentPosition(function(success) {
 						var position = success.coords;
 						$scope.latitud = position.latitude;
@@ -17,12 +17,24 @@ angular.module('EPA.controllers')
 						alert('error ' + error);
 
 					});
+					
 					$scope.superCercanos = function() {
+						$scope.supermercados= null;
+						
 						superCercanos.notificar_cercania(this.latitud,
-								this.longitud).then(function(response) {
-									$scope.supermercados=response.data.data,
-							$scope.mostrarDetalle = true;
-						}, function(error) {
-						});
-					};
+								this.longitud).then(
+
+				            function(response) {
+				            	$scope.supermercados=response.data.data;
+				                $ionicPopup.show({
+				                    templateUrl: 'templates/geolocalization.html',
+				                    scope: $scope,
+				                    title: 'Supermercados Cercanos',
+				                    buttons:[{
+				                        text: 'OK',
+				                        type: 'button-primary'
+				                    }]});
+				            });
+				    };
+					
 				} ]);
