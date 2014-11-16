@@ -48,7 +48,6 @@
         }
         options = $.extend(defaultOptions, options);
 
-
         if (!position || position === "entrance") {
             // Position user at entrance by default
             position = canvas.stage.find('.entrance')[0].getPosition();
@@ -74,8 +73,7 @@
     };
 
     $.fn.canvasMap.removeElement = function () {
-        var element = canvas.selectedElement;
-        element.remove();
+        canvas.selectedElement.remove();
         canvas.stage.draw();
     };
 
@@ -138,11 +136,6 @@
         oImage.src = imageName;
     };
 
-
-    $.fn.canvasMap.adaptToMobile = function (){
-
-
-    };
 
     $.fn.canvasMap.removeShape = function (selector, options){
         var defaultOptions = {
@@ -218,19 +211,31 @@
                 routes[ix].push(lastRoute);
             }
             canvas.objects.routes.push(lastRoute);
-            $.fn.canvasMap.drawRouteInLines(lastRoute);
+            var routeOptions = {
+                color: 'red'
+            }
+            if (ix === 0) {
+                // First route
+                routeOptions.color = '#145fd7';
+            }
+            $.fn.canvasMap.drawRouteInLines(lastRoute, routeOptions);
             positions[ix + 1] = lastRoute.finalPosition;
         });
     };
 
-    $.fn.canvasMap.drawRouteInLines = function (route) {
+    $.fn.canvasMap.drawRouteInLines = function (route, options) {
+        var defaultOptions = {
+            color: 'red'
+        }
+        options = $.extend(defaultOptions, options);
+
         var linePoints = [],
             that = this;
         $.each(route.path, function (ix, el) {
-            var prevEl = route[ix - 1];
-            var nextEl = route[ix + 1];
+            var prevEl = route.path[ix - 1];
+            var nextEl = route.path[ix + 1];
             if (!prevEl || !nextEl || el.y === prevEl.y && el.y !== nextEl.y || el.x === prevEl.x && el.x !== nextEl.x ) {
-              linePoints.push(el);
+                linePoints.push(el);
             }
         });
         $.each(linePoints, function (ix) {
@@ -240,7 +245,7 @@
             }
             canvas.layer.add(new Kinetic.Line({
                 points: [prevPoint.x, prevPoint.y, this.x, this.y],
-                stroke: 'red',
+                stroke: options.color,
                 strokeWidth: 10,
                 lineCap: 'round',
                 lineJoin: 'round',
@@ -278,7 +283,8 @@
         var defaultOptions = {
             color: '#145fd7',
             radius: 4,
-            name:  "mark"
+            name:  "mark",
+            redraw: false
         };
         options = $.extend(defaultOptions, options);
 
@@ -292,7 +298,9 @@
             name: options.name
         });
         canvas.layer.add(user);
-        return canvas.stage.draw();
+        if (options.redraw) {
+            return canvas.stage.draw();
+        }
     };
 
     $.fn.canvasMap.deleteRoute = function (name) {
@@ -318,7 +326,7 @@
             path = [],
             pathLength = 0;
         //$.fn.canvasMap.markPoint(origin, {color:"red", radius: 6, name: options.routeName});
-        $.fn.canvasMap.markPoint(dest, {color:"red", radius: 6, name: options.routeName});
+        $.fn.canvasMap.markPoint(dest, {color:"red", radius: 6, name: options.routeName, redraw: false});
         while (!$.fn.canvasMap.hasArrivedToPosition (position, dest) &&
                 (position.x != dest.x || position.y != dest.y)
         ) {
@@ -488,12 +496,19 @@
         return response;
     };
 
-    $.fn.canvasMap.positionUser = function(position) {
+    $.fn.canvasMap.positionUser = function(position, options) {
+        var defaultOptions = {
+            redraw: false
+        };
+        options = $.extend(defaultOptions, options);
+
         // Delete existing user shape and create new one in position
         this.removeShape('.user');
         var user = this.getUserShape(position);
         canvas.layer.add(user);
-        canvas.stage.draw();
+        if (options.redraw) {
+            canvas.stage.draw();
+        }
     };
 
     $.fn.canvasMap.deleteExistingRoutes = function (routes) {
