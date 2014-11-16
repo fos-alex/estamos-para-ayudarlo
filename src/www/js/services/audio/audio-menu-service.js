@@ -16,12 +16,12 @@ angular.module('EPA.services')
                 $state.go('app.comprar');
             }else if(/lista/.test(texto)){
                 $state.go('app.listas');
-            }else if(/estadística/.test(texto) ||
+            }else if(/estad(í|i)stica/.test(texto) ||
                 /reporte/.test(texto)){
                 $state.go('app.estadisticas');
             }else if(/mapa/.test(texto)){
                 $state.go('app.map');
-            }else if(/menu/.test(texto) ||
+            }else if(/men(ú|u)/.test(texto) ||
                 /inicio/.test(texto)){
                 $state.go('app.menu');
             }else if(/salir/.test(texto)){

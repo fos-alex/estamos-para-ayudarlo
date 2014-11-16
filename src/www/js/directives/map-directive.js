@@ -1,7 +1,7 @@
 angular.module('EPA.directives', [
 ])
 
-.directive('canvasMap', function(){
+.directive('canvasMap', ['$ionicLoading', function($ionicLoading) {
     return {
         restrict: 'E',
         scope :{
@@ -41,16 +41,20 @@ angular.module('EPA.directives', [
                     }
                     if (newValue && cambioConfig(scope.config)) {
                         configActual = $.extend(true, {}, scope.config);
+                        $ionicLoading.show({template: 'Procesando rutas'});
                         $.fn.canvasMap.createRoute(scope.config.categories, scope.config.position);
+                        $ionicLoading.hide();
                         scope.refresh = false;
                     }
                 });
                 if (cambioConfig(scope.config)) {
                     configActual = $.extend(true, {}, scope.config);
+                    $ionicLoading.show({template: 'Procesando rutas'});
                     $.fn.canvasMap.createRoute(scope.config.categories, scope.config.position);
+                    $ionicLoading.hide();
                     scope.refresh = false;
                 }
             });
         }
     };
-});
+}]);

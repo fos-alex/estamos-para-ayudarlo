@@ -33,5 +33,15 @@ angular.module('EPA.controllers')
                 $scope.deleteResponse.message = response.mensaje;
             });
         };
+        
+        $scope.nuevaLista = function(){
+          Lista.listaVigente = {};
+          $state.go('app.nuevaLista');
+        };
+        
+        $scope.nuevaCompra = function(){
+          Lista.listaVigente = {};
+          $state.go('app.nuevaCompra');
+        };
 
 }])

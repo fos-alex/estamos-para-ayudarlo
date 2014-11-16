@@ -15,9 +15,7 @@
     </ion-header-bar>
     <!-- BODY -->
     <ion-content  has-header="true" has-footer="true">
-        <ion-list
-          show-delete="shouldShowDelete"
-        >
+        <ion-list show-delete="shouldShowDelete">
             <ion-item ng-repeat="lista in listas" href="#/app/listas/{{lista.id}}" class="listaItem">
                 <h2 class="listaItem">{{lista.nombre || 'Lista Sin Nombre'}}</h2>
 

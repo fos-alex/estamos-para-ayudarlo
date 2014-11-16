@@ -4,7 +4,9 @@ angular.module('EPA.services')
     ['$http' ,'$state', '$rootScope', '$q', '$timeout', 'CONFIG',
         function mapFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
         {
-            var map = {};
+            var map = {
+                categorias: []
+            };
 
             return {
                 load: function (categorias, posicion) {

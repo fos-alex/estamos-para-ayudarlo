@@ -2,15 +2,22 @@ angular.module('EPA.services')
 
     .factory('Texto', ['$q','CONFIG',function($q,CONFIG) {
                 var language = "es-AR";
+
+                if (typeof cordova === 'undefined') {
+                    // Devuelvo un service de texto si estoy por web
+                    return {
+                        reproducir: function (texto) {
+                            var deferred = $q.defer();
+                            setTimeout(function(){
+                                alert(texto);
+                                deferred.resolve();
+                            },2000);
+                            return deferred.promise;
+                        }
+                    }
+                }
+
                 return {
-                    reproducir_disabled: function (texto) {
-                        var deferred = $q.defer();
-                        setTimeout(function(){
-                            alert(texto);
-                            deferred.resolve();
-                        },2000);
-                        return deferred.promise;
-                    },
                     reproducir: function(texto){
                         var deferred = $q.defer();
                         navigator.tts.startup(function(){

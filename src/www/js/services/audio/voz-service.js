@@ -3,17 +3,24 @@ angular.module('EPA.services')
     .factory('Voz', ['$q','CONFIG', function($q,CONFIG) {
                 var maxMatches = 5;
                 var language = "es-AR";
-                return {
-                    capturar_disabled: function () {
-                        var deferred = $q.defer();
-                        var txt = window.prompt('asds');
-                        if(txt){
-                            deferred.resolve(txt);    
-                        }else{
-                            deferred.reject();    
+
+                if (typeof cordova === 'undefined') {
+                    // Devuelvo un service de texto si estoy por web
+                    return {
+                        capturar: function () {
+                            var deferred = $q.defer();
+                            var txt = window.prompt('asds');
+                            if(txt){
+                                deferred.resolve(txt);
+                            }else{
+                                deferred.reject();
+                            }
+                            return deferred.promise;
                         }
-                        return deferred.promise;
-                    },                    
+                    }
+                }
+
+                return {
                     capturar: function(){
                         var deferred = $q.defer();
                         var resultCallback = function(result){
