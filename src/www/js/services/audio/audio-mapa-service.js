@@ -11,26 +11,27 @@ angular.module('EPA.services')
 
 	    api.agregarCategoria = function(texto) {
 	    	var categoria;
-            if ( /l(á|a)cteos/.test(texto) ||
+            if ( /l(á|a)cteo(s)?/.test(texto) ||
                 /leche/.test(texto) ) {
                 categoria='Lacteos';
-            } else if( /panificados/.test(texto) ) {
+            } else if( /panificado(s)?/.test(texto) ) {
                 categoria='Panificados';
             } else if( /almac(é|e)n/.test(texto) ) {
                 categoria='Almacen';
-            } else if( /bebidas/.test(texto) ) {
+            } else if( /bebida(s)?/.test(texto) ) {
                 categoria='Bebidas';
-            } else if( /carnes/.test(texto) ) {
+            } else if( /carne(s)?/.test(texto) ) {
                 categoria='Carnes y Procesados';
-            } else if( /limpieza/.test(texto) ) {
+            } else if( /limpieza(s)?/.test(texto) ) {
                 categoria='Limpieza';
-            } else if( /perfumer(í|i)a/.test(texto) ) {
+            } else if( /perfumer(í|i)a(s)?/.test(texto) ) {
                 categoria='Perfumeria';
             } else {
                 Texto.reproducir('No reconocido');
                 alert("Producto buscado "+ texto);
                 return;
             }
+            Texto.reproducir('Se agrega categoría ' + categoria + ' a la lista.');
             Map.addCategoria(categoria);
             Map.refresh();
 	    };
