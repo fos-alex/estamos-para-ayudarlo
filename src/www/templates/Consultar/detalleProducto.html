@@ -13,15 +13,15 @@
         <div class="list card">
 
           <div class="item item-avatar consultar-tabla">
-            <img src="./img/carrito.png">
+              <img class="logoCuidados"  ng-show="(producto.id)>=10000?1:0" src="./img/pcuidado.png">
             <h2><strong>Nombre: </strong>{{producto.nombre}}</h2>
             <p><strong>Descripción: </strong>{{producto.descripcion}}</p>
             <p><strong>Precio: </strong>${{producto.precio}}</p>
           </div>
 
-          <div class="item item-body consultar-tabla">
+          <div class="item item-body consultar-tabla centrado">
             <img ng-src="{{producto.imagen}}" class="consultar-imagen centrado">
-            <p><strong>Información Adicional: </strong>{{producto.info}}</p>
+<!--            <p><strong>Información Adicional: </strong>{{producto.info}}</p>-->
           </div>
         </div>
         </div>
