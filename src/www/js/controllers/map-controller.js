@@ -7,6 +7,8 @@ angular.module('EPA.controllers')
         $scope.map = Map.getConfig();
         if (Sucursal.idSucursal) {
             $scope.map.config.idSucursal = Sucursal.idSucursal;
+        } else if (Map.getSucursal()) {
+            $scope.map.config.idSucursal = Map.getSucursal();
         } else {
             $ionicPopup.show({
                 templateUrl: 'templates/descargar-mapa.html',

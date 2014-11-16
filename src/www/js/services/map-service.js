@@ -5,7 +5,8 @@ angular.module('EPA.services')
         function mapFactory ($http, $state, $rootScope, $q, $timeout, CONFIG)
         {
             var map = {
-                categorias: []
+                categorias: [],
+                idSucursal: null
             };
 
             return {
