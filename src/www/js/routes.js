@@ -256,15 +256,15 @@ angular.module('EPA')
                 }
             }
         })
-        .state('app.geo', {
-            url: "/geo",
-            views: {
-                'menuContent' :{
-                    templateUrl: "templates/geolocalization.html",
-                    controller: 'GeolocalizationCtrl'
-                }
-            }
-        })
+//        .state('app.geo', {
+//            url: "/geo",
+//            views: {
+//                'menuContent' :{
+//                    //templateUrl: "templates/geolocalization.html",
+//                    controller: 'GeolocalizationCtrl'
+//                }
+//            }
+//        })
         .state('app.map', {
             url: "/map",
             views: {
