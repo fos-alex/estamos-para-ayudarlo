@@ -26,6 +26,7 @@ angular.module('EPA.services')
                         },function(error){                            
                             deferred.reject();
                         });
+                        return deferred.promise;
                     }                    
                 };
             }
