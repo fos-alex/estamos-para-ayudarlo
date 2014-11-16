@@ -26,8 +26,12 @@ class Fbusuario extends Api_Controller
 	public function POST(){
 		$this->load->model ( 'users/user_model', null, true );
 		$fbuser = $this->JSON_IN;
+		if(array_key_exists("email", $fbuser)){
+			$this->error ( 408, "Ha ocurrido un error al registrar usuario. Intente nuevamente más tarde" );	
+			return;
+		}
+		
 		$usuario = $this->user_model->find_by ("email",$fbuser['email']);
-
 		if($usuario){
 				$set = array('facebook_id'=>$fbuser['id']);
 				$this->user_model->update($usuario->id,$set);
