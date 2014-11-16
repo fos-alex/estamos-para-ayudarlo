@@ -83,7 +83,7 @@ class promociones extends Api_Controller
 				
 		$coordenadas = array();
 		foreach ($sucursales as $key => $unaSucursal) {
-			$posicion = split(",", $unaSucursal->coordenadas);
+			$posicion = explode(",", $unaSucursal->coordenadas);
 			$latitud = trim($posicion[0], "(");
 			$longitud = trim($posicion[1], ")");
 // 			$distanciaEnGrados = sqrt(pow($latitud - $posX,2) + pow($longitud - $posY,2));
