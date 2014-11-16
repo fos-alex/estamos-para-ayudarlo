@@ -58,12 +58,10 @@ a:visited{
     background-size: cover;
 }
 
-.loginRegistrarse{
-    background-size: cover;
+.link{
     font-family: sans-serif;
-    font-size: 12px;
-    font-weight: bold;
-    color: #0F2E4C;
+    font-size: 96px;
+    text-align: center;
 }
 
 .loginTitulos{
