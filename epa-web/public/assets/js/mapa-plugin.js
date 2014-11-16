@@ -309,12 +309,12 @@
         var info = {
             text: 'Entrada',
             description: 'Por aquí entrarán los usuarios.',
-            image: $.fn.canvasMap.defaults.url + '/../assets/images/entrada.png'
+            image: '/assets/images/entrada.png'
         };
         if (data.exit) {
             info.text = 'Salida';
             info.description = 'Por aquí saldrán los usuarios.';
-            info.image = $.fn.canvasMap.defaults.url + '/../assets/images/salida.png';
+            info.image = '/assets/images/salida.png';
         }
         canvas.layer.add(newGroup);
 
@@ -508,7 +508,7 @@
             type: 'Góndola',
             description: 'Góndola de ' + categoria.nombre,
             categoria: categoria,
-            image: 'http://localhost/EPA-WEB/epa-web/public/assets/images/categorias/' + categoria.nombre.toLowerCase().replace(/\s+/g, '') + '.png'
+            image: '/assets/images/categorias/' + categoria.nombre.toLowerCase().replace(/\s+/g, '') + '.png'
         };
         canvas.layer.add(newGroup);
 
