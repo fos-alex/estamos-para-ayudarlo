@@ -15,7 +15,7 @@ angular.module('EPA.controllers')
 
 }])
 
-.controller('GestorDeMapasCtrl', ['$scope','buscarSucursales','Session', function($scope,buscarSucursales,Session) {
+.controller('GestorDeMapasCtrl', ['$scope','buscarSucursales','Session', function($scope, buscarSucursales, Session) {
 
     Session.set('mapasDescargados', {});
 

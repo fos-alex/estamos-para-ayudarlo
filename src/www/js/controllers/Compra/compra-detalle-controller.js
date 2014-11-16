@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams','$ionicPopup' , 'Lista', 'Session', 'User',
-    function($scope, $state, $stateParams,$ionicPopup , Lista , Session, User) {
+.controller('ListaDetalleCtrl', ['$scope', '$state', '$stateParams','$ionicPopup' , 'Lista', 'User',
+    function($scope, $state, $stateParams, $ionicPopup, Lista, User) {
 
         if (User.currentUser() != null){
            $scope.currentUser = User.currentUser().username;
@@ -21,13 +21,13 @@ angular.module('EPA.controllers')
         });
 
         $scope.editList = function () {
-            Session.set('createdList', $scope.lista);
+            Lista.listaVigente = $scope.lista;
             $state.go('app.nuevoItemLista');
         };
 
         $scope.showConfirm = function() {
             debugger;
-            if (Session.get('createdList').id === $scope.lista.id) {
+            if (Lista.listaVigente.id === $scope.lista.id) {
                 $ionicPopup.confirm({
                     title: 'Confirmación?',
                     template: '¿Estás seguro que deseas salir?'

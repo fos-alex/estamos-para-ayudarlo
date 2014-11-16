@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista',
-    function($scope, $state, $location, $ionicPopup, Session, Lista) {
+.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup', 'Lista',
+    function($scope, $state, $location, $ionicPopup, Lista) {
         $scope.createdList = {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Lista";
 
@@ -24,7 +24,7 @@ angular.module('EPA.controllers')
 
         $scope.deleteAllItems = function () {
             $scope.createdList = {};
-            Session.set('createdList', this.createdList);
+            Lista.listaVigente = this.createdList;
         }
 
         $scope.saveList = function () {

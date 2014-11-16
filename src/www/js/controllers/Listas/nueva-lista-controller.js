@@ -1,9 +1,8 @@
 angular.module('EPA.controllers')
 
-.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup' , 'Session', 'Lista', 'QRReader', 'ProductoDetalle','Map',
-    function($scope, $state, $location, $ionicPopup, Session, Lista, QRReader, ProductoDetalle, Map) {
-//        $scope.createdList = Lista.listaVigente || {};
-        $scope.createdList = {};
+.controller('NuevaListaCtrl', ['$scope', '$state','$location', '$ionicPopup', 'Lista', 'QRReader', 'ProductoDetalle','Map',
+    function($scope, $state, $location, $ionicPopup, Lista, QRReader, ProductoDetalle, Map) {
+        $scope.createdList = Lista.listaVigente || {};
         $scope.createdList.nombre = $scope.createdList.nombre || "Nueva Compra";
 
         $scope.deleteItem = function (index) {
@@ -11,14 +10,12 @@ angular.module('EPA.controllers')
         };
 
         $scope.showConfirm = function() {
-            var confirmPopup = $ionicPopup.confirm({
+            $ionicPopup.confirm({
                 title: 'Confirmación?',
                 template: '¿Estás seguro que deseas salir?'
-            });
-            confirmPopup.then(function(res) {
-                if(res) {
+            }).then(function(res) {
+                if (res) {
                     $state.go('app.listas');
-                } else {
                 }
             });
         };
@@ -88,12 +85,12 @@ angular.module('EPA.controllers')
         };
         
         $scope.aumentarCantidad = function (producto){
-            producto.cantidad = (producto.cantidad > 0)? producto.cantidad + 1: 1
+            producto.cantidad = (producto.cantidad > 0)? producto.cantidad + 1: 1;
             Lista.save(this.createdList);
         };
         
         $scope.disminuirCantidad = function (producto){
-            producto.cantidad = (producto.cantidad > 0)? producto.cantidad - 1: 1
+            producto.cantidad = (producto.cantidad > 0)? producto.cantidad - 1: 1;
             Lista.save(this.createdList);
         };
         
@@ -115,7 +112,7 @@ angular.module('EPA.controllers')
             for(var i=0; i< this.createdList.productos.length ;i++) {
                 if ($scope.rubros.length === 1){
                     $scope.rubros[i]= this.createdList.productos[i].categoria;                     
-                }else{
+                } else {
                     if ($scope.rubros.indexOf(this.createdList.productos[i].categoria) === -1) {
                         $scope.rubros[i] = this.createdList.productos[i].categoria;
                     }

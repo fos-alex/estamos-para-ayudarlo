@@ -1,8 +1,8 @@
 angular.module('EPA.controllers')
 
-.controller('NuevoItemListaCtrl', ['$scope', '$state','$ionicPopup' ,  'Producto', 'Session',
-    function($scope, $state,$ionicPopup , Producto, Session) {
-        $scope.createdList = Session.get('createdList') || {};
+.controller('NuevoItemListaCtrl', ['$scope', '$state', '$ionicPopup', 'Producto', 'Lista',
+    function($scope, $state, $ionicPopup, Producto, Lista) {
+        $scope.createdList = Lista.listaVigente || {};
 
         $scope.acceptList = function () {
             this.createdList = angular.extend(this.createdList, {
@@ -15,8 +15,7 @@ angular.module('EPA.controllers')
                 }
             }, this);
 
-            Session.set('createdList', this.createdList);
-                         
+            Lista.listaVigente = this.createdList;
             $state.go('app.nuevaLista');
         }
 

@@ -1,10 +1,10 @@
 angular.module('EPA.controllers')
 
-.controller('ComprarCtrl', ['$scope', '$stateParams', 'Lista', 'Session',
-    function($scope, $stateParams, Lista, Session) {
+.controller('ComprarCtrl', ['$scope', '$stateParams', 'Lista',
+    function($scope, $stateParams, Lista) {
         $scope.shouldShowDelete = false;
 
-        Session.set('createdList', {});
+        Lista.listaVigente = {};
         Lista.get("", {refreshCache: true}).then(function(response) {
             if(response){
                 $scope.listas = response.sort(function(a,b){

@@ -53,7 +53,7 @@
             // Position user at entrance by default
             position = canvas.stage.find('.entrance')[0].getPosition();
             // Adjust position to entrance's center
-            position.x -= 10;
+            position.x += 10;
             position.y += 30;
         } else if (position  && !(position.x && position.y)) {
             position = $.fn.canvasMap.getCoords(position);
