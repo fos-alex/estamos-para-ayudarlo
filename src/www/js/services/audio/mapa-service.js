@@ -7,15 +7,18 @@ angular.module('EPA.services')
     	api.element = null;
 		api.scope = null;
 		api.button = null;
+        api.loading = null;
 
 	    api.agregarCategoria = function(texto){
 	    	var categoria;
-            if( /lacteos/.test(texto) ){
+            if( /lacteos/.test(texto) ||
+                /leche/.test(texto) ){
                 categoria='Lacteos';
             }else if( /pan/.test(texto) ){
                 categoria='Panificados';
             }else{
                 Texto.reproducir('No reconocido');
+                alert("Producto buscado "+ texto);
                 return;
             }
             Map.addCategoria(categoria);
@@ -24,10 +27,13 @@ angular.module('EPA.services')
 
 	    api.capturarVoz= function(){
 	    	var button = angular.element(this);
+            button.data('api').loading.addClass('active');
             Voz.capturar().then(
                 function(texto){
+                    button.data('api').loading.removeClass('active');
                     button.data('api').agregarCategoria(texto);
                 },function(){
+                    button.data('api').loading.removeClass('active');
                     Texto.reproducir('No reconocido');
                 }
             );
@@ -35,12 +41,16 @@ angular.module('EPA.services')
 
     	api.init = function(scope,element){
     		this.button = angular.element('<a class="tab-item"><i class="icon ion-android-microphone footerIconos"></i></a>');
+            this.loading = angular.element("<div class='processing'><i class='ion-loading-a processing'></i></div>");
+            this.loading.addClass('modo-audio-button');
+            this.loading.removeClass('active');
 			this.scope = scope;
 			this.element = element;
     	};
 
     	api.run = function(){
 			this.element.find('ion-footer-bar').prepend(this.button);
+            this.element.prepend(this.loading);
             this.button.data('api',api);
             this.button.on('click',api.capturarVoz);
     	};

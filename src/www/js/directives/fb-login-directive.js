@@ -7,7 +7,7 @@ secret : 42d757114f3ae3d6dd4bd0b68fcf335a
 .directive('fbLogin', ['$window', '$state','User','$ionicLoading',function($window,$state,User,$ionicLoading){
 
     var getFacebookData = function(success,error){
-        facebookConnectPlugin.api( "me/?scope=email", ["email"],success,error);
+        facebookConnectPlugin.api( "me/?scope=id,email", ["id,email"],success,error);
     };
 
     var checkRegister = function(){
@@ -16,6 +16,7 @@ secret : 42d757114f3ae3d6dd4bd0b68fcf335a
                     $ionicLoading.hide();  
                     $state.go('app.menu');    
                 },function(failure){
+                    alert(JSON.stringify(userData));
                     User.registerUserFacebook(userData).then(function(response){
                         User.loginUserFacebook(userData.id).then(function(response){
                             $ionicLoading.hide();  
@@ -29,8 +30,8 @@ secret : 42d757114f3ae3d6dd4bd0b68fcf335a
                 }
             );
         },function(response){
-            facebookConnectPlugin.logout();
             $ionicLoading.hide();  
+            facebookConnectPlugin.logout();
             alert("Hubo un error conectando a Facebook, intente nuevamente.");
             console.log("DATA ERROR "+JSON.stringify(response));
         });
