@@ -77,7 +77,7 @@ class promociones extends Api_Controller
 		
 		$this->load->model('sucursales/sucursales_model', null, true);
 		$sucursales = $this->sucursales_model
-					->select('coordenadas, direccion, s.nombre, sucursales.nombre as sucursal')
+					->select('coordenadas, direccion, s.nombre, sucursales.nombre as sucursal,sucursales.id as id')
 					->join('supermercados s', 'id_supermercado = s.id')
 					->find_all();
 				
@@ -92,7 +92,7 @@ class promociones extends Api_Controller
 			//TODO: Agregar el filtro o pedirlo x parametro		
  			if ($distanciaEnMetros < $distanciaMaxima){
 				array_push($coordenadas, 
-					array("sucursal"=>$unaSucursal->sucursal,"super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion,"distancia_en_metros"=> intval($distanciaEnMetros))
+					array("id"=>$unaSucursal->id,"sucursal"=>$unaSucursal->sucursal,"super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion,"distancia_en_metros"=> intval($distanciaEnMetros))
 				);
 			}
 
