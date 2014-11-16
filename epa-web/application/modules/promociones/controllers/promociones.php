@@ -37,7 +37,12 @@ class promociones extends Api_Controller
 		if (! $posicion || !isset($posicion['latitud']) || !isset($posicion['longitud'])) {
 			$this->error ( 405, "Debe ingresar datos obligatorios" );
 		}
-		$this->JSON_OUT->data = $this->superCercanos($posicion['latitud'],$posicion['longitud']);
+		if(array_key_exists("distancia", $posicion)){
+			$this->JSON_OUT->data = $this->superCercanos($posicion['latitud'],$posicion['longitud'],$posicion['distancia']);	
+		}else{
+			$this->JSON_OUT->data = $this->superCercanos($posicion['latitud'],$posicion['longitud']);	
+		}
+		
 	}
 	
 	private function obtenerPromociones(){
@@ -68,7 +73,7 @@ class promociones extends Api_Controller
 	
 	
 	
-	private function superCercanos($posX, $posY){
+	private function superCercanos($posX, $posY, $distanciaMaxima = 2000){
 		
 		$this->load->model('sucursales/sucursales_model', null, true);
 		$sucursales = $this->sucursales_model
@@ -84,11 +89,13 @@ class promociones extends Api_Controller
 // 			$distanciaEnGrados = sqrt(pow($latitud - $posX,2) + pow($longitud - $posY,2));
 			$distanciaEnMetros = abs(abs($latitud* 111000) - abs($posX* 111000)) + abs(abs($longitud* 111000) - abs($posY* 111000));
 
-//TODO: Agregar el filtro o pedirlo x parametro		
-// 			if ($distanciaEnMetros < 2000){
-			array_push($coordenadas, 
-				array("super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion,"distancia_en_metros"=> intval($distanciaEnMetros))
-			);
+			//TODO: Agregar el filtro o pedirlo x parametro		
+ 			if ($distanciaEnMetros < $distanciaMaxima){
+				array_push($coordenadas, 
+					array("super"=>$unaSucursal->nombre,"direccion"=> $unaSucursal->direccion,"distancia_en_metros"=> intval($distanciaEnMetros))
+				);
+			}
+
 		}
 		
 		usort($coordenadas, function($a, $b) {
