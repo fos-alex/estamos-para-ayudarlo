@@ -26,7 +26,9 @@ class Fbusuario extends Api_Controller
 	public function POST(){
 		$this->load->model ( 'users/user_model', null, true );
 		$fbuser = $this->JSON_IN;
+		
 		if(!array_key_exists("email", $fbuser)){
+			header('HTTP/1.1 408 Usuario sin email');
 			$this->error ( 408, "Ha ocurrido un error al registrar usuario. Intente nuevamente más tarde" );	
 			return;
 		}
