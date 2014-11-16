@@ -20,15 +20,29 @@ angular.module('EPA.controllers')
                             if (!response.id_sucursal) {
                                 alert("El QR escaneado no tiene la sucursal. Escanee otro.");
                             }
-                            Sucursal.idSucursal = $scope.map.config.idSucursal = response.id_sucursal;
+                            $scope.cambiarSucursal(response.id_sucursal);
                         });
                     }
                 }]
             });
         }
 
+        $scope.cambiarSucursal = function (idSucursal) {
+            Sucursal.idSucursal = $scope.map.config.idSucursal = idSucursal;
+        };
+
+        $scope.esSucursal = function (data) {
+            return (Object.keys(data).length === 1 && data.id_sucursal);
+        };
+
         $scope.scan = function () {
             QRReader.read(function (err, response) {
+                if ($scope.esSucursal(response)) {
+                    // Data para cambiar de sucursal
+                    return $scope.cambiarSucursal(response.id_sucursal);
+                }
+
+                // Data de producto
                 $scope.$parent.producto = response;
                 return $state.go('app.consultarProducto', {idProducto: $scope.$parent.producto.id});
             });
