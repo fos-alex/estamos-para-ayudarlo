@@ -14,8 +14,18 @@ angular.module('EPA.services')
             if ( /l(á|a)cteos/.test(texto) ||
                 /leche/.test(texto) ) {
                 categoria='Lacteos';
-            } else if( /pan/.test(texto) ) {
+            } else if( /panificados/.test(texto) ) {
                 categoria='Panificados';
+            } else if( /almac(é|e)n/.test(texto) ) {
+                categoria='Almacen';
+            } else if( /bebidas/.test(texto) ) {
+                categoria='Bebidas';
+            } else if( /carnes/.test(texto) ) {
+                categoria='Carnes y Procesados';
+            } else if( /limpieza/.test(texto) ) {
+                categoria='Limpieza';
+            } else if( /perfumer(í|i)a/.test(texto) ) {
+                categoria='Perfumeria';
             } else {
                 Texto.reproducir('No reconocido');
                 alert("Producto buscado "+ texto);
