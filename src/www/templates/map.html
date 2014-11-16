@@ -1,4 +1,4 @@
-<ion-view title="Mapa Supermercado">
+<ion-view title="Mapa Supermercado" menu-audio="AudioMapa">
     <!-- HEADER -->
     <ion-header-bar class="bar-positive centrado" animation="slide-left-right-ios7">
         <a class="tab-item backHeader" href="#/app/menu">
@@ -9,7 +9,7 @@
     </ion-header-bar>
     
     <!-- BODY -->
-  <ion-content class="has-header" menu-audio menu-audio-config="audio">
+  <ion-content class="has-header" >
       <ion-scroll zooming="true" direction="xy">
           <canvas-map ng-if="map.config.idSucursal" config="map.config" refresh="map.refresh"></canvas-map>
       </ion-scroll>

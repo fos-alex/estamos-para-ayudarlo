@@ -5,9 +5,6 @@ angular.module('EPA.controllers')
         $scope.squares = [];
 
         $scope.map = Map.getConfig();
-        
-        $scope.audio = {ruta:false,callback:function(categoria){Map.setCategorias([categoria]);Map.refresh();}};
-
         if (Sucursal.idSucursal) {
             $scope.map.config.idSucursal = Sucursal.idSucursal;
         } else {
