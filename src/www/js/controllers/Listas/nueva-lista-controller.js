@@ -70,6 +70,7 @@ angular.module('EPA.controllers')
 //            };
             
             if (typeof $scope.createdList.productos !== "object" || $scope.createdList.productos.length === 0){
+                debugger;
                 this.createdList = angular.extend(this.createdList, {
                     productos: []
                 });
