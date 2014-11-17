@@ -55,7 +55,20 @@ class promociones extends Api_Controller
 			$unaPromocion->fecha_desde = date_format(date_create_from_format('Y-m-d', $desde), 'd-m-Y');
 			$unaPromocion->fecha_hasta = date_format(date_create_from_format('Y-m-d', $hasta), 'd-m-Y');
 		}
-		return $promociones;
+		
+		$promos = array();
+		
+		$random_number = rand(0, 5);
+		array_push($promos, $promociones[$random_number]);
+		
+		if ($random_number > 4)
+			$random_number = rand(0, 4);
+		else
+			$random_number ++;
+		
+		array_push($promos, $promociones[$random_number]);
+		
+		return $promos;
 	}
 	
 	private function obtenerPromocionesDeSupermercado($id_supermercado){
