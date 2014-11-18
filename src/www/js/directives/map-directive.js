@@ -45,7 +45,7 @@ angular.module('EPA.directives', [
                             $ionicLoading.show({template: 'Procesando rutas'});
                         });
                         $.fn.canvasMap.createRoute(scope.config.categories, scope.config.position);
-                        scope.$apply(function () {
+                        $timeout(function () {
                             $ionicLoading.hide();
                         });
                         scope.refresh = false;

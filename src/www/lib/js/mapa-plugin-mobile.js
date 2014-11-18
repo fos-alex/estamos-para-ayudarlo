@@ -432,7 +432,7 @@
             origin:         origin,
             destination:    dest,
             finalPosition:  position,
-            lastPosition:   path[path.length - 1],
+            lastPosition:   path[path.length - 1] || dest,
             path:           path,
             pathLength:     pathLength,
             finished:       $.fn.canvasMap.hasArrivedToPosition(position, dest)
