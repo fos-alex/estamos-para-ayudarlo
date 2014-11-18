@@ -1,7 +1,7 @@
 angular.module('EPA.directives', [
 ])
 
-.directive('canvasMap', ['$ionicLoading', function($ionicLoading) {
+.directive('canvasMap', ['$ionicLoading', '$timeout', function($ionicLoading, $timeout) {
     return {
         restrict: 'E',
         scope :{
@@ -41,9 +41,13 @@ angular.module('EPA.directives', [
                     }
                     if (newValue && cambioConfig(scope.config)) {
                         configActual = $.extend(true, {}, scope.config);
-                        $ionicLoading.show({template: 'Procesando rutas'});
+                        scope.$apply(function () {
+                            $ionicLoading.show({template: 'Procesando rutas'});
+                        });
                         $.fn.canvasMap.createRoute(scope.config.categories, scope.config.position);
-                        $ionicLoading.hide();
+                        scope.$apply(function () {
+                            $ionicLoading.hide();
+                        });
                         scope.refresh = false;
                     }
                 });

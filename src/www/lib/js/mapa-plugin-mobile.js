@@ -186,42 +186,62 @@
         return newGroup.add(user);
     };
 
-    $.fn.canvasMap.drawRoute = function(positions){
+    $.fn.canvasMap.drawRoute = function(positions) {
         var routes = [],
-            maxTries = 5;
+            maxTries = 5,
+            lastRoute = null;
 
-        $.each(positions, function (ix, position) {
+        for (var ix = 0; ix < positions.length; ix++) {
             if (!positions[ix + 1]) {
                 return;
             }
-            var lastRoute = {
+
+            var route = {
                 finished: false
             };
+
+            if (!lastRoute) {
+                lastRoute = {
+                    lastPosition: positions[ix]
+                };
+            }
+
             routes[ix] = [];
-            while (!lastRoute.finished && routes[ix].length < maxTries) {
+            while (!route.finished && routes[ix].length < maxTries) {
+                // route options
                 var options = {
-                    routeName:  "route" + ix + "-" + position.x + position.y + positions[ix + 1].x + positions[ix + 1].y,
+                    routeName:  "route" + ix + "-" + lastRoute.lastPosition.x + lastRoute.lastPosition.y + positions[ix + 1].x + positions[ix + 1].y,
                     startDirection: routes[ix].length % 2? "x" : "y",
                     preferTurn: [routes[ix].length % 4 >= 2? "up" : "down"]
                 };
+
                 if (routes[ix].length == 0) {
                     options.preferTurn = [];
                 }
-                lastRoute = $.fn.canvasMap.findRoute(position, positions[ix + 1], options);
-                routes[ix].push(lastRoute);
+                var route = $.fn.canvasMap.findRoute(lastRoute.lastPosition, positions[ix + 1], options);
+                routes[ix].push(route);
             }
-            canvas.objects.routes.push(lastRoute);
+
+            canvas.objects.routes.push(route);
             var routeOptions = {
                 color: 'red'
             };
+
+            if (ix === (positions.length - 2)) {
+                // Last route
+                route.path.push(route.finalPosition);
+            }
 
             if (ix === 0) {
                 // First route
                 routeOptions.color = '#145fd7';
             }
-            $.fn.canvasMap.drawRouteInLines(lastRoute, routeOptions);
-            positions[ix + 1] = lastRoute.finalPosition;
-        });
+            $.fn.canvasMap.drawRouteInLines(route, routeOptions);
+            positions[ix + 1] = route.finalPosition;
+
+            // Save last route
+            lastRoute = $.extend(true, {}, route);
+        }
     };
 
     $.fn.canvasMap.drawRouteInLines = function (route, options) {
@@ -406,11 +426,13 @@
                 break;
             }
         }
+
         return {
             routeName:      options.routeName,
             origin:         origin,
             destination:    dest,
             finalPosition:  position,
+            lastPosition:   path[path.length - 1],
             path:           path,
             pathLength:     pathLength,
             finished:       $.fn.canvasMap.hasArrivedToPosition(position, dest)
