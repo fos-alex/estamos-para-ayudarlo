@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('ListasCtrl', ['$scope', '$stateParams', 'Lista',
-    function($scope, $stateParams, Lista) {
+.controller('ListasCtrl', ['$scope','$state', '$stateParams', 'Lista',
+    function($scope,$state, $stateParams, Lista) {
         $scope.shouldShowDelete = false;
 
         $scope.listaVigente = Lista.listaVigente;
