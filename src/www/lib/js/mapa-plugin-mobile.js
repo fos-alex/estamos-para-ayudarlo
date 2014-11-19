@@ -198,7 +198,8 @@
 
             var route = {
                 finished: false
-            };
+            },
+                tmpPath = null;
 
             if (!lastRoute) {
                 lastRoute = {
@@ -220,6 +221,17 @@
                 }
                 var route = $.fn.canvasMap.findRoute(lastRoute.lastPosition, positions[ix + 1], options);
                 routes[ix].push(route);
+
+                if (route.finished && route.pathLength > $.fn.canvasMap.getMaxPathLength(route.origin, route.lastPosition)) {
+                    route.finished = false;
+                    if (!tmpPath || tmpPath.pathLength > route.pathLength) {
+                        tmpPath = $.extend(true, {}, route);
+                    }
+                }
+            }
+
+            if (!route.finished && tmpPath) {
+                route = tmpPath;
             }
 
             canvas.objects.routes.push(route);
@@ -242,6 +254,12 @@
             // Save last route
             lastRoute = $.extend(true, {}, route);
         }
+    };
+
+    $.fn.canvasMap.getMaxPathLength = function (origin, destination) {
+        var maxPathLen = Math.abs(destination.y - origin.y) + Math.abs(destination.x - origin.x);
+
+        return maxPathLen * 1.5;
     };
 
     $.fn.canvasMap.drawRouteInLines = function (route, options) {
@@ -441,8 +459,8 @@
 
     $.fn.canvasMap.hasArrivedToPosition = function (position, dest) {
         var minArriveDistance = {
-            x: 80,
-            y: 60
+            x: 70,
+            y: 50
         };
 
         if (Math.abs(position.x - dest.x) < minArriveDistance.x
@@ -475,8 +493,8 @@
             for (var ix in positions) {
                 var el = positions[ix];
 
-                if (el.x === pivot.x && el.y === pivot.y) {
-                    return;
+                if (!el || el.x === pivot.x && el.y === pivot.y) {
+                    continue;
                 }
                 var distance = Math.sqrt(Math.pow(pivot.x - el.x, 2) + Math.pow(pivot.y - el.y, 2));
                 if (distance < bestDistanceToPivot) {

@@ -41,7 +41,7 @@ angular.module('EPA.directives', [
                     }
                     if (newValue && cambioConfig(scope.config)) {
                         configActual = $.extend(true, {}, scope.config);
-                        scope.$apply(function () {
+                        $timeout(function () {
                             $ionicLoading.show({template: 'Procesando rutas'});
                         });
                         $.fn.canvasMap.createRoute(scope.config.categories, scope.config.position);
