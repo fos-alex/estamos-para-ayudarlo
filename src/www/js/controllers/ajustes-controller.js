@@ -90,8 +90,8 @@ angular.module('EPA.controllers')
 		$scope.superCercanos = function() {
 			$scope.supermercados= null;
 			
-			superCercanos.notificar_cercania(this.latitud,
-					this.longitud).then(
+			superCercanos.buscar_sucursales($scope.latitud,
+					$scope.longitud).then(
 
 	            function(response) {
 	            	$scope.supermercados=response.data.data;
