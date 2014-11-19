@@ -16,28 +16,36 @@ angular.module('EPA.services')
 						},
 						notificar_cercania : function(){
 							var that = this;
-							navigator.geolocation.getCurrentPosition(function(success) {
-								var position = success.coords;
-								that.buscar_sucursales(position.latitude,position.longitude,100).
-									then(function(response){
-										var supermercados=response.data.data;
-										if(supermercados && supermercados.length){
-											var supermercado = supermercados[0];
-											var confirmPopup = $ionicPopup.confirm({
-											     title: 'Notificacion de Cercania',
-											     template: 'Usted esta en el supermercado '+supermercado.super+ ' (' +supermercado.sucursal+') ¿Quiere realizar una compra?'
-											   });
-											   confirmPopup.then(function(res) {
-											     if(res) {
-											       Map.setSucursal(supermercado.id);
-											       $state.go('app.map');
-											     } else {
-											       $rootScope.cercaniaOlvidar = 'si';
-											     }
-											   });
-										}
-									});
-							});
+							if(!$rootScope.searchingGPS){
+								$rootScope.searchingGPS = true;
+								navigator.geolocation.getCurrentPosition(function(success) {
+									$rootScope.searchingGPS = false;
+									var position = success.coords;
+									that.buscar_sucursales(position.latitude,position.longitude,100).
+										then(function(response){
+											var supermercados=response.data.data;
+											if(supermercados && supermercados.length){
+												var supermercado = supermercados[0];
+												var confirmPopup = $ionicPopup.confirm({
+												     title: 'Notificacion de Cercania',
+												     template: 'Usted esta en el supermercado '+supermercado.super+ ' (' +supermercado.sucursal+') ¿Quiere realizar una compra?'
+												   });
+												   confirmPopup.then(function(res) {
+												     if(res) {
+												       Map.setSucursal(supermercado.id);
+												       $state.go('app.map');
+												     } else {
+												       $rootScope.cercaniaOlvidar = 'si';
+												     }
+												   });
+											}
+										});
+								//GPS ERROR
+								},function(){
+									$rootScope.searchingGPS = false;
+								});
+							}
+						//function notificar	
 						}
 				};
 			}
