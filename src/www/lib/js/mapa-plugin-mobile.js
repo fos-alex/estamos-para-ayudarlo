@@ -249,6 +249,7 @@
                 routeOptions.color = '#145fd7';
             }
             $.fn.canvasMap.drawRouteInLines(route, routeOptions);
+            $.fn.canvasMap.markPoint(route.lastPosition, {color:"blue", radius: 10, name: route.routeName, redraw: false});
             positions[ix + 1] = route.finalPosition;
 
             // Save last route
@@ -369,7 +370,7 @@
             path = [],
             pathLength = 0;
         //$.fn.canvasMap.markPoint(origin, {color:"red", radius: 6, name: options.routeName});
-        $.fn.canvasMap.markPoint(dest, {color:"red", radius: 6, name: options.routeName, redraw: false});
+        //$.fn.canvasMap.markPoint(dest, {color:"red", radius: 6, name: options.routeName, redraw: false});
         while (!$.fn.canvasMap.hasArrivedToPosition (position, dest) &&
             (position.x != dest.x || position.y != dest.y)
             ) {
