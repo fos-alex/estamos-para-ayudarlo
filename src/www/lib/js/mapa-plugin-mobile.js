@@ -189,11 +189,12 @@
     $.fn.canvasMap.drawRoute = function(positions) {
         var routes = [],
             maxTries = 5,
+            firstRoute = null,
             lastRoute = null;
 
         for (var ix = 0; ix < positions.length; ix++) {
             if (!positions[ix + 1]) {
-                return;
+                continue;
             }
 
             var route = {
@@ -239,27 +240,30 @@
                 color: 'red'
             };
 
-            if (ix === (positions.length - 2)) {
-                // Last route
-                route.path.push(route.finalPosition);
-            }
-
             if (ix === 0) {
                 // First route
                 routeOptions.color = '#145fd7';
+                // Save to draw last so that it is always shown
+                firstRoute = $.extend(true, {}, {route: route, routeOptions: routeOptions});
+            } else {
+                if (ix === (positions.length - 2)) {
+                    // Last route
+                    route.path.push(route.finalPosition);
+                    route.finalPosition = route.finalPosition;
+                }
+                $.fn.canvasMap.drawRouteInLines(route, routeOptions);
             }
-            $.fn.canvasMap.drawRouteInLines(route, routeOptions);
             $.fn.canvasMap.markPoint(route.lastPosition, {color:"blue", radius: 10, name: route.routeName, redraw: false});
             positions[ix + 1] = route.finalPosition;
 
             // Save last route
             lastRoute = $.extend(true, {}, route);
         }
+        $.fn.canvasMap.drawRouteInLines(firstRoute.route, firstRoute.routeOptions);
     };
 
     $.fn.canvasMap.getMaxPathLength = function (origin, destination) {
         var maxPathLen = Math.abs(destination.y - origin.y) + Math.abs(destination.x - origin.x);
-
         return maxPathLen * 1.5;
     };
 
@@ -484,11 +488,14 @@
     };
 
 
-    $.fn.canvasMap.orderRoutes = function (positions) {
+    $.fn.canvasMap.orderRoutes = function (positions, initialPosition) {
         // Asumme first position is starting point
-        var orderedArray = [positions[0]];
-        var pivot = orderedArray[0];
-        for (var ixSup in positions) {
+        var orderedArray = [initialPosition],
+            pivot = initialPosition;
+
+        var originalPositions = $.extend({}, positions);
+
+        for (var ixSup in originalPositions) {
             var bestDistanceToPivot = 99999,
                 nextPositionIndex = null;
             for (var ix in positions) {
@@ -596,9 +603,9 @@
         // Get categories coordinates and sort them
         var coords = this.getAllCoords(categories);
         // Order routes
-        coords = this.orderRoutes(coords);
+        routePoints = this.orderRoutes(coords, initialPosition);
         // Add initial position
-        var routePoints = [initialPosition].concat(coords);
+        //var routePoints = [initialPosition].concat(coords);
         // Add final position
         routePoints.push(finalPosition);
         // Draw route to different coordinates
