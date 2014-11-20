@@ -1,8 +1,8 @@
 angular.module('EPA.services')
 
 .factory(
-		'superCercanos',['$http','$ionicPopup','$cookies','$state','$rootScope','CONFIG','Map',
-			function superCercanosFactory($http,$ionicPopup,$cookies,$state,$rootScope,CONFIG,Map) {
+		'superCercanos',['$http','$ionicPopup','$ionicLoading','$cookies','$state','$rootScope','CONFIG','Map',
+			function superCercanosFactory($http,$ionicPopup,$ionicLoading,$cookies,$state,$rootScope,CONFIG,Map) {
 				return {
 						buscar_sucursales : function(latitud, longitud, distancia) {
 
@@ -33,6 +33,12 @@ angular.module('EPA.services')
 												   confirmPopup.then(function(res) {
 												     if(res) {
 												       Map.setSucursal(supermercado.id);
+												       $ionicLoading.show({
+												            template: 'Cargando mapa...'
+												       });  
+												       setTimeout(function(){
+								                            $ionicLoading.hide();  
+												       },3000);
 												       $state.go('app.map');
 												     } else {
 												       $rootScope.cercaniaOlvidar = 'si';
