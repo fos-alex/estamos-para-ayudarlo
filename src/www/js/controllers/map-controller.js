@@ -1,7 +1,7 @@
 angular.module('EPA.controllers')
 
-.controller('MapCtrl', ['$scope', '$state', '$ionicPopup', 'QRReader', 'Map', 'Sucursal', 'Notificaciones', 'Promociones', 'Lista', 'Producto', 'ProductoDetalle', 
-    function($scope, $state, $ionicPopup, QRReader, Map, Sucursal, Notificaciones, Promociones, Lista, Producto, ProductoDetalle) {
+.controller('MapCtrl', ['$scope', '$state', '$ionicPopup', 'QRReader', 'Map', 'Sucursal', 'Notificaciones', 'Promociones', 'Lista', 'Producto', 'ProductoDetalle', 'NFCReader',
+    function($scope, $state, $ionicPopup, QRReader, Map, Sucursal, Notificaciones, Promociones, Lista, Producto, ProductoDetalle, NFCReader) {
         $scope.squares = [];
 
         $scope.map = Map.getConfig();
@@ -43,6 +43,19 @@ angular.module('EPA.controllers')
 
         $scope.scan = function () {
             QRReader.read(function (err, response) {
+                if ($scope.esSucursal(response)) {
+                    // Data para cambiar de sucursal
+                    $scope.cambiarSucursal(response.id_sucursal);
+                    return Map.refresh();
+                }
+                // Data de producto
+                $scope.$parent.producto = response;
+                return $state.go('app.consultarProducto', {idProducto: $scope.$parent.producto.id});
+            });
+        };
+
+        $scope.scanNFC = function () {
+            NFCReader.read(function (err, response) {
                 if ($scope.esSucursal(response)) {
                     // Data para cambiar de sucursal
                     $scope.cambiarSucursal(response.id_sucursal);
