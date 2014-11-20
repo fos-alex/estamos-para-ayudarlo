@@ -27,8 +27,7 @@ angular.module('EPA.services')
             } else if( /perfumer(í|i)a(s)?/.test(texto) ) {
                 categoria='Perfumeria';
             } else {
-                Texto.reproducir('No reconocido');
-                alert("Producto buscado "+ texto);
+                Texto.reproducir('Categoria no reconocida');
                 return;
             }
             Texto.reproducir('Se agrega categoría ' + categoria + ' a la lista.');

@@ -15,6 +15,12 @@ angular.module('EPA.services')
                     statusPromos: function(){
                         return $rootScope.configuracion.notificacion_promo || false;
                     },
+                    mostradaPromo: function(value){
+                        $rootScope.mostro_promo = value;
+                    },
+                    statusMuestraPromos:function(){
+                        return $rootScope.mostro_promo || false;
+                    },                    
                     enableCerca: function(){
                         $rootScope.configuracion.notificacion_cerca = true;
                         $cookies.configuracion = $filter('json')($rootScope.configuracion);
