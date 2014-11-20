@@ -31,8 +31,10 @@ angular.module('EPA.controllers')
 
         $scope.cambiarSucursal = function (idSucursal) {
             Sucursal.idSucursal = idSucursal;
+            Notificaciones.mostradaPromo(false);
             Map.setSucursal(idSucursal);
             Map.refresh();
+            $scope.mostrarPromociones();
         };
 
         $scope.esSucursal = function (data) {
@@ -42,7 +44,6 @@ angular.module('EPA.controllers')
         $scope.scan = function () {
             QRReader.read(function (err, response) {
                 if ($scope.esSucursal(response)) {
-                    alert("Cambio de sucursal a " + response.id_sucursal);
                     // Data para cambiar de sucursal
                     $scope.cambiarSucursal(response.id_sucursal);
                     return Map.refresh();
@@ -54,7 +55,7 @@ angular.module('EPA.controllers')
         };
 
         $scope.mostrarPromociones = function() {
-            if (!Notificaciones.statusPromos()) {
+            if (!Notificaciones.statusPromos() || Notificaciones.statusMuestraPromos() || !Map.getSucursal() ) {
                 return false;
             }
 
@@ -62,6 +63,7 @@ angular.module('EPA.controllers')
             Promociones.get().then(
                 function(response) {
                     $scope.promociones = response;
+                    Notificaciones.mostradaPromo(true);
                     $ionicPopup.show({
                         templateUrl: 'templates/promociones.html',
                         scope: $scope,
