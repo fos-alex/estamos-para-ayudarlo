@@ -502,6 +502,10 @@
                     nextPositionIndex = ix;
                 }
             }
+            if (!nextPositionIndex) {
+                continue;
+            }
+
             var nextElement = positions[nextPositionIndex];
             delete positions[nextPositionIndex];
             orderedArray.push(nextElement);
