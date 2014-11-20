@@ -237,19 +237,21 @@
 
             canvas.objects.routes.push(route);
             var routeOptions = {
-                color: 'red'
+                color: 'red',
+                redraw: false
             };
 
             if (ix === 0) {
                 // First route
                 routeOptions.color = '#145fd7';
+                routeOptions.redraw = true;
                 // Save to draw last so that it is always shown
                 firstRoute = $.extend(true, {}, {route: route, routeOptions: routeOptions});
             } else {
                 if (ix === (positions.length - 2)) {
                     // Last route
                     route.path.push(route.finalPosition);
-                    route.finalPosition = route.finalPosition;
+                    route.lastPosition = route.finalPosition;
                 }
                 $.fn.canvasMap.drawRouteInLines(route, routeOptions);
             }
@@ -269,7 +271,8 @@
 
     $.fn.canvasMap.drawRouteInLines = function (route, options) {
         var defaultOptions = {
-            color: 'red'
+            color: 'red',
+            redraw: true
         };
         options = $.extend(defaultOptions, options);
 
@@ -301,7 +304,10 @@
                 name: route.routeName
             }));
         }
-        canvas.stage.draw();
+
+        if (options.redraw) {
+            canvas.stage.draw();
+        }
     };
 
     $.fn.canvasMap.shapeInPoint = function (point) {
@@ -470,11 +476,6 @@
 
         if (Math.abs(position.x - dest.x) < minArriveDistance.x
             && Math.abs(position.y - dest.y) < minArriveDistance.y) {
-            console.log("Llegó!");
-            console.log("Posición:");
-            console.log(position);
-            console.log("Destino:");
-            console.log(dest);
             return true;
         }
         return false;
