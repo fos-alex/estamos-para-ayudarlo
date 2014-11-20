@@ -235,6 +235,10 @@
                 route = tmpPath;
             }
 
+            if (!route.finished) {
+                continue;
+            }
+
             canvas.objects.routes.push(route);
             var routeOptions = {
                 color: 'red',
