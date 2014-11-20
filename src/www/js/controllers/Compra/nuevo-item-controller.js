@@ -25,9 +25,8 @@ angular.module('EPA.controllers')
                 template: '¿Estás seguro que deseas salir?'
             });
             confirmPopup.then(function(res) {
-                if(res) {
+                if (res) {
                     $state.go('app.listas');
-                } else {
                 }
             });
         };
@@ -38,7 +37,7 @@ angular.module('EPA.controllers')
                 angular.forEach($scope.createdList.productos, function (itemAgregado, key) {
                     if (itemDisponible.id === itemAgregado.id) {
                         itemDisponible.added = true;
-                        itemDisponible.cantidad=itemAgregado.cantidad;
+                        itemDisponible.cantidad = itemAgregado.cantidad;
                     }
                 }, this);
             }, this);

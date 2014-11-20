@@ -14,17 +14,19 @@ angular.module('EPA.services')
             if ( /l(á|a)cteo(s)?/.test(texto) ||
                 /leche/.test(texto) ) {
                 categoria='Lacteos';
+            } else if( /pan(s)?/.test(texto) ) {
+                categoria='Panificados';
             } else if( /panificado(s)?/.test(texto) ) {
                 categoria='Panificados';
-            } else if( /almac(é|e)n/.test(texto) ) {
+            } else if( /almac(é|e)n(es)?/.test(texto) ) {
                 categoria='Almacen';
-            } else if( /bebida(s)?/.test(texto) ) {
+            } else if( /b(é|e)bida(s)?/.test(texto) ) {
                 categoria='Bebidas';
             } else if( /carne(s)?/.test(texto) ) {
                 categoria='Carnes y Procesados';
-            } else if( /limpieza(s)?/.test(texto) ) {
+            } else if( /limpie(s|z)a(s)?/.test(texto) ) {
                 categoria='Limpieza';
-            } else if( /perfumer(í|i)a(s)?/.test(texto) ) {
+            } else if( /p(e|é)rfumer(í|i)a(s)?/.test(texto) ) {
                 categoria='Perfumeria';
             } else {
                 Texto.reproducir('No reconocido');

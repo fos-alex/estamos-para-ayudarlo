@@ -485,9 +485,9 @@
 
     $.fn.canvasMap.orderRoutes = function (positions) {
         // Asumme first position is starting point
-        var orderedArray = positions.splice(0,1);
+        var orderedArray = [positions[0]];
         var pivot = orderedArray[0];
-        for (var ix in positions) {
+        for (var ixSup in positions) {
             var bestDistanceToPivot = 99999,
                 nextPositionIndex = null;
             for (var ix in positions) {
